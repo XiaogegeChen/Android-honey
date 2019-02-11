@@ -32,4 +32,4 @@
 ## 其他
 包括**右划查看app信息**以及**双击退出**等等<br>
 ![18](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E5%8F%B3%E5%88%92.png)<br><br>
-***由于是第一个项目，并没有特别注意设计模式以及代码规范。***
+***由于是第一个项目，并没有特别注意设计模式以及代码规范,会在以后的项目中改进。***
