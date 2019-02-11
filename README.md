@@ -21,15 +21,15 @@
 ![9](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E5%BF%AB%E5%AD%A6%E4%B9%A0%E7%BF%BB%E8%AF%91%E8%AF%AD%E8%A8%80.png)    ![10](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E7%BF%BB%E8%AF%91%E6%B5%8B%E8%AF%95.png)
 ### 图书
 使用开源项目```litepal```操作数据库,数据来源于聚合数据。初始化时开启异步任务请求聚合数据提供的所有类别的图书数据并写入数据库。点击**换一批**可以换一批图书查看。这个版本没有加更新数据库的方法
-![11](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E5%BF%AB%E5%AD%A6%E4%B9%A0%E5%9B%BE%E4%B9%A6.png)
-点击书名查看图书详情
+![11](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E5%BF%AB%E5%AD%A6%E4%B9%A0%E5%9B%BE%E4%B9%A6.png)<br>
+点击书名查看图书详情<br>
 ![12](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E4%B9%A6%E8%AF%A6%E6%83%85.png)![13](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E4%B9%A6%E8%AF%A6%E6%83%851.png)
 ## 小助手
-“小助手”使用在阿里云购买的快递查询服务，实现基本的快递查询功能。
+“小助手”使用在阿里云购买的快递查询服务，实现基本的快递查询功能。<br>
 ![14](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E5%B0%8F%E5%8A%A9%E6%89%8B.png)
 ### 查询结果
 ![15](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E5%BF%AB%E9%80%92%E7%BB%93%E6%9E%9C.png)![16](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E5%BF%AB%E9%80%92%E4%BF%A1%E6%81%AF1.png)![17](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E5%BF%AB%E9%80%92%E4%BF%A1%E6%81%AF2.png)
 ## 其他
-包括**右划查看app信息**以及**双击退出**等等
-![18](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E5%8F%B3%E5%88%92.png)
+包括**右划查看app信息**以及**双击退出**等等<br>
+![18](https://github.com/zhengzhengxiaogege/Android-honey/blob/master/image/%E5%8F%B3%E5%88%92.png)<br><br>
 ***由于是第一个项目，并没有特别注意设计模式以及代码规范。***
