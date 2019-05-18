@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="design_toolbar_height">48dp</dimen>
+    <dimen name="design_navigation_height">56dp</dimen>
+    <dimen name="design_tab_layout_height">48dp</dimen>
+
+
+    <!-- 大多数组件留白 -->
+    <dimen name="design_margin_left">16dp</dimen>
+    <dimen name="design_margin_right">16dp</dimen>
+    <dimen name="design_margin_top">8dp</dimen>
+    <dimen name="design_margin_bottom">8dp</dimen>
+    <dimen name="design_margin_self">8dp</dimen>
+
+    <!-- 字号 -->
+    <dimen name="design_text">14sp</dimen>
+    <dimen name="design_sub_title">16sp</dimen>
+    <dimen name="design_app_bar">20sp</dimen>
+    <dimen name="design_main_title">20sp</dimen>
+    <dimen name="design_super_large">34sp</dimen>
+</resources>

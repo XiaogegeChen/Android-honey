@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/leftA"
+          android:icon="@drawable/module_left_left_intro"
+          android:title="@string/module_left_left_menu_title_0"/>
+    <item android:id="@+id/leftB"
+          android:icon="@drawable/module_left_left_thumb"
+          android:title="@string/module_left_left_menu_title_1"/>
+    <item android:id="@+id/leftC"
+          android:icon="@drawable/module_left_left_share"
+          android:title="@string/module_left_left_menu_title_2"/>
+    <item android:id="@+id/leftD"
+          android:icon="@drawable/module_left_left_blog"
+          android:title="@string/module_left_left_menu_title_3"/>
+    <item android:id="@+id/leftE"
+          android:icon="@drawable/module_left_left_set"
+          android:title="@string/module_left_left_menu_title_4"/>
+</menu>

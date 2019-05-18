@@ -1,0 +1,36 @@
+
+if (isNetworkDebug.toBoolean()) {
+    apply from: "${rootProject.rootDir}/config.gradle"
+    project.ext.setAppDefaultConfig project
+} else {
+    apply from: "${rootProject.rootDir}/config.gradle"
+    project.ext.setLibDefaultConfig project
+}
+
+android {
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+    resourcePrefix "network_"
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+}

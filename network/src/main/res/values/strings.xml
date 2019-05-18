@@ -1,0 +1,14 @@
+<resources>
+    <string name="network_app_name">network</string>
+
+    <style name="network_test_app_theme_style">
+        <item name="colorPrimary">@color/network_color_primary</item>
+        <item name="colorPrimaryDark">@color/network_color_primary_dark</item>
+        <item name="colorAccent">@color/network_color_accent</item>
+    </style>
+
+    <color name="network_color_accent">#DE5D32</color>
+    <color name="network_color_primary">#008577</color>
+    <color name="network_color_primary_dark">#00574B</color>
+
+</resources>

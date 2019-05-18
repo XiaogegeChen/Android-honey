@@ -1,0 +1,54 @@
+apply from: "${rootProject.rootDir}/config.gradle"
+project.ext.setAppDefaultConfig project
+
+// 阿里ARouter插件
+apply plugin: 'com.alibaba.arouter'
+
+// java和kotlin互调的插件
+apply plugin: 'kotlin-android'
+
+// 代替findViewById()的插件
+apply plugin: 'kotlin-android-extensions'
+
+// kotlin注解的插件
+apply plugin: 'kotlin-kapt'
+
+android {
+    defaultConfig {
+
+        applicationId "com.github.xiaogegechen.honey"
+
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+    if(!isAppDebug.toBoolean()){
+
+        if(!isMainDebug.toBoolean()){
+            implementation project(':main')
+        }
+
+        if(!isModuleADebug.toBoolean()){
+            implementation project(':module_a')
+        }
+
+        if(!isModuleBDebug.toBoolean()){
+            implementation project(':module_b')
+        }
+
+        if(!isModuleCDebug.toBoolean()){
+            implementation project(':module_c')
+        }
+
+        if(!isModuleDDebug.toBoolean()){
+            implementation project(':module_d')
+        }
+
+        if(!isModuleLeftDebug.toBoolean()){
+            implementation project(':module_left')
+        }
+
+    }
+}

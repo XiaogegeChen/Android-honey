@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="design_color_accent">#DE5D32</color>
+    <color name="design_color_primary">#008577</color>
+    <color name="design_color_primary_dark">#00574B</color>
+
+    <color name="design_color_grey">#A4A4A4</color>
+
+    <color name="design_color_text_white">#FFFFFF</color>
+    <color name="design_color_text_black">#000000</color>
+    <color name="design_color_text_grey">#A4A4A4</color>
+</resources>

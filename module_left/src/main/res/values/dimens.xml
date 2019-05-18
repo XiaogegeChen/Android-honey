@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="module_left_left_head_height">200dp</dimen>
+    <dimen name="module_left_left_head_image_size">96dp</dimen>
+</resources>
