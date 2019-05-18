@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<litepal>
-    <dbname value="Book"></dbname>
-    <version value="1"></version>
-    <list>
-        <mapping class="com.xiaogege.honey.ui.Book"></mapping>
-    </list>
-</litepal>
