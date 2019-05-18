@@ -2,9 +2,9 @@ package com.github.xiaogegechen.network
 
 class TimeoutParam private constructor(builder: Builder) {
 
-    private val connectTime: Long
-    private val readTime: Long
-    private val writeTime: Long
+    val connectTime: Long
+    val readTime: Long
+    val writeTime: Long
 
     init {
         connectTime = builder.connectTime

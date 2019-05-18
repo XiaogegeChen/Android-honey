@@ -1,9 +1,19 @@
 package com.github.xiaogegechen.network
 
+import io.reactivex.ObservableTransformer
+import retrofit2.Retrofit
+
 /**
  * network门面类
  */
 object Network {
+
+    /**
+     * 请求网络的具体方法
+     */
+    fun query():Retrofit{
+        return RetrofitManager.instance.getRetrofit()
+    }
 
     /**
      * 初始化，初始化baseurl替换表
@@ -19,7 +29,7 @@ object Network {
      * @param param 超时时间设置
      */
     fun init(headMap: MutableMap<String, String>, param: TimeoutParam){
-
+        RetrofitManager.init(headMap, param)
     }
 
     /**
@@ -28,4 +38,9 @@ object Network {
     fun openLog(b: Boolean){
         LogUtil.openLog(b)
     }
+
+    fun <T>changeThread(): ObservableTransformer<T, T>{
+        return SchedulerManager.instance.applySchedulers()
+    }
+
 }

@@ -1,7 +1,7 @@
 <resources>
     <string name="network_app_name">network</string>
 
-    <style name="network_test_app_theme_style">
+    <style name="network_test_app_theme_style" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/network_color_primary</item>
         <item name="colorPrimaryDark">@color/network_color_primary_dark</item>
         <item name="colorAccent">@color/network_color_accent</item>
