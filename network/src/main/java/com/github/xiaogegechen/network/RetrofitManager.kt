@@ -34,8 +34,8 @@ class RetrofitManager private constructor() {
                     var newBaseUrl:HttpUrl? = oldHttpUrl
 
                     //根据head的值更改baseUrl
-                    if (sMap?.get(OKHTTP_HEAD_NAME) != null) {
-                        newBaseUrl = HttpUrl.parse(sMap?.get(OKHTTP_HEAD_NAME)!!)
+                    if (sMap?.get(head) != null) {
+                        newBaseUrl = HttpUrl.parse(sMap?.get(head)!!)
                     }
 
                     // 生成新的url

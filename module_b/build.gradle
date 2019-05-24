@@ -1,3 +1,4 @@
+
 if (isModuleBDebug.toBoolean()) {
     apply from: "${rootProject.rootDir}/config.gradle"
     project.ext.setAppDefaultConfig project
@@ -9,6 +10,11 @@ if (isModuleBDebug.toBoolean()) {
 android {
 
     defaultConfig {
+
+        if(isModuleBDebug.toBoolean()){
+            applicationId "com.github.xiaogegechen.honey.module_b"
+        }
+
         versionCode 1
         versionName "1.0"
     }
@@ -25,11 +31,16 @@ android {
 
 dependencies {
 
-    if(!isCommonDebug.toBoolean()){
+    if (!isCommonDebug.toBoolean()) {
         implementation project(':common')
     }
 
-    if(!isDesignDebug.toBoolean()){
+    if (!isDesignDebug.toBoolean()) {
         implementation project(':design')
     }
+
+    if (!isNetworkDebug.toBoolean()) {
+        implementation project(':network')
+    }
+
 }

@@ -12,6 +12,12 @@ android {
         versionCode 1
         versionName "1.0"
 
+        if(isModuleLeftDebug.toBoolean()){
+            applicationId "com.github.xiaogegechen.honey.module_left"
+        }
+
+        multiDexEnabled true
+
     }
 
     resourcePrefix "module_left_"
@@ -32,5 +38,9 @@ dependencies {
 
     if(!isDesignDebug.toBoolean()){
         implementation project(':design')
+    }
+
+    if (!isNetworkDebug.toBoolean()) {
+        implementation project(':network')
     }
 }

@@ -95,6 +95,9 @@ class MainActivity : BaseActivity(), IMainActivityView{
     override fun showErrorPage() {
     }
 
+    override fun showToast(message: String) {
+    }
+
     companion object{
         private const val TAG = "MainActivity"
     }

@@ -1,11 +1,11 @@
-package com.github.xiaogegechen.module_b
+package com.github.xiaogegechen.module_left
 
 import android.content.Context
 import com.github.xiaogegechen.common.base.IApp
 
-class ModuleBApplication: IApp {
+class ModuleLeftApplication: IApp {
     override fun initNetwork(): MutableMap<String, String>? {
-        return Constants.sMap
+        return null
     }
 
     override fun initContext(context: Context?) {

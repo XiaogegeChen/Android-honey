@@ -10,4 +10,7 @@ interface IBaseView {
 
     // 错误页
     fun showErrorPage()
+
+    // toast
+    fun showToast(message: String)
 }
