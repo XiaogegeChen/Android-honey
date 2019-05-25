@@ -3,6 +3,7 @@ package com.github.xiaogegechen.module_left.view
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -30,6 +31,12 @@ class FragmentLeft:BaseFragment(), IFragmentLeftView {
         val navigationViewHead = view?.findViewById<NavigationView>(R.id.navigation)?.getHeaderView(0)
         mBgImage = navigationViewHead?.findViewById(R.id.bgImage)
         mHeadImage = navigationViewHead?.findViewById(R.id.headImage)
+
+        val menu = view?.findViewById<NavigationView>(R.id.navigation)?.menu
+        menu?.findItem(R.id.leftD)?.setOnMenuItemClickListener {
+            mFragmentLeftPresenter?.gotoBlog()
+            true
+        }
 
         mFragmentLeftPresenter?.queryBgImage()
         mFragmentLeftPresenter?.queryHeadImage()

@@ -3,6 +3,7 @@
     <dimen name="design_toolbar_height">48dp</dimen>
     <dimen name="design_navigation_height">56dp</dimen>
     <dimen name="design_tab_layout_height">48dp</dimen>
+    <dimen name="design_title_bar_height">48dp</dimen>
 
 
     <!-- 大多数组件留白 -->

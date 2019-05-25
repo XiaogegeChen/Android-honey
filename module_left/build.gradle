@@ -1,3 +1,4 @@
+
 if (isModuleLeftDebug.toBoolean()) {
     apply from: "${rootProject.rootDir}/config.gradle"
     project.ext.setAppDefaultConfig project
@@ -12,7 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        if(isModuleLeftDebug.toBoolean()){
+        if (isModuleLeftDebug.toBoolean()) {
             applicationId "com.github.xiaogegechen.honey.module_left"
         }
 
@@ -32,15 +33,17 @@ android {
 
 dependencies {
 
-    if(!isCommonDebug.toBoolean()){
+    if (!isCommonDebug.toBoolean()) {
         implementation project(':common')
     }
 
-    if(!isDesignDebug.toBoolean()){
+    if (!isDesignDebug.toBoolean()) {
         implementation project(':design')
     }
 
     if (!isNetworkDebug.toBoolean()) {
         implementation project(':network')
     }
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
