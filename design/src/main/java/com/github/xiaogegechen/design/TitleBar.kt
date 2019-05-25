@@ -21,7 +21,7 @@ class TitleBar(context: Context, attr: AttributeSet?, defStyle: Int): FrameLayou
         val rightImage: ImageView? = findViewById(R.id.title_bar_right)
         mTitle = findViewById(R.id.title_bar_title)
 
-        val typeArray = context.obtainStyledAttributes(R.styleable.TitleBar)
+        val typeArray = context.obtainStyledAttributes(attr, R.styleable.TitleBar)
         val leftVisibility = typeArray.getBoolean(R.styleable.TitleBar_left_visibility, false)
         val rightVisibility = typeArray.getBoolean(R.styleable.TitleBar_right_visibility, false)
         val titleText = typeArray.getString(R.styleable.TitleBar_title_bar_title)

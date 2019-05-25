@@ -3,7 +3,6 @@ package com.github.xiaogegechen.module_left.view
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -16,7 +15,6 @@ import com.github.xiaogegechen.common.util.ImageUtil
 import com.github.xiaogegechen.module_left.R
 import com.github.xiaogegechen.module_left.presenter.FragmentLeftPresenterImpl
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.module_left_head_layout.*
 
 @Route(path = MODULE_LEFT_FRAGMENT_D_LEFT)
 class FragmentLeft:BaseFragment(), IFragmentLeftView {
@@ -33,8 +31,24 @@ class FragmentLeft:BaseFragment(), IFragmentLeftView {
         mHeadImage = navigationViewHead?.findViewById(R.id.headImage)
 
         val menu = view?.findViewById<NavigationView>(R.id.navigation)?.menu
+        menu?.findItem(R.id.leftA)?.setOnMenuItemClickListener {
+            mFragmentLeftPresenter?.gotoIntroduction()
+            true
+        }
+        menu?.findItem(R.id.leftB)?.setOnMenuItemClickListener {
+            mFragmentLeftPresenter?.gotoThumb()
+            true
+        }
+        menu?.findItem(R.id.leftC)?.setOnMenuItemClickListener {
+            mFragmentLeftPresenter?.gotoShare()
+            true
+        }
         menu?.findItem(R.id.leftD)?.setOnMenuItemClickListener {
             mFragmentLeftPresenter?.gotoBlog()
+            true
+        }
+        menu?.findItem(R.id.leftE)?.setOnMenuItemClickListener {
+            mFragmentLeftPresenter?.gotoSetting()
             true
         }
 

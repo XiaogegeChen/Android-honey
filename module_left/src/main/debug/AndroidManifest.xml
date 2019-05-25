@@ -5,16 +5,14 @@
     <application
             android:name="debug.ModuleLeftTestApplication"
             android:theme="@style/design_app_theme">
-        <activity android:name=".view.BlogActivity">
-        </activity>
         <activity android:name="debug.ModuleLeftTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".view.IntroductionActivity"/>
     </application>
 
 </manifest>

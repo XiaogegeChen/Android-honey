@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.github.xiaogegechen.module_left">
     <application>
-        <activity android:name=".view.BlogActivity"/>
+        <activity android:name=".view.IntroductionActivity"/>
     </application>
 </manifest>

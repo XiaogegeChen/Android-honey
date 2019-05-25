@@ -4,4 +4,8 @@
     <string name="module_left_left_menu_title_2">分享应用</string>
     <string name="module_left_left_menu_title_3">我的博客</string>
     <string name="module_left_left_menu_title_4">设置</string>
+
+    <string name="module_left_version_name">版本 2.0.0</string>
+    <string name="module_left_introduction">我不在乎浮光掠影的尘世，我只在乎你\n我不留恋似雪若花的浮生，我只留恋你</string>
+
 </resources>

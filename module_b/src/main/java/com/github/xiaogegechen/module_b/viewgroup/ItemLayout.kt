@@ -21,7 +21,7 @@ class ItemLayout constructor(context: Context, attr: AttributeSet?, defStyle: In
         LayoutInflater.from(context).inflate(R.layout.module_b_constellation_item, this)
 
         // 拿到控件
-        name = findViewById<TextView>(R.id.itemName)
+        name = findViewById(R.id.itemName)
         value = findViewById(R.id.itemValue)
 
         // 拿到资源

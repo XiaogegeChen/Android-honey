@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.github.xiaogegechen.design.TitleBar
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:left_visibility="true"
+            app:title_bar_title="应用简介"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+        <ImageView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/logo"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/design_app_name"
+                android:textColor="@color/design_color_text_black"
+                android:textSize="@dimen/design_app_bar"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/module_left_version_name"
+                android:textColor="@color/design_color_text_grey"
+                android:textSize="@dimen/design_sub_title"/>
+    </LinearLayout>
+    <TextView
+            android:id="@+id/introduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/module_left_introduction"
+            android:layout_margin="@dimen/design_margin_self"
+            android:textColor="@color/design_color_text_black"
+            android:textSize="@dimen/design_sub_title"/>
+</LinearLayout>

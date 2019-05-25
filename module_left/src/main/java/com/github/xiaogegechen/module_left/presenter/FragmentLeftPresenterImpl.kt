@@ -2,10 +2,11 @@ package com.github.xiaogegechen.module_left.presenter
 
 import android.content.Context
 import android.content.Intent
+import com.github.xiaogegechen.common.base.WebActivity
 import com.github.xiaogegechen.module_left.Constants
-import com.github.xiaogegechen.module_left.view.BlogActivity
 import com.github.xiaogegechen.module_left.view.FragmentLeft
 import com.github.xiaogegechen.module_left.view.IFragmentLeftView
+import com.github.xiaogegechen.module_left.view.IntroductionActivity
 
 class FragmentLeftPresenterImpl:IFragmentLeftPresenter {
 
@@ -21,17 +22,22 @@ class FragmentLeftPresenterImpl:IFragmentLeftPresenter {
     }
 
     override fun gotoIntroduction() {
-
+        val intent = Intent(mContext, IntroductionActivity::class.java)
+        mContext?.startActivity(intent)
     }
 
     override fun gotoThumb() {
+        val intent = Intent(mContext, WebActivity::class.java)
+        intent.putExtra(Constants.INTENT_PARAM_NAME, Constants.GITHUB_ACTIVITY_URL)
+        mContext?.startActivity(intent)
     }
 
     override fun gotoShare() {
     }
 
     override fun gotoBlog() {
-        val intent = Intent(mContext, BlogActivity::class.java)
+        val intent = Intent(mContext, WebActivity::class.java)
+        intent.putExtra(Constants.INTENT_PARAM_NAME, Constants.BLOG_ACTIVITY_URL)
         mContext?.startActivity(intent)
     }
 
