@@ -5,6 +5,8 @@
     <color name="design_color_primary_dark">#00574B</color>
 
     <color name="design_color_grey">#A4A4A4</color>
+    <color name="design_color_white">#FFFFFF</color>
+    <color name="design_color_line">#ECECEC</color>
 
     <color name="design_color_text_white">#FFFFFF</color>
     <color name="design_color_text_black">#000000</color>

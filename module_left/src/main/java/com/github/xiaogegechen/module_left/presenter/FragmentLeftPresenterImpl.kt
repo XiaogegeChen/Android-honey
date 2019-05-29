@@ -7,6 +7,7 @@ import com.github.xiaogegechen.module_left.Constants
 import com.github.xiaogegechen.module_left.view.FragmentLeft
 import com.github.xiaogegechen.module_left.view.IFragmentLeftView
 import com.github.xiaogegechen.module_left.view.IntroductionActivity
+import com.github.xiaogegechen.module_left.view.SettingActivity
 
 class FragmentLeftPresenterImpl:IFragmentLeftPresenter {
 
@@ -42,6 +43,7 @@ class FragmentLeftPresenterImpl:IFragmentLeftPresenter {
     }
 
     override fun gotoSetting() {
+        mContext?.startActivity(Intent(mContext, SettingActivity::class.java))
     }
 
     override fun attach(t: IFragmentLeftView) {

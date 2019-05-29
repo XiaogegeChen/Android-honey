@@ -1,3 +1,4 @@
+
 if (isDesignDebug.toBoolean()) {
     apply from: "${rootProject.rootDir}/config.gradle"
     project.ext.setAppDefaultConfig project
@@ -11,6 +12,11 @@ android {
     defaultConfig {
         versionCode 1
         versionName "1.0"
+
+        if (isDesignDebug.toBoolean()) {
+            applicationId "com.github.xiaogegechen.honey.design"
+        }
+
     }
 
     resourcePrefix "design_"
@@ -24,4 +30,6 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
