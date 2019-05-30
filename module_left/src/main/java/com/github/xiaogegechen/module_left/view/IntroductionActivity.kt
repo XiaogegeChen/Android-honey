@@ -20,6 +20,10 @@ class IntroductionActivity: BaseActivity() {
         })
     }
 
+    override fun getStatusBarColor(): Int {
+        return resources.getColor(R.color.design_color_accent)
+    }
+
     override fun getLayoutId(): Int {
         return R.layout.module_left_activity_introduction
     }

@@ -1,6 +1,7 @@
 package com.github.xiaogegechen.main.view
 
 import android.util.Log
+import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.github.xiaogegechen.common.adapter.MyFragmentPagerAdapter
 import com.github.xiaogegechen.common.arouter.ARouterMap.Companion.MODULE_A_FRAGMENT_A_PATH
@@ -53,6 +54,17 @@ class MainActivity : BaseActivity(), IMainActivityView{
                 return null
             }
         }
+
+        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener(){
+            override fun onPageSelected(position: Int) {
+                when(position){
+                    0 -> navigation.selectedItemId = R.id.bottomA
+                    1 -> navigation.selectedItemId = R.id.bottomB
+                    2 -> navigation.selectedItemId = R.id.bottomC
+                    3 -> navigation.selectedItemId = R.id.bottomD
+                }
+            }
+        })
 
         // 底部导航监听
         navigation.setOnNavigationItemSelectedListener {

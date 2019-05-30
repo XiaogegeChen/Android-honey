@@ -75,6 +75,10 @@ class SettingActivity : BaseActivity(), ISettingActivityView {
         return R.layout.module_left_activity_setting
     }
 
+    override fun getStatusBarColor(): Int {
+        return resources.getColor(R.color.design_color_accent)
+    }
+
     override fun isSupportSwipeBack(): Boolean {
         return true
     }

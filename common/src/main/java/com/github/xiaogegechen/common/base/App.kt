@@ -5,6 +5,8 @@ import android.content.Context
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper
 import com.alibaba.android.arouter.launcher.ARouter
 import com.github.xiaogegechen.common.base.AppConfig.Companion.LOG
+import com.github.xiaogegechen.network.Network
+import com.github.xiaogegechen.network.TimeoutParam
 
 open class App: Application() {
 
@@ -50,7 +52,7 @@ open class App: Application() {
             }
         }
 
-        // TODO 初始化network
+        Network.init(map, TimeoutParam.Builder().connectTime(10).writeTime(10).readTime(10).build())
     }
 
     companion object{

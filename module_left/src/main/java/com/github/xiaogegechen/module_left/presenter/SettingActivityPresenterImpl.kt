@@ -21,7 +21,6 @@ class SettingActivityPresenterImpl: ISettingActivityPresenter {
     }
 
     override fun clearCache() {
-
     }
 
     override fun setAutoRefreshEnable(enable: Boolean) {

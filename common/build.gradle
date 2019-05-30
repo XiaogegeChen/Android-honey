@@ -28,6 +28,10 @@ dependencies {
         implementation project(':design')
     }
 
+    if(!isNetworkDebug.toBoolean()){
+        implementation project(':network')
+    }
+
     // 侧滑
     api 'cn.bingoogolapple:bga-swipebacklayout:1.2.0'
 

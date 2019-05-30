@@ -60,6 +60,10 @@ class WebActivity : BaseActivity() {
         return R.layout.common_activity_web
     }
 
+    override fun getStatusBarColor(): Int {
+        return resources.getColor(R.color.design_color_accent)
+    }
+
     override fun isSupportSwipeBack(): Boolean {
         return true
     }

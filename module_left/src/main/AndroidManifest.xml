@@ -2,5 +2,6 @@
           package="com.github.xiaogegechen.module_left">
     <application>
         <activity android:name=".view.IntroductionActivity"/>
+        <activity android:name=".view.SettingActivity"/>
     </application>
 </manifest>
