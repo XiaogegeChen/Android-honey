@@ -17,7 +17,7 @@ import com.github.xiaogegechen.module_left.presenter.FragmentLeftPresenterImpl
 import com.google.android.material.navigation.NavigationView
 
 @Route(path = MODULE_LEFT_FRAGMENT_D_LEFT)
-class FragmentLeft:BaseFragment(), IFragmentLeftView {
+class FragmentLeft: BaseFragment(), IFragmentLeftView {
 
     private var mBgImage: ImageView? = null
     private var mHeadImage: ImageView? = null

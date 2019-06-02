@@ -5,9 +5,4 @@
     <string name="main_bottom_menu_title_2">学习</string>
     <string name="main_bottom_menu_title_3">小贴士</string>
 
-    <string-array name="main_tab_titles">
-        <item>你我</item>
-        <item>风景和美食</item>
-        <item>表情包</item>
-    </string-array>
 </resources>

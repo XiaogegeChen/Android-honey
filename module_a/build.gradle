@@ -11,6 +11,10 @@ android {
     defaultConfig {
         versionCode 1
         versionName "1.0"
+
+        if (isModuleADebug.toBoolean()) {
+            applicationId "com.github.xiaogegechen.honey.module_a"
+        }
     }
 
     resourcePrefix "module_a_"

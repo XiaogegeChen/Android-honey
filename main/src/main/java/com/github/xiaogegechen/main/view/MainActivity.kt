@@ -1,6 +1,7 @@
 package com.github.xiaogegechen.main.view
 
 import android.util.Log
+import androidx.core.view.GravityCompat
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.github.xiaogegechen.common.adapter.MyFragmentPagerAdapter
@@ -9,17 +10,19 @@ import com.github.xiaogegechen.common.arouter.ARouterMap.Companion.MODULE_B_FRAG
 import com.github.xiaogegechen.common.arouter.ARouterMap.Companion.MODULE_C_FRAGMENT_C_PATH
 import com.github.xiaogegechen.common.arouter.ARouterMap.Companion.MODULE_D_FRAGMENT_D_PATH
 import com.github.xiaogegechen.common.arouter.ARouterMap.Companion.MODULE_LEFT_FRAGMENT_D_LEFT
-import com.github.xiaogegechen.common.base.BaseActivity
 import com.github.xiaogegechen.common.base.BaseFragment
+import com.github.xiaogegechen.common.base.EventBusActivity
+import com.github.xiaogegechen.common.event.NotifyDrawerOpenEvent
 import com.github.xiaogegechen.main.R
 
 import kotlinx.android.synthetic.main.main_activity_main.*
+import org.greenrobot.eventbus.Subscribe
 
 /**
  * 主activity
  */
 
-class MainActivity : BaseActivity(), IMainActivityView{
+class MainActivity : EventBusActivity(), IMainActivityView{
 
     override fun getStatusBarColor(): Int {
         // 状态栏颜色和主色一致
@@ -101,13 +104,17 @@ class MainActivity : BaseActivity(), IMainActivityView{
     }
 
     override fun showProgress() {
-
     }
 
     override fun showErrorPage() {
     }
 
     override fun showToast(message: String) {
+    }
+
+    @Subscribe
+    fun onHandleNotifyDrawerOpenEvent(event: NotifyDrawerOpenEvent){
+        drawer.openDrawer(GravityCompat.START)
     }
 
     companion object{

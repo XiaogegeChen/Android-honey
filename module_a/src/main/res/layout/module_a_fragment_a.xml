@@ -1,7 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolBarA"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/design_toolbar_height"
+                    android:background="@color/design_color_accent"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"
+                    app:titleTextColor="@color/design_color_white"
+                    app:navigationIcon="@drawable/design_more"
+                    app:title="@string/design_app_name"/>
+            <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayoutA"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/design_tab_layout_height"
+                    android:background="@color/design_color_accent"
+                    app:tabIndicatorColor="@color/design_color_white"
+                    app:tabIndicatorHeight="3dp"
+                    app:tabSelectedTextColor="@color/design_color_white"
+                    app:tabTextColor="#ECECEC"/>
+        </com.google.android.material.appbar.AppBarLayout>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewA"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
