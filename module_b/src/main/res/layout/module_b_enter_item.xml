@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/module_b_enter_item_selector" >
+    <ImageView
+            android:id="@+id/module_b_enter_item_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            tools:src="@drawable/baiyangzuo"/>
+    <TextView
+            android:id="@+id/module_b_enter_item_constellation_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#f6f5f9"
+            android:textSize="@dimen/design_text"
+            android:layout_gravity="center_horizontal"
+            tools:text="白羊座"/>
+    <TextView
+            android:id="@+id/module_b_enter_item_constellation_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#f6f5f9"
+            android:textSize="12sp"
+            android:layout_gravity="center_horizontal"
+            tools:text="3.21~4.19"/>
+</LinearLayout>
