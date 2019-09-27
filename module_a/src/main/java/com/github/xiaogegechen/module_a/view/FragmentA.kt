@@ -14,6 +14,9 @@ import com.google.android.material.tabs.TabLayout
 
 @Route(path = MODULE_A_FRAGMENT_A_PATH)
 class FragmentA: BaseFragment(), IFragmentAView {
+    override fun initView(view: View) {
+
+    }
 
     private var mTabLayout: TabLayout? = null
     private var mToolbar: Toolbar? = null

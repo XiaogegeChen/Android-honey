@@ -1,27 +1,15 @@
-apply from: "${rootProject.rootDir}/config.gradle"
-project.ext.setAppDefaultConfig project
+apply from: "${rootProject.rootDir}/set.gradle"
+project.defaultAppSetting()
 
+// TODO 重复的？可以删除吗？
 // 阿里ARouter插件
 apply plugin: 'com.alibaba.arouter'
-
 // java和kotlin互调的插件
 apply plugin: 'kotlin-android'
-
 // 代替findViewById()的插件
 apply plugin: 'kotlin-android-extensions'
-
 // kotlin注解的插件
 apply plugin: 'kotlin-kapt'
-
-android {
-    defaultConfig {
-
-        applicationId "com.github.xiaogegechen.honey"
-
-        versionCode 1
-        versionName "1.0"
-    }
-}
 
 dependencies {
     if(!isAppDebug.toBoolean()){

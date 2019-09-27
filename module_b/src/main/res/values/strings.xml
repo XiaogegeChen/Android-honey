@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="module_b_enter_title">选择您的星座</string>
+    <string name="module_b_detail_title">星座运势</string>
+    <string name="module_b_detail_item_head_title">综合指数</string>
+
+    <string name="module_b_dialog_load_constellation_failed_title">加载失败</string>
+    <string name="module_b_dialog_load_constellation_failed_content">加载失败,请检查网络设置或者尝试重新加载</string>
+    <string name="module_b_dialog_load_constellation_failed_exit">稍后再试</string>
+    <string name="module_b_dialog_load_constellation_failed_retry">重新加载</string>
+
 </resources>

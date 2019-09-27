@@ -1,0 +1,162 @@
+// library模块默认设置
+def defaultLibrarySetting(){
+    setLibraryApply()
+    commonSetting()
+    setLibraryAndroid()
+    setLibraryDependencies()
+}
+
+def setLibraryApply(){
+    // TODO 写法优化
+    project.apply plugin: 'com.android.library'
+    project.apply plugin: 'kotlin-android'
+    project.apply plugin: 'kotlin-android-extensions'
+    project.apply plugin: 'kotlin-kapt'
+    project.description "lib"
+
+    // TODO why?
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.name)
+        }
+    }
+}
+
+def setLibraryDependencies(){
+    // 暂时不做区分
+    setAppDependencies()
+}
+
+def setLibraryAndroid(){
+    project.android{
+        compileSdkVersion COMPILE_SDK_VERSION as int
+        defaultConfig {
+            minSdkVersion MIN_SDK_VERSION as int
+            targetSdkVersion TARGET_SDK_VERSION as int
+            versionCode VERSION_CODE as int
+            versionName VERSION_NAME as String
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
+        }
+
+        // java8支持
+        compileOptions{
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        sourceSets {
+            main {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java {
+                    exclude 'debug/**'
+                }
+            }
+        }
+    }
+}
+
+// app模块默认设置
+def defaultAppSetting(){
+    setAppApply()
+    commonSetting()
+    setAppAndroid()
+    setAppDependencies()
+}
+
+def setAppApply(){
+    // TODO 写法优化
+    project.apply plugin: 'com.android.application'
+    project.apply plugin: 'kotlin-android'
+    project.apply plugin: 'kotlin-android-extensions'
+    project.apply plugin: 'kotlin-kapt'
+    project.description "app"
+}
+
+def setAppDependencies(){
+    project.dependencies {
+        implementation ('com.alibaba:arouter-api:1.4.1') {
+            exclude group: 'com.android.support'
+        }
+        kapt ('com.alibaba:arouter-compiler:1.2.2')
+
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+        implementation 'androidx.appcompat:appcompat:1.0.2'
+        implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+        implementation 'androidx.core:core-ktx:1.0.2'
+
+        implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+        // 分包
+        implementation "androidx.multidex:multidex:${MULTIDEX}"
+
+        testImplementation 'junit:junit:4.12'
+        androidTestImplementation 'androidx.test:runner:1.1.1'
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    }
+}
+
+def setAppAndroid(){
+    project.android {
+        compileSdkVersion COMPILE_SDK_VERSION as int
+        defaultConfig {
+            applicationId "com.github.xiaogegechen.${project.name}"
+            minSdkVersion MIN_SDK_VERSION as int
+            targetSdkVersion TARGET_SDK_VERSION as int
+            versionCode VERSION_CODE as int
+            versionName VERSION_NAME as String
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            // ARouter的参数
+            javaCompileOptions {
+                annotationProcessorOptions {
+                    arguments = [AROUTER_MODULE_NAME: project.name, AROUTER_GENERATE_DOC: "enable"]
+                }
+            }
+        }
+
+        sourceSets {
+            main {
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            }
+        }
+    }
+}
+
+// 共有设置
+def commonSetting() {
+    // TODO 先这样，稍后抽取更多公共代码
+    project.android {
+        // 混淆
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
+        }
+
+        // java8支持
+        compileOptions{
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        // 资源名前缀
+        resourcePrefix project.name + "_"
+    }
+    project.dependencies{
+
+    }
+}
+
+// 对外公开方法
+ext{
+    defaultAppSetting = this.&defaultAppSetting
+    defaultLibrarySetting = this.&defaultLibrarySetting
+}

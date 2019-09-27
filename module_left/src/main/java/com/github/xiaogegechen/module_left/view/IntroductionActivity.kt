@@ -1,10 +1,13 @@
 package com.github.xiaogegechen.module_left.view
 
 import com.github.xiaogegechen.common.base.BaseActivity
-import com.github.xiaogegechen.design.TitleBar
+import com.github.xiaogegechen.design.viewgroup.TitleBar
 import com.github.xiaogegechen.module_left.R
 
 class IntroductionActivity: BaseActivity() {
+    override fun initView() {
+
+    }
 
     private var mTitleBar: TitleBar? = null
 

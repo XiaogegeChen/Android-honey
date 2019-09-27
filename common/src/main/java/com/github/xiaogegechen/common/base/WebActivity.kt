@@ -10,7 +10,7 @@ import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import com.github.xiaogegechen.common.Constants
 import com.github.xiaogegechen.common.R
-import com.github.xiaogegechen.design.TitleBar
+import com.github.xiaogegechen.design.viewgroup.TitleBar
 
 class WebActivity : BaseActivity() {
 
@@ -23,6 +23,9 @@ class WebActivity : BaseActivity() {
 
         // 拿到url
         mWebView?.loadUrl(intent.getStringExtra(Constants.INTENT_PARAM_NAME))
+    }
+
+    override fun initView() {
     }
 
     override fun initData() {

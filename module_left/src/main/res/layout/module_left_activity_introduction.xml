@@ -5,7 +5,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <com.github.xiaogegechen.design.TitleBar
+    <com.github.xiaogegechen.design.viewgroup.TitleBar
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.github.xiaogegechen.module_b"/>
+          package="com.github.xiaogegechen.module_b">
+    <application>
+        <activity android:name=".view.ConstellationDetailActivity"/>
+    </application>
+</manifest>

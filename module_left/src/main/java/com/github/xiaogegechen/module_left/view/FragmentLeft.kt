@@ -18,6 +18,9 @@ import com.google.android.material.navigation.NavigationView
 
 @Route(path = MODULE_LEFT_FRAGMENT_D_LEFT)
 class FragmentLeft: BaseFragment(), IFragmentLeftView {
+    override fun initView(view: View) {
+
+    }
 
     private var mBgImage: ImageView? = null
     private var mHeadImage: ImageView? = null

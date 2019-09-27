@@ -6,7 +6,7 @@ package com.github.xiaogegechen.common.base
 interface IBasePresenter<T : IBaseView> {
 
     // 绑定
-    fun attach(t : T)
+    fun attach(t : T?)
 
     // 解绑
     fun detach()

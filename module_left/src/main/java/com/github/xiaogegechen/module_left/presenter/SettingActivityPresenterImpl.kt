@@ -9,6 +9,11 @@ import com.github.xiaogegechen.module_left.view.ISettingActivityView
 import com.github.xiaogegechen.module_left.view.SettingActivity
 
 class SettingActivityPresenterImpl: ISettingActivityPresenter {
+    override fun attach(t: ISettingActivityView?) {
+        mSettingActivityView = t
+        mContext = mSettingActivityView as SettingActivity
+        Log.d(TAG, mContext.toString())
+    }
 
     private var mSettingActivityView: ISettingActivityView? = null
     private var mContext: Context? = null
@@ -27,12 +32,6 @@ class SettingActivityPresenterImpl: ISettingActivityPresenter {
     }
 
     override fun setShowNotificationEnable(enable: Boolean) {
-    }
-
-    override fun attach(t: ISettingActivityView) {
-        mSettingActivityView = t
-        mContext = mSettingActivityView as SettingActivity
-        Log.d(TAG, mContext.toString())
     }
 
     override fun detach() {

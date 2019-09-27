@@ -10,6 +10,10 @@ import com.github.xiaogegechen.module_left.view.IntroductionActivity
 import com.github.xiaogegechen.module_left.view.SettingActivity
 
 class FragmentLeftPresenterImpl:IFragmentLeftPresenter {
+    override fun attach(t: IFragmentLeftView?) {
+        mFragmentLeftView = t
+        mContext = (t as FragmentLeft).context
+    }
 
     private var mFragmentLeftView: IFragmentLeftView? = null
     private var mContext: Context? = null
@@ -44,11 +48,6 @@ class FragmentLeftPresenterImpl:IFragmentLeftPresenter {
 
     override fun gotoSetting() {
         mContext?.startActivity(Intent(mContext, SettingActivity::class.java))
-    }
-
-    override fun attach(t: IFragmentLeftView) {
-        mFragmentLeftView = t
-        mContext = (t as FragmentLeft).context
     }
 
     override fun detach() {

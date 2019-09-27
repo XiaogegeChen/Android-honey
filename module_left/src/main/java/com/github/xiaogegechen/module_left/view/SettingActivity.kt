@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.ListView
 import android.widget.Switch
 import com.github.xiaogegechen.common.base.BaseActivity
-import com.github.xiaogegechen.design.TitleBar
+import com.github.xiaogegechen.design.viewgroup.TitleBar
 import com.github.xiaogegechen.module_left.R
 import com.github.xiaogegechen.module_left.adapter.SettingAdapter
 import com.github.xiaogegechen.module_left.model.Setting
@@ -12,6 +12,9 @@ import com.github.xiaogegechen.module_left.presenter.SettingActivityPresenterImp
 import java.util.ArrayList
 
 class SettingActivity : BaseActivity(), ISettingActivityView {
+    override fun initView() {
+
+    }
 
     private var mTitleBar: TitleBar? = null
     private var mListView: ListView? = null

@@ -4,7 +4,6 @@ import com.github.xiaogegechen.common.Constants
 
 internal class Constants {
     companion object{
-
         // 背景图和头像url
         const val SCENERY_BG_URL = "https://android-honey-picture-everyday-1259261332.cos.ap-beijing.myqcloud.com/scenery.jpg"
         const val HEAD_IMAGE_URL = "https://android-honey-picture-everyday-1259261332.cos.ap-beijing.myqcloud.com/head.jpg"
@@ -15,9 +14,5 @@ internal class Constants {
 
         // intent参数名
         const val INTENT_PARAM_NAME = Constants.INTENT_PARAM_NAME
-
-        val sMap: MutableMap<String, String> = HashMap()
-        init {
-        }
     }
 }

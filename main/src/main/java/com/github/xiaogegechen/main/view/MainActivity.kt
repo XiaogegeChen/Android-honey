@@ -23,6 +23,9 @@ import org.greenrobot.eventbus.Subscribe
  */
 
 class MainActivity : EventBusActivity(), IMainActivityView{
+    override fun initView() {
+
+    }
 
     override fun getStatusBarColor(): Int {
         // 状态栏颜色和主色一致

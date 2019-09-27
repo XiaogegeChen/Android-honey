@@ -1,13 +1,12 @@
 package debug
 
 import android.app.Application
-import com.github.xiaogegechen.module_b.Constants
-import com.github.xiaogegechen.network.Network
+import android.content.Context
+import androidx.multidex.MultiDex
 
 class ModuleBTestApplication:Application() {
-    override fun onCreate() {
-        super.onCreate()
-
-        Network.init(Constants.sMap)
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(base)
     }
 }

@@ -5,4 +5,15 @@
         <attr name="right_visibility" format="boolean"/>
         <attr name="title_bar_title" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="MessageDialogLayout" tools:ignore="ResourceName">
+        <attr name="message_dialog_title" format="string"/>
+        <attr name="message_dialog_content" format="string"/>
+        <attr name="message_dialog_confirm" format="string"/>
+        <attr name="message_dialog_cancel" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="ProgressDialogLayout" tools:ignore="ResourceName">
+        <attr name="progress_dialog_text" format="string"/>
+    </declare-styleable>
 </resources>

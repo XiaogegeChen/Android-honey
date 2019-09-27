@@ -9,14 +9,14 @@
         android:paddingEnd="20dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:clickable="true"
-        android:focusable="true"
+        android:descendantFocusability="blocksDescendants"
         android:background="@drawable/module_b_enter_item_selector" >
     <ImageView
             android:id="@+id/module_b_enter_item_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
+            android:clickable="false"
             tools:src="@drawable/baiyangzuo"/>
     <TextView
             android:id="@+id/module_b_enter_item_constellation_name"
@@ -25,6 +25,7 @@
             android:textColor="#f6f5f9"
             android:textSize="@dimen/design_text"
             android:layout_gravity="center_horizontal"
+            android:clickable="false"
             tools:text="白羊座"/>
     <TextView
             android:id="@+id/module_b_enter_item_constellation_date"
@@ -33,5 +34,6 @@
             android:textColor="#f6f5f9"
             android:textSize="12sp"
             android:layout_gravity="center_horizontal"
+            android:clickable="false"
             tools:text="3.21~4.19"/>
 </LinearLayout>

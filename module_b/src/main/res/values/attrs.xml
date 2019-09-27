@@ -1,14 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <declare-styleable name="ItemLayout" tools:ignore="ResourceName">
-        <attr name="itemLayoutName" format="string"/>
-        <attr name="itemLayoutValue" format="string"/>
-    </declare-styleable>
-
-    <declare-styleable name="EnterItemLayout" tools:ignore="ResourceName">
-        <attr name="enter_item_image" format="reference"/>
-        <attr name="enter_item_constellation_name" format="string"/>
-        <attr name="enter_item_constellation_date" format="string"/>
-    </declare-styleable>
-
+<resources>
 </resources>

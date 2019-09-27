@@ -1,27 +1,9 @@
-
 if (isMainDebug.toBoolean()) {
-    apply from: "${rootProject.rootDir}/config.gradle"
-    project.ext.setAppDefaultConfig project
+    apply from: "${rootProject.rootDir}/set.gradle"
+    project.defaultAppSetting()
 } else {
-    apply from: "${rootProject.rootDir}/config.gradle"
-    project.ext.setLibDefaultConfig project
-}
-
-android {
-
-    defaultConfig {
-        versionCode 1
-        versionName "1.0"
-    }
-
-    resourcePrefix "main_"
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
+    apply from: "${rootProject.rootDir}/set.gradle"
+    project.defaultLibrarySetting()
 }
 
 dependencies {
@@ -31,4 +13,7 @@ dependencies {
     if (!isCommonDebug.toBoolean()) {
         implementation project(':common')
     }
+    implementation "com.google.android.material:material:${MATERIAL}"
+    //eventbus
+    implementation "org.greenrobot:eventbus:${EVENT_BUS}"
 }
