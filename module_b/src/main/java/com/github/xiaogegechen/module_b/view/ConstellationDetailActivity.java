@@ -2,11 +2,15 @@ package com.github.xiaogegechen.module_b.view;
 
 import android.graphics.Color;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.github.xiaogegechen.common.Constants;
 import com.github.xiaogegechen.common.base.BaseActivity;
+import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.common.dialog.ProgressDialog;
 import com.github.xiaogegechen.library.CornerButton;
@@ -39,6 +43,15 @@ public class ConstellationDetailActivity extends BaseActivity implements IConste
 
     @Override
     public void initView() {
+        // 沉浸式
+        StatusBarUtils.setImmersive(this);
+        // 添加占位view，因为我只需要背景是沉浸式的
+        LinearLayout root = findViewById(R.id.module_b_activity_constellation_detail_root);
+        View view = new View(this);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StatusBarUtils.getHeight(getApplicationContext())));
+        view.setBackgroundColor(Color.TRANSPARENT);
+        root.addView(view, 0);
+
         mIcon = findViewById(R.id.module_b_activity_constellation_detail_icon);
         mShareButton = findViewById(R.id.module_b_activity_constellation_detail_share_button);
         mChangeButton = findViewById(R.id.module_b_activity_constellation_detail_change_button);

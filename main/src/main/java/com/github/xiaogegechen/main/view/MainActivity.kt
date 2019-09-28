@@ -13,18 +13,20 @@ import com.github.xiaogegechen.common.arouter.ARouterMap.Companion.MODULE_LEFT_F
 import com.github.xiaogegechen.common.base.BaseFragment
 import com.github.xiaogegechen.common.base.EventBusActivity
 import com.github.xiaogegechen.common.event.NotifyDrawerOpenEvent
+import com.github.xiaogegechen.common.util.StatusBarUtils
 import com.github.xiaogegechen.main.R
 
 import kotlinx.android.synthetic.main.main_activity_main.*
 import org.greenrobot.eventbus.Subscribe
 
 /**
- * 主activity
+ * 主activity，这个activity是沉浸式的，因此如果哪个子fragment不需要支持沉浸式
+ * 那就需要添加一个和状态栏高度一致的view进行占位，比如fragmentA
  */
-
 class MainActivity : EventBusActivity(), IMainActivityView{
     override fun initView() {
-
+        // 沉浸式
+        StatusBarUtils.setImmersive(this)
     }
 
     override fun getStatusBarColor(): Int {

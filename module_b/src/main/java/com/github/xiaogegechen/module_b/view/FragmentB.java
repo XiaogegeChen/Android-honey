@@ -36,6 +36,7 @@ public class FragmentB extends BaseFragment implements IFragmentBView{
         mFragmentBPresenter = new FragmentBPresenterImpl(obtainContext());
         mFragmentBPresenter.attach(this);
         List<Constellation> constellationList = new ArrayList<>();
+        // TODO 以资源引用的方式使用这些字符串
         constellationList.add(new Constellation(R.drawable.baiyangzuo, "白羊座","3.21~4.19"));
         constellationList.add(new Constellation(R.drawable.jinniuzuo, "金牛座","4.20~5.20"));
         constellationList.add(new Constellation(R.drawable.shuangzizuo, "双子座","5.21~6.21"));

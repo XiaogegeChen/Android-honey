@@ -30,7 +30,10 @@ abstract class BaseActivity : AppCompatActivity(){
         return baseContext
     }
 
-    // 改变状态栏的颜色，-1代表不改变
+    /**
+     * 改变状态栏的颜色，-1代表不改变
+     * @deprecated 使用StatusBarUtils
+     */
     @ColorInt
     open fun getStatusBarColor() : Int{
         return -1
