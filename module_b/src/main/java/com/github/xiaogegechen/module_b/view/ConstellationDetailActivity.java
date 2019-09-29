@@ -47,10 +47,7 @@ public class ConstellationDetailActivity extends BaseActivity implements IConste
         StatusBarUtils.setImmersive(this);
         // 添加占位view，因为我只需要背景是沉浸式的
         LinearLayout root = findViewById(R.id.module_b_activity_constellation_detail_root);
-        View view = new View(this);
-        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StatusBarUtils.getHeight(getApplicationContext())));
-        view.setBackgroundColor(Color.TRANSPARENT);
-        root.addView(view, 0);
+        StatusBarUtils.fillStatusBarByView(this, root, Color.TRANSPARENT);
 
         mIcon = findViewById(R.id.module_b_activity_constellation_detail_icon);
         mShareButton = findViewById(R.id.module_b_activity_constellation_detail_share_button);

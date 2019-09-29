@@ -18,11 +18,8 @@ import com.google.android.material.tabs.TabLayout
 class FragmentA: BaseFragment(), IFragmentAView {
     override fun initView(view: View) {
         // 不需要支持沉浸式，因此添加一个与状态栏等高的view，占位
-        val placeholderView = View(activity)
-        placeholderView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StatusBarUtils.getHeight(activity?.applicationContext))
-        placeholderView.setBackgroundColor(resources.getColor(R.color.design_color_accent))
         if(view is LinearLayout){
-            view.addView(placeholderView, 0)
+            StatusBarUtils.fillStatusBarByView(activity, view, resources.getColor(R.color.design_color_accent))
         }
     }
 

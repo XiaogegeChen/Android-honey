@@ -15,4 +15,9 @@ dependencies {
     if(!isDesignDebug.toBoolean()){
         implementation project(':design')
     }
+
+    // recyclerview
+    implementation "androidx.recyclerview:recyclerview:${RECYCLERVIEW}"
+    //图片圆化
+    implementation "de.hdodenhof:circleimageview:${CIRCLEIMAGEVIEW}"
 }

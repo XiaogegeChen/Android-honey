@@ -26,6 +26,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+// NOTE retrofit 的Call执行cancel()方法之后，如果请求是失败的，那么onFailure()方法还是会回调
+// 因此要在onFailure()方法中判断请求是不是取消了
+
 public class ConstellationDetailActivityPresenterImpl implements IConstellationDetailActivityPresenter {
 
     private static final String TAG = "ConsPreImpl";
@@ -86,16 +89,20 @@ public class ConstellationDetailActivityPresenterImpl implements IConstellationD
             @Override
             public void onFailure(@NotNull Call<Today> call, @NotNull Throwable t) {
                 LogUtil.d(TAG, "query today from net failed, the error is : " + t);
-                consumeException(t);
-                // 采用降级策略，从本地拿到数据显示
-                String json = XmlIOUtil.INSTANCE.read(getKey(Constants.XML_KEY_TODAY_MODULE_B, mConstellationName), mConstellationDetailActivity);
-                try {
-                    // 有可能抛异常，在缓存的json不对的时候
-                    Today today = new Gson().fromJson(json, Today.class);
-                    Head head = new Head(today, Constants.ICON_ID_ANALYSIS);
-                    showHeadOnRecyclerView(head);
-                } catch (Exception e){
-                    e.printStackTrace();
+                // 要判断是不是取消了，即使请求取消了，这个方法在也会执行，和容易出问题，
+                // 因此要先判断请求是不是取消了，如果取消了就不执行了。
+                if(!call.isCanceled()){
+                    consumeException(t);
+                    // 采用降级策略，从本地拿到数据显示
+                    String json = XmlIOUtil.INSTANCE.read(getKey(Constants.XML_KEY_TODAY_MODULE_B, mConstellationName), mConstellationDetailActivity);
+                    try {
+                        // 有可能抛异常，在缓存的json不对的时候
+                        Today today = new Gson().fromJson(json, Today.class);
+                        Head head = new Head(today, Constants.ICON_ID_ANALYSIS);
+                        showHeadOnRecyclerView(head);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -174,11 +181,13 @@ public class ConstellationDetailActivityPresenterImpl implements IConstellationD
             @Override
             public void onFailure(@NotNull Call<Week> call, @NotNull Throwable t) {
                 LogUtil.d(TAG, "query week from net failed, the error is : " + t);
-                consumeException(t);
-                // 降级策略，使用缓存
-                Week week = queryWeekFromLocal();
-                if(week != null){
-                    showWeekOnRecyclerView(week);
+                if(!call.isCanceled()){
+                    consumeException(t);
+                    // 降级策略，使用缓存
+                    Week week = queryWeekFromLocal();
+                    if(week != null){
+                        showWeekOnRecyclerView(week);
+                    }
                 }
             }
         });
@@ -277,11 +286,13 @@ public class ConstellationDetailActivityPresenterImpl implements IConstellationD
             @Override
             public void onFailure(@NotNull Call<Year> call, @NotNull Throwable t) {
                 LogUtil.d(TAG, "query year from net failed, the error is : " + t);
-                consumeException(t);
-                // 降级策略，使用缓存
-                Year year = queryYearFromLocal();
-                if (year != null) {
-                    showYearOnRecyclerView(year);
+                if(!call.isCanceled()){
+                    consumeException(t);
+                    // 降级策略，使用缓存
+                    Year year = queryYearFromLocal();
+                    if (year != null) {
+                        showYearOnRecyclerView(year);
+                    }
                 }
             }
         });

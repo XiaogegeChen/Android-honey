@@ -5,8 +5,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -99,6 +102,34 @@ public class StatusBarUtils {
      */
     public static void setImmersive(@NonNull Activity activity){
         setImmersive(activity.getWindow());
+    }
+
+    /**
+     * 用一个view填充状态栏，起到占位作用
+     * @param context context
+     * @param root 顶到状态栏的那个容器，要求是LinearLayout
+     * @param bgColor view的背景颜色
+     */
+    public static void fillStatusBarByView(Context context, LinearLayout root, @ColorInt int bgColor){
+        View placeholderView = new View(context);
+        placeholderView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StatusBarUtils.getHeight(context.getApplicationContext())));
+        placeholderView.setBackgroundColor(bgColor);
+        root.addView(placeholderView, 0);
+    }
+
+    /**
+     * 通过调整一个现有的view的高度来填充状态栏，起到占位作用
+     * @param context context
+     * @param placeholderView 占位的view,宽度要match_parent，高度不为0
+     */
+    public static void fillStatusBarByView(final Context context,final View placeholderView){
+        ViewTreeObserver observer = placeholderView.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(() -> {
+            int height = placeholderView.getHeight();
+            int statusBarHeight = StatusBarUtils.getHeight(context.getApplicationContext());
+            float scaleY = (float) (statusBarHeight * 1.0 / height);
+            placeholderView.setScaleY(scaleY);
+        });
     }
 
 }
