@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">module_d</string>
+    <string name="module_d_app_name">module_d</string>
     <string name="module_d_title_name">小工具（x）</string>
     <string name="module_d_name">小工具</string>
     <string name="module_d_title_manage">管理</string>
@@ -8,4 +8,7 @@
     <string name="module_d_first_item_text_0">语音</string>
     <string name="module_d_first_item_text_1">物流</string>
     <string name="module_d_first_item_text_2">阅读</string>
+
+    <string name="module_d_activity_book_list_title_text">图书分类</string>
+
 </resources>

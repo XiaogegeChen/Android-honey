@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.github.xiaogegechen.module_d"/>
+          package="com.github.xiaogegechen.module_d">
+    <application>
+        <activity android:name=".view.impl.BookListActivity"/>
+    </application>
+</manifest>

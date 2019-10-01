@@ -7,8 +7,7 @@
         android:layout_gravity="center"
         android:background="@drawable/design_bg_message_dialog_shape"
         android:orientation="vertical"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp">
+        android:paddingTop="15dp" >
     <TextView
             android:id="@+id/design_message_dialog_title"
             android:layout_width="wrap_content"

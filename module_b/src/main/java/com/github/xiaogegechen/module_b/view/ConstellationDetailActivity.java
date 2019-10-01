@@ -2,7 +2,6 @@ package com.github.xiaogegechen.module_b.view;
 
 import android.graphics.Color;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -10,13 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.github.xiaogegechen.common.Constants;
 import com.github.xiaogegechen.common.base.BaseActivity;
+import com.github.xiaogegechen.common.dialog.LoadFailedDialog;
 import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.common.dialog.ProgressDialog;
 import com.github.xiaogegechen.library.CornerButton;
 import com.github.xiaogegechen.module_b.R;
 import com.github.xiaogegechen.module_b.adapter.ConstellationDetailAdapter;
-import com.github.xiaogegechen.module_b.dialog.LoadFailedDialog;
 import com.github.xiaogegechen.module_b.model.Params;
 import com.github.xiaogegechen.module_b.presenter.ConstellationDetailActivityPresenterImpl;
 import org.jetbrains.annotations.NotNull;

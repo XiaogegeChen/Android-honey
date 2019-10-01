@@ -1,3 +1,4 @@
+apply plugin: 'org.greenrobot.greendao'
 if (isCommonDebug.toBoolean()) {
     apply from: "${rootProject.rootDir}/set.gradle"
     project.defaultAppSetting()
@@ -16,4 +17,8 @@ dependencies {
 
     //eventbus
     implementation "org.greenrobot:eventbus:${EVENT_BUS}"
+
+    implementation "com.squareup.retrofit2:retrofit:${RETROFIT2}"
+
+    implementation "org.greenrobot:greendao:${GREEN_DAO}"
 }

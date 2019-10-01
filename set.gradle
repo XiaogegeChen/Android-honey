@@ -148,7 +148,7 @@ def commonSetting() {
         }
 
         // 资源名前缀
-        resourcePrefix project.name + "_"
+         resourcePrefix project.name + "_"
     }
     project.dependencies{
 

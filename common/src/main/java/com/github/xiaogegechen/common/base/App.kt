@@ -33,6 +33,7 @@ open class App: Application() {
             if(obj is IApp){
                 // 先执行这个context的赋值
                 obj.initContext(mContext)
+                obj.initGreenDao()
             }
         }
     }
@@ -40,7 +41,11 @@ open class App: Application() {
     companion object{
         //所有module的Application集合
         private val MODULE = arrayOf("com.github.xiaogegechen.module_a.ModuleAApplication",
-            "com.github.xiaogegechen.module_b.ModuleBApplication")
+            "com.github.xiaogegechen.module_b.ModuleBApplication",
+            "com.github.xiaogegechen.module_c.ModuleCApplication",
+            "com.github.xiaogegechen.module_d.ModuleDApplication",
+            "com.github.xiaogegechen.module_left.ModuleLeftApplication"
+        )
     }
 
 }

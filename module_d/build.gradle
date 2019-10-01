@@ -1,3 +1,4 @@
+apply plugin: 'org.greenrobot.greendao'
 if (isModuleDDebug.toBoolean()) {
     apply from: "${rootProject.rootDir}/set.gradle"
     project.defaultAppSetting()
@@ -16,8 +17,16 @@ dependencies {
         implementation project(':design')
     }
 
+    if (!isNetworkDebug.toBoolean()) {
+        implementation project(':network')
+    }
+
     // recyclerview
     implementation "androidx.recyclerview:recyclerview:${RECYCLERVIEW}"
     //图片圆化
     implementation "de.hdodenhof:circleimageview:${CIRCLEIMAGEVIEW}"
+    implementation "org.greenrobot:eventbus:${EVENT_BUS}"
+    implementation "com.squareup.retrofit2:retrofit:${RETROFIT2}"
+    implementation "com.squareup.retrofit2:converter-gson:${CONVERTER_GSON}"
+    implementation "org.greenrobot:greendao:${GREEN_DAO}"
 }
