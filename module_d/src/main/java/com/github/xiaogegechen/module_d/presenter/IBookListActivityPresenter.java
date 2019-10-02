@@ -18,5 +18,14 @@ public interface IBookListActivityPresenter extends IBasePresenter<IBookListActi
      */
     void queryBookList(int catalogId);
 
-    void retry();
+    /**
+     * 重新请求目录
+     */
+    void retryCatalog();
+
+    /**
+     * 重新请求图书列表
+     * @param catalogId 目录id
+     */
+    void retryBookList(int catalogId);
 }

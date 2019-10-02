@@ -110,23 +110,25 @@ public class ConstellationDetailAdapter extends RecyclerView.Adapter<RecyclerVie
         if(holder instanceof HeadViewHolder){
             Head head = (Head) item;
             Today today =  head.getToday();
-            // 设置内容
-            ((HeadViewHolder) holder).mColorTextView.setText(today.getAll());
-            ((HeadViewHolder) holder).mIcon.setImageResource(head.getIconId());
-            ((HeadViewHolder) holder).mSummary.setText(today.getSummary());
-            // innerRecyclerView设置
-            List<HeadItem> headItemList = new ArrayList<>();
-            headItemList.add(new HeadItem("幸运色", today.getColor()));
-            headItemList.add(new HeadItem("健康指数", today.getHealth()));
-            headItemList.add(new HeadItem("爱情指数", today.getLove()));
-            headItemList.add(new HeadItem("财运指数", today.getMoney()));
-            headItemList.add(new HeadItem("幸运数字", today.getNumber()));
-            headItemList.add(new HeadItem("速配星座", today.getFriend()));
-            headItemList.add(new HeadItem("工作指数", today.getWork()));
-            HeadInnerRecyclerViewAdapter adapter = new HeadInnerRecyclerViewAdapter(headItemList, mContext);
-            RecyclerView recyclerView = ((HeadViewHolder) holder).mRecyclerView;
-            recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false));
-            recyclerView.setAdapter(adapter);
+            if(today != null){
+                // 设置内容
+                ((HeadViewHolder) holder).mColorTextView.setText(today.getAll());
+                ((HeadViewHolder) holder).mIcon.setImageResource(head.getIconId());
+                ((HeadViewHolder) holder).mSummary.setText(today.getSummary());
+                // innerRecyclerView设置
+                List<HeadItem> headItemList = new ArrayList<>();
+                headItemList.add(new HeadItem("幸运色", today.getColor()));
+                headItemList.add(new HeadItem("健康指数", today.getHealth()));
+                headItemList.add(new HeadItem("爱情指数", today.getLove()));
+                headItemList.add(new HeadItem("财运指数", today.getMoney()));
+                headItemList.add(new HeadItem("幸运数字", today.getNumber()));
+                headItemList.add(new HeadItem("速配星座", today.getFriend()));
+                headItemList.add(new HeadItem("工作指数", today.getWork()));
+                HeadInnerRecyclerViewAdapter adapter = new HeadInnerRecyclerViewAdapter(headItemList, mContext);
+                RecyclerView recyclerView = ((HeadViewHolder) holder).mRecyclerView;
+                recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false));
+                recyclerView.setAdapter(adapter);
+            }
         }else if(holder instanceof BodyViewHolder){
             Body body = (Body) item;
             ((BodyViewHolder) holder).mSummary.setText(body.getContent());

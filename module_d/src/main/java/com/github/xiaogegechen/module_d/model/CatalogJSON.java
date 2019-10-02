@@ -16,6 +16,7 @@ public class CatalogJSON {
 
     private List<CatalogInfo> result;
 
+    @SerializedName("error_code")
     private int errorCode;
 
     public String getResultCode() {

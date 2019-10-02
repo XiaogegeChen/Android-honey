@@ -57,6 +57,10 @@ class TitleBar(context: Context, attr: AttributeSet?, defStyle: Int): FrameLayou
         mTitle?.text = text
     }
 
+    fun getTextView(): TextView{
+        return mTitle!!
+    }
+
     interface OnArrowClickListener{
         fun onLeftClick()
         fun onRightClick()

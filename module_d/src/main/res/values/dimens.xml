@@ -3,4 +3,6 @@
     <dimen name="module_d_fragment_d_first_item_bg_height">50dp</dimen>
     <dimen name="module_d_fragment_d_first_item_corner">10dp</dimen>
     <dimen name="module_d_fragment_d_first_item_icon_size">80dp</dimen>
+
+    <dimen name="module_d_activity_book_list_icon_size">80dp</dimen>
 </resources>

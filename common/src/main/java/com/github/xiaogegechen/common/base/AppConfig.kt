@@ -5,6 +5,7 @@ package com.github.xiaogegechen.common.base
  */
 class AppConfig {
     companion object{
-        const val LOG = true
+        const val DEBUG = true
+        const val LOG = DEBUG
     }
 }

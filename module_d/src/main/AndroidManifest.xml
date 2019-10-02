@@ -2,5 +2,6 @@
           package="com.github.xiaogegechen.module_d">
     <application>
         <activity android:name=".view.impl.BookListActivity"/>
+        <activity android:name=".view.impl.BookInfoActivity"/>
     </application>
 </manifest>

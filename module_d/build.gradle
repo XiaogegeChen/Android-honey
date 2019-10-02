@@ -23,6 +23,7 @@ dependencies {
 
     // recyclerview
     implementation "androidx.recyclerview:recyclerview:${RECYCLERVIEW}"
+    implementation "androidx.cardview:cardview:${CARDVIEW}"
     //图片圆化
     implementation "de.hdodenhof:circleimageview:${CIRCLEIMAGEVIEW}"
     implementation "org.greenrobot:eventbus:${EVENT_BUS}"

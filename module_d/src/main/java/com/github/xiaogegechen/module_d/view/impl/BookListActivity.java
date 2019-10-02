@@ -1,21 +1,24 @@
 package com.github.xiaogegechen.module_d.view.impl;
 
-import android.view.KeyEvent;
 import android.view.View;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.xiaogegechen.common.base.EventBusActivity;
 import com.github.xiaogegechen.common.dialog.LoadFailedDialog;
 import com.github.xiaogegechen.common.dialog.ProgressDialog;
-import com.github.xiaogegechen.common.util.LogUtil;
+import com.github.xiaogegechen.common.test.FiveClickHelper;
 import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.design.viewgroup.TitleBar;
+import com.github.xiaogegechen.module_d.Constants;
 import com.github.xiaogegechen.module_d.R;
+import com.github.xiaogegechen.module_d.adapter.BookListAdapter;
 import com.github.xiaogegechen.module_d.adapter.CatalogAdapter;
 import com.github.xiaogegechen.module_d.event.NotifyBookListRefreshEvent;
 import com.github.xiaogegechen.module_d.model.CatalogInfo;
+import com.github.xiaogegechen.module_d.model.db.BookInDB;
 import com.github.xiaogegechen.module_d.presenter.IBookListActivityPresenter;
 import com.github.xiaogegechen.module_d.presenter.impl.BookListActivityPresenterImpl;
 import com.github.xiaogegechen.module_d.view.IBookListActivityView;
@@ -27,8 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookListActivity extends EventBusActivity implements IBookListActivityView {
-
-    private static final String TAG = "BookListActivity";
 
     private static final String PROGRESS_DIALOG_TAG = "module_d_progress_dialog_tag";
     private static final String LOAD_FAILED_DIALOG_TAG = "module_d_load_failed_dialog_tag";
@@ -45,22 +46,66 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
 
     private IBookListActivityPresenter mBookListActivityPresenter;
 
+    // recyclerView相关
     private CatalogAdapter mCatalogAdapter;
     private List<CatalogInfo> mCatalogInfoList;
+    private BookListAdapter mBookListAdapter;
+    private List<BookInDB> mBookList;
+
+    // LoadFailedDialog的监听器，因为在catalog和bookList加载失败都会弹出LoadFailedDialog
+    // 因此应该分开处理
+    private LoadFailedDialog.OnButtonClickListener mOnCatalogButtonClickListener;
+    private LoadFailedDialog.OnButtonClickListener mOnBookListButtonClickListener;
+
+    // 当前的catalogId，在接收到目录点击通知时更新
+    private int mCurrentCatalogId;
 
     @Override
     public void initData() {
         mBookListActivityPresenter = new BookListActivityPresenterImpl(this);
+
         mCatalogInfoList = new ArrayList<>();
         mCatalogAdapter = new CatalogAdapter(mCatalogInfoList);
+        mBookList = new ArrayList<>();
+        mBookListAdapter = new BookListAdapter(mBookList);
 
         mLoadFailedDialog = new LoadFailedDialog();
         mProgressDialog = new ProgressDialog();
+
+        mOnCatalogButtonClickListener = new LoadFailedDialog.OnButtonClickListener() {
+            @Override
+            public void onExitClick(View view) {
+                showToast(Constants.QUERY_DATA_FAILED);
+                hideErrorPage();
+            }
+
+            @Override
+            public void onRetryClick(View view) {
+                mBookListActivityPresenter.retryCatalog();
+            }
+        };
+        mOnBookListButtonClickListener = new LoadFailedDialog.OnButtonClickListener() {
+            @Override
+            public void onExitClick(View view) {
+                // 监听器重置为catalog的监听器
+                mLoadFailedDialog.setOnButtonClickListener(mOnCatalogButtonClickListener);
+                showToast(Constants.QUERY_DATA_FAILED);
+                hideErrorPage();
+            }
+
+            @Override
+            public void onRetryClick(View view) {
+                mBookListActivityPresenter.retryBookList(mCurrentCatalogId);
+            }
+        };
 
         // recyclerView初始化
         mBookListActivityPresenter.attach(this);
         mLeftRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mLeftRecyclerView.setAdapter(mCatalogAdapter);
+
+        mRightRecyclerView.setLayoutManager(new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false));
+        mRightRecyclerView.setAdapter(mBookListAdapter);
 
         // 监听器
         mTitleBar.setListener(new TitleBar.OnArrowClickListener() {
@@ -72,16 +117,12 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
             @Override
             public void onRightClick() {}
         });
-        mLoadFailedDialog.setOnButtonClickListener(new LoadFailedDialog.OnButtonClickListener() {
-            @Override
-            public void onExitClick(View view) {
-                hideErrorPage();
-            }
+        // 初始化为catalog的监听器，加载bookLis时候替换调，dismiss时候再换回来
+        mLoadFailedDialog.setOnButtonClickListener(mOnCatalogButtonClickListener);
 
-            @Override
-            public void onRetryClick(View view) {
-                mBookListActivityPresenter.retry();
-            }
+        // debug的入口
+        new FiveClickHelper().fiveClick(mTitleBar.getTextView(), v -> {
+            mBookListActivityPresenter.debug();
         });
 
         mBookListActivityPresenter.queryCatalog();
@@ -97,6 +138,11 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
     @Override
     public int getLayoutId() {
         return R.layout.module_d_activity_book_list;
+    }
+
+    @Override
+    public int getStatusBarColor() {
+        return getResources().getColor(R.color.design_color_accent);
     }
 
     @Override
@@ -117,6 +163,13 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
     }
 
     @Override
+    public void showBookList(List<BookInDB> bookList) {
+        mBookList.clear();
+        mBookList.addAll(bookList);
+        mBookListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void hideProgress() {
         if(mIsProgressDialogAdded){
             mProgressDialog.dismiss();
@@ -134,8 +187,11 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
 
     @Subscribe
     public void onNotifyBookListRefreshEvent(NotifyBookListRefreshEvent event){
+        // 请求指定目录的图书列表
         int id = event.getCatalogId();
-        // TODO 请求图书列表并显示
+        mCurrentCatalogId = id;
+        mLoadFailedDialog.setOnButtonClickListener(mOnBookListButtonClickListener);
+        mBookListActivityPresenter.queryBookList(id);
     }
 
     @Override
@@ -163,11 +219,5 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
     @Override
     public void showToast(@NotNull String message) {
         ToastUtil.show(this, message);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        LogUtil.d(TAG, "keyCode is :" + keyCode + ", KeyEvent is : " + event);
-        return super.onKeyDown(keyCode, event);
     }
 }
