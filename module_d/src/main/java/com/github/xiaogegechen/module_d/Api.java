@@ -2,9 +2,11 @@ package com.github.xiaogegechen.module_d;
 
 import com.github.xiaogegechen.module_d.model.BookListJSON;
 import com.github.xiaogegechen.module_d.model.CatalogJSON;
+import com.github.xiaogegechen.module_d.model.ExpressJSON;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
 public interface Api {
@@ -34,4 +36,13 @@ public interface Api {
                                      @Query("catalog_id") int catalogId,
                                      @Query("pn") int offset,
                                      @Query("rn") int count);
+
+    /**
+     * 请求网络拿到快递信息
+     * @param expressNumber 快递单号
+     * @return 快递详细信息
+     */
+    @GET("kdi")
+    @Headers("Authorization:APPCODE " + Constants.EXPRESS_APP_CODE)
+    Call<ExpressJSON> queryExpress(@Query("no") String expressNumber);
 }

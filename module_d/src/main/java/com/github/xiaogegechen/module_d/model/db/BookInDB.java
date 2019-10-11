@@ -1,5 +1,8 @@
 package com.github.xiaogegechen.module_d.model.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
@@ -8,7 +11,7 @@ import org.greenrobot.greendao.annotation.Generated;
  * 数据库中存放的book表
  */
 @Entity
-public class BookInDB {
+public class BookInDB implements Parcelable {
 
     /**
      * 自增id
@@ -85,6 +88,36 @@ public class BookInDB {
         this.online = online;
         this.bytime = bytime;
     }
+
+    protected BookInDB(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
+        catalogId = in.readInt();
+        title = in.readString();
+        catalog = in.readString();
+        tags = in.readString();
+        sub1 = in.readString();
+        sub2 = in.readString();
+        img = in.readString();
+        reading = in.readString();
+        online = in.readString();
+        bytime = in.readString();
+    }
+
+    public static final Creator<BookInDB> CREATOR = new Creator<BookInDB>() {
+        @Override
+        public BookInDB createFromParcel(Parcel in) {
+            return new BookInDB(in);
+        }
+
+        @Override
+        public BookInDB[] newArray(int size) {
+            return new BookInDB[size];
+        }
+    };
 
     public Long getId() {
         return id;
@@ -189,5 +222,30 @@ public class BookInDB {
                 ", online='" + online + '\'' +
                 ", bytime='" + bytime + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
+        dest.writeInt(catalogId);
+        dest.writeString(title);
+        dest.writeString(catalog);
+        dest.writeString(tags);
+        dest.writeString(sub1);
+        dest.writeString(sub2);
+        dest.writeString(img);
+        dest.writeString(reading);
+        dest.writeString(online);
+        dest.writeString(bytime);
     }
 }

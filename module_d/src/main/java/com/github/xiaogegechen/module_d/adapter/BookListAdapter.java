@@ -1,9 +1,6 @@
 package com.github.xiaogegechen.module_d.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.xiaogegechen.common.util.ImageParam;
 import com.github.xiaogegechen.common.util.ImageUtil;
 import com.github.xiaogegechen.module_d.R;
+import com.github.xiaogegechen.module_d.event.NotifyStartInfoActivityEvent;
 import com.github.xiaogegechen.module_d.model.db.BookInDB;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder> {
+/**
+ * {@link com.github.xiaogegechen.module_d.view.impl.BookListActivity}中右侧recyclerView
+ * 的adapter
+ */
+public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder>{
 
     private List<BookInDB> mList;
     private Context mContext;
@@ -35,7 +39,14 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         mContext = parent.getContext();
         View view = LayoutInflater.from(mContext).inflate(R.layout.module_d_activity_book_list_book_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
-        // TODO 点击事件
+        // 点击事件，发送消息给activity，通知activity跳转
+        View.OnClickListener listener = v -> {
+            BookInDB bookInDB = mList.get(holder.getAdapterPosition());
+            NotifyStartInfoActivityEvent event = new NotifyStartInfoActivityEvent(bookInDB, holder.mImageView);
+            EventBus.getDefault().post(event);
+        };
+        holder.mTextView.setOnClickListener(listener);
+        holder.mImageView.setOnClickListener(listener);
         return holder;
     }
 

@@ -128,7 +128,7 @@ public class StatusBarUtils {
      */
     public static void fillStatusBarByView(final Context context,final View placeholderView){
         ViewGroup.LayoutParams layoutParams = placeholderView.getLayoutParams();
-        layoutParams.height = StatusBarUtils.getHeight(context.getApplicationContext());
+        layoutParams.height = getHeight(context.getApplicationContext());
         placeholderView.setLayoutParams(layoutParams);
     }
 

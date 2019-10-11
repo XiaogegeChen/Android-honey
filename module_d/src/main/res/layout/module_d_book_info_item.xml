@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="8dp">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <TextView
+                android:id="@+id/module_d_book_info_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/design_main_title"
+                android:textColor="@color/design_color_text_black"
+                android:textStyle="bold"
+                android:paddingLeft="@dimen/design_margin_left"
+                android:paddingTop="@dimen/design_margin_top"
+                android:paddingBottom="@dimen/design_margin_bottom"
+                tools:text="摘要"/>
+        <TextView
+                android:id="@+id/module_d_book_info_item_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/design_text"
+                android:textColor="@color/design_color_text_black"
+                android:paddingLeft="@dimen/design_margin_left"
+                android:paddingTop="@dimen/design_margin_top"
+                android:paddingBottom="@dimen/design_margin_bottom"
+                android:paddingRight="@dimen/design_margin_right"
+                android:autoLink="all"
+                android:linksClickable="true"
+                android:textColorLink="@color/design_color_accent"
+                tools:text="香港是中国不可分割的一部分，香港是中国不可分割的一部分，香港是中国不可分割的一部分"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

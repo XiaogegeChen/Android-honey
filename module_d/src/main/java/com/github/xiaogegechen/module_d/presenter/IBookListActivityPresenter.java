@@ -1,6 +1,9 @@
 package com.github.xiaogegechen.module_d.presenter;
 
+import android.widget.ImageView;
+
 import com.github.xiaogegechen.common.base.IBasePresenter;
+import com.github.xiaogegechen.module_d.model.db.BookInDB;
 import com.github.xiaogegechen.module_d.view.IBookListActivityView;
 
 public interface IBookListActivityPresenter extends IBasePresenter<IBookListActivityView> {
@@ -28,4 +31,11 @@ public interface IBookListActivityPresenter extends IBasePresenter<IBookListActi
      * @param catalogId 目录id
      */
     void retryBookList(int catalogId);
+
+    /**
+     * 跳转到图书详细信息activity
+     * @param book book
+     * @param imageView 共享imageView
+     */
+    void gotoInfoActivity(BookInDB book, ImageView imageView);
 }

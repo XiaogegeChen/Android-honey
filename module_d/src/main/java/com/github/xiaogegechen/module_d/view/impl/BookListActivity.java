@@ -17,6 +17,7 @@ import com.github.xiaogegechen.module_d.R;
 import com.github.xiaogegechen.module_d.adapter.BookListAdapter;
 import com.github.xiaogegechen.module_d.adapter.CatalogAdapter;
 import com.github.xiaogegechen.module_d.event.NotifyBookListRefreshEvent;
+import com.github.xiaogegechen.module_d.event.NotifyStartInfoActivityEvent;
 import com.github.xiaogegechen.module_d.model.CatalogInfo;
 import com.github.xiaogegechen.module_d.model.db.BookInDB;
 import com.github.xiaogegechen.module_d.presenter.IBookListActivityPresenter;
@@ -192,6 +193,11 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
         mCurrentCatalogId = id;
         mLoadFailedDialog.setOnButtonClickListener(mOnBookListButtonClickListener);
         mBookListActivityPresenter.queryBookList(id);
+    }
+
+    @Subscribe
+    public void onNotifyStartInfoActivityEvent(NotifyStartInfoActivityEvent event){
+        mBookListActivityPresenter.gotoInfoActivity(event.getBook(), event.getImageView());
     }
 
     @Override

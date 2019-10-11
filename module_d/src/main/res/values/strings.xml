@@ -11,4 +11,8 @@
 
     <string name="module_d_activity_book_list_title_text">图书分类</string>
 
+    <string name="module_d_activity_express_title_input_hint">输入快递单号查询</string>
+    <string name="module_d_activity_express_messenger_name">快递员 %1$s</string>
+    <string name="module_d_activity_express_messenger_tel">快递员电话 %1$s</string>
+    <string name="module_d_activity_express_supplier_and_num">%1$s %2$s</string>
 </resources>

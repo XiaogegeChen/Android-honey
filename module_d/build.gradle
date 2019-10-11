@@ -30,4 +30,5 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${RETROFIT2}"
     implementation "com.squareup.retrofit2:converter-gson:${CONVERTER_GSON}"
     implementation "org.greenrobot:greendao:${GREEN_DAO}"
+    implementation "com.google.android.material:material:${MATERIAL}"
 }

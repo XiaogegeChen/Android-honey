@@ -2,8 +2,14 @@ package com.github.xiaogegechen.module_d.presenter.impl;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 
 import com.github.xiaogegechen.LogInterceptor;
 import com.github.xiaogegechen.common.test.TestActivity;
@@ -23,6 +29,7 @@ import com.github.xiaogegechen.module_d.model.db.CatalogInfoInDBDao;
 import com.github.xiaogegechen.module_d.model.db.DaoSession;
 import com.github.xiaogegechen.module_d.presenter.IBookListActivityPresenter;
 import com.github.xiaogegechen.module_d.view.IBookListActivityView;
+import com.github.xiaogegechen.module_d.view.impl.BookInfoActivity;
 
 import org.greenrobot.greendao.query.Query;
 import org.jetbrains.annotations.NotNull;
@@ -243,6 +250,19 @@ public class BookListActivityPresenterImpl implements IBookListActivityPresenter
     @Override
     public void retryBookList(int catalogId) {
         queryBookList(catalogId);
+    }
+
+    @Override
+    public void gotoInfoActivity(BookInDB book, ImageView imageView) {
+        Intent intent = new Intent(mContext, BookInfoActivity.class);
+        intent.putExtra(Constants.INTENT_PARAM_NAME, book);
+        // imageView 动画
+        @SuppressWarnings("unchecked")
+        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                (Activity) mContext,
+                new Pair<>(imageView, Constants.SHARED_ELEMENT_BOOK_IAMGE)
+        );
+        mContext.startActivity(intent, activityOptions.toBundle());
     }
 
     // 这个方法需要在子线程中执行，因为用的是同步请求网络

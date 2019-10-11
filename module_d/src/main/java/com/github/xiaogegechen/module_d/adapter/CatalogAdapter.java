@@ -1,6 +1,5 @@
 package com.github.xiaogegechen.module_d.adapter;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+/**
+ * {@link com.github.xiaogegechen.module_d.view.impl.BookListActivity}中左侧recyclerView
+ * 的adapter
+ */
 public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHolder> {
 
     private List<CatalogInfo> mCatalogInfoList;

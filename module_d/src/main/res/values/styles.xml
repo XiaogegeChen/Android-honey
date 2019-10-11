@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 坍塌后 -->
+    <style name="module_d_activity_info_collapsed_title">
+        <item name="android:textColor">@color/design_color_white</item>
+    </style>
+
+    <!-- 坍塌前 -->
+    <style name="module_d_activity_info_expanded_title">
+        <item name="android:textColor">@color/design_color_white</item>
+    </style>
+</resources>
