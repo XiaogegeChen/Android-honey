@@ -3,5 +3,6 @@
     <application>
         <activity android:name=".view.impl.BookListActivity"/>
         <activity android:name=".view.impl.BookInfoActivity"/>
+        <activity android:name=".view.impl.ExpressActivity"/>
     </application>
 </manifest>

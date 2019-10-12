@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.github.xiaogegechen.module_d.presenter.IFragmentDPresenter;
 import com.github.xiaogegechen.module_d.view.IFragmentDView;
 import com.github.xiaogegechen.module_d.view.impl.BookListActivity;
+import com.github.xiaogegechen.module_d.view.impl.ExpressActivity;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +21,8 @@ public class FragmentDPresenterImpl implements IFragmentDPresenter {
 
     @Override
     public void gotoExpressActivity() {
-
+        Intent intent = new Intent(mActivity, ExpressActivity.class);
+        mActivity.startActivity(intent);
     }
 
     @Override

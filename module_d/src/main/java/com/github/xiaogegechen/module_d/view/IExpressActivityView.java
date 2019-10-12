@@ -13,12 +13,12 @@ public interface IExpressActivityView extends IBaseView {
     void showInformation(@Nullable ExpressJSON express);
 
     /**
-     * 显示动画
+     * 显示输入框，同时打开历史记录
      */
-    void showAnimation();
+    void showEditText();
 
     /**
-     * 隐藏动画
+     * 关闭输入框， 同时关闭历史记录
      */
-    void hideAnimation();
+    void hideEditText();
 }

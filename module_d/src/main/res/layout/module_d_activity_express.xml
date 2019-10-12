@@ -40,6 +40,14 @@
             app:layout_constraintTop_toTopOf="@id/module_d_activity_express_title_background"
             app:layout_constraintRight_toRightOf="@id/module_d_activity_express_title_background"
             app:layout_constraintBottom_toBottomOf="@id/module_d_activity_express_title_background" />
+    <ImageView
+            android:id="@+id/module_d_activity_express_title_line_icon"
+            android:layout_width="@dimen/module_d_activity_express_title_icon_size"
+            android:layout_height="@dimen/module_d_activity_express_title_icon_size"
+            android:src="@drawable/design_ic_line"
+            android:visibility="invisible"
+            app:layout_constraintRight_toLeftOf="@id/module_d_activity_express_title_right_icon"
+            app:layout_constraintBottom_toBottomOf="@id/module_d_activity_express_title_background" />
     <TextView
             android:id="@+id/module_d_activity_express_title_text"
             android:layout_width="wrap_content"
@@ -62,6 +70,8 @@
             android:paddingRight="@dimen/design_margin_right"
             android:hint="@string/module_d_activity_express_title_input_hint"
             android:visibility="invisible"
+            android:imeOptions="actionSearch"
+            android:inputType="number"
             app:layout_constraintTop_toTopOf="@id/module_d_activity_express_title_background"
             app:layout_constraintBottom_toBottomOf="@id/module_d_activity_express_title_background"
             app:layout_constraintLeft_toRightOf="@id/module_d_activity_express_title_left_icon"
@@ -159,7 +169,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_bias="0f"/>
+            app:layout_constraintVertical_bias="0"/>
     <FrameLayout
             android:id="@+id/module_d_activity_express_fragment_container"
             android:layout_width="0dp"
@@ -168,5 +178,5 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0f"/>
+            app:layout_constraintVertical_bias="0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

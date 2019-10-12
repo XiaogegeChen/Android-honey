@@ -8,7 +8,7 @@ public class RetrofitHelper {
      * @param call 请求
      */
     public static void cancelCall(Call call){
-        if(call != null){
+        if(call != null && !call.isCanceled()){
             call.cancel();
         }
     }

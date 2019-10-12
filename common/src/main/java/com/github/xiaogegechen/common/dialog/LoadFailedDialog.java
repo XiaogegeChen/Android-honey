@@ -1,6 +1,7 @@
 package com.github.xiaogegechen.common.dialog;
 
 import android.app.Dialog;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.github.xiaogegechen.common.R;
@@ -13,6 +14,12 @@ import com.github.xiaogegechen.design.viewgroup.MessageDialogLayout;
 public class LoadFailedDialog extends BaseDialogFragment {
 
     private OnButtonClickListener mOnButtonClickListener;
+
+    private OnBackPressedListener mOnBackPressedListener;
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        mOnBackPressedListener = onBackPressedListener;
+    }
 
     public void setOnButtonClickListener(OnButtonClickListener onButtonClickListener) {
         mOnButtonClickListener = onButtonClickListener;
@@ -47,13 +54,27 @@ public class LoadFailedDialog extends BaseDialogFragment {
     public void setDialog(Dialog dialog) {
         // 点击空白不取消
         dialog.setCanceledOnTouchOutside (false);
-        // 点击返回键不能取消
-        dialog.setCancelable(false);
+        dialog.setOnKeyListener((dialog1, keyCode, event) -> {
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                mIsAdded = false;
+                if (mOnBackPressedListener != null) {
+                    mOnBackPressedListener.backPressed();
+                }
+            }
+            return false;
+        });
     }
 
     // 点击监听
     public interface OnButtonClickListener{
         void onExitClick(View view);
         void onRetryClick(View view);
+    }
+
+    /**
+     * 当该 ProgressDialog 收到点击事件是的回调
+     */
+    public interface OnBackPressedListener{
+        void backPressed();
     }
 }

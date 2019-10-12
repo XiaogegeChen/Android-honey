@@ -38,4 +38,9 @@ public interface IBookListActivityPresenter extends IBasePresenter<IBookListActi
      * @param imageView 共享imageView
      */
     void gotoInfoActivity(BookInDB book, ImageView imageView);
+
+    /**
+     * 取消正在加载的任务并提示
+     */
+    void cancel();
 }

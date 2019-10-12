@@ -10,6 +10,7 @@ import com.github.xiaogegechen.common.base.EventBusActivity;
 import com.github.xiaogegechen.common.dialog.LoadFailedDialog;
 import com.github.xiaogegechen.common.dialog.ProgressDialog;
 import com.github.xiaogegechen.common.test.FiveClickHelper;
+import com.github.xiaogegechen.common.util.LogUtil;
 import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.design.viewgroup.TitleBar;
 import com.github.xiaogegechen.module_d.Constants;
@@ -32,6 +33,8 @@ import java.util.List;
 
 public class BookListActivity extends EventBusActivity implements IBookListActivityView {
 
+    private static final String TAG = "BookListActivity";
+
     private static final String PROGRESS_DIALOG_TAG = "module_d_progress_dialog_tag";
     private static final String LOAD_FAILED_DIALOG_TAG = "module_d_load_failed_dialog_tag";
 
@@ -39,11 +42,9 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
     private RecyclerView mLeftRecyclerView;
     private RecyclerView mRightRecyclerView;
 
-    // dialog和他们的状态控制位
+    // dialog
     private LoadFailedDialog mLoadFailedDialog;
     private ProgressDialog mProgressDialog;
-    private boolean mIsLoadFailedDialogAdded = false;
-    private boolean mIsProgressDialogAdded = false;
 
     private IBookListActivityPresenter mBookListActivityPresenter;
 
@@ -120,6 +121,16 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
         });
         // 初始化为catalog的监听器，加载bookLis时候替换调，dismiss时候再换回来
         mLoadFailedDialog.setOnButtonClickListener(mOnCatalogButtonClickListener);
+        // mProgressDialog 监听返回键
+        mProgressDialog.setOnBackPressedListener(() -> {
+            LogUtil.d(TAG, "back pressed to dismiss dialog");
+            mBookListActivityPresenter.cancel();
+        });
+        // mLoadFailedDialog 监听返回键
+        mLoadFailedDialog.setOnBackPressedListener(() -> {
+            showToast(Constants.QUERY_DATA_FAILED);
+            hideErrorPage();
+        });
 
         // debug的入口
         new FiveClickHelper().fiveClick(mTitleBar.getTextView(), v -> {
@@ -172,18 +183,12 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
 
     @Override
     public void hideProgress() {
-        if(mIsProgressDialogAdded){
-            mProgressDialog.dismiss();
-            mIsProgressDialogAdded = false;
-        }
+        mProgressDialog.dismiss();
     }
 
     @Override
     public void hideErrorPage() {
-        if(mIsLoadFailedDialogAdded){
-            mLoadFailedDialog.dismiss();
-            mIsLoadFailedDialogAdded = false;
-        }
+        mLoadFailedDialog.dismiss();
     }
 
     @Subscribe
@@ -205,10 +210,7 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
         // 如果需要，先关闭加载失败dialog
         hideErrorPage();
         // 显示加载中dialog
-        if(!mIsProgressDialogAdded){
-            mProgressDialog.show(getSupportFragmentManager(), PROGRESS_DIALOG_TAG);
-            mIsProgressDialogAdded = true;
-        }
+        mProgressDialog.show(getSupportFragmentManager(), PROGRESS_DIALOG_TAG);
     }
 
     @Override
@@ -216,10 +218,7 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
         // 如果需要，先关闭加载中dialog
         hideProgress();
         // 显示加载失败dialog
-        if(!mIsLoadFailedDialogAdded){
-            mLoadFailedDialog.show(getSupportFragmentManager(), LOAD_FAILED_DIALOG_TAG);
-            mIsLoadFailedDialogAdded = true;
-        }
+        mLoadFailedDialog.show(getSupportFragmentManager(), LOAD_FAILED_DIALOG_TAG);
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.core.app.ActivityOptionsCompat;
@@ -44,9 +43,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-// NOTE: dialog的状态统一由activity管理，不由该类管理
-// 比如activity会完成在showErrorPage()时关闭progressDialog等
 
 public class BookListActivityPresenterImpl implements IBookListActivityPresenter {
 
@@ -263,6 +259,12 @@ public class BookListActivityPresenterImpl implements IBookListActivityPresenter
                 new Pair<>(imageView, Constants.SHARED_ELEMENT_BOOK_IAMGE)
         );
         mContext.startActivity(intent, activityOptions.toBundle());
+    }
+
+    @Override
+    public void cancel() {
+        RetrofitHelper.cancelCalls(mCatalogCall, mBookListCall);
+        mBookListActivityView.showToast(Constants.CANCEL_LOAD);
     }
 
     // 这个方法需要在子线程中执行，因为用的是同步请求网络

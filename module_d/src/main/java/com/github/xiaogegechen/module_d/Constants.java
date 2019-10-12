@@ -20,6 +20,7 @@ public class Constants {
 
     public static final String UNKNOWN_ERROR = "未知错误";
     public static final String QUERY_DATA_FAILED = "更新数据失败";
+    public static final String CANCEL_LOAD = "取消加载";
 
     // intent param name
     public static final String INTENT_PARAM_NAME = "intent_param_name";
