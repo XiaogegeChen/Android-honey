@@ -35,8 +35,8 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
 
     private static final String TAG = "BookListActivity";
 
-    private static final String PROGRESS_DIALOG_TAG = "module_d_progress_dialog_tag";
-    private static final String LOAD_FAILED_DIALOG_TAG = "module_d_load_failed_dialog_tag";
+    private static final String PROGRESS_DIALOG_TAG = "book_list_progress_dialog";
+    private static final String LOAD_FAILED_DIALOG_TAG = "book_list_load_failed_dialog";
 
     private TitleBar mTitleBar;
     private RecyclerView mLeftRecyclerView;

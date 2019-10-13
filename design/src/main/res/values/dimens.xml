@@ -14,6 +14,7 @@
     <dimen name="design_margin_self">8dp</dimen>
 
     <!-- 字号 -->
+    <dimen name="design_small">12sp</dimen>
     <dimen name="design_text">14sp</dimen>
     <dimen name="design_sub_title">16sp</dimen>
     <dimen name="design_app_bar">20sp</dimen>

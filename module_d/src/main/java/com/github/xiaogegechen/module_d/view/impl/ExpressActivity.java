@@ -7,28 +7,38 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.xiaogegechen.common.base.BaseActivity;
-import com.github.xiaogegechen.common.dialog.LoadFailedDialog;
 import com.github.xiaogegechen.common.dialog.ProgressDialog;
+import com.github.xiaogegechen.common.util.ImageParam;
+import com.github.xiaogegechen.common.util.ImageUtil;
 import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
+import com.github.xiaogegechen.module_d.Constants;
 import com.github.xiaogegechen.module_d.R;
+import com.github.xiaogegechen.module_d.adapter.ExpressMotionAdapter;
 import com.github.xiaogegechen.module_d.model.ExpressJSON;
+import com.github.xiaogegechen.module_d.model.ExpressMotionItem;
 import com.github.xiaogegechen.module_d.presenter.IExpressActivityPresenter;
 import com.github.xiaogegechen.module_d.presenter.impl.ExpressActivityPresenterImpl;
 import com.github.xiaogegechen.module_d.view.IExpressActivityView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExpressActivity extends BaseActivity implements IExpressActivityView {
+
+    private static final String PROGRESS_DIALOG_TAG = "express_progress_dialog";
 
     private ImageView mLeftImageView;
     private ImageView mRightImageView;
@@ -36,21 +46,26 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
     private TextView mTitleTextView;
     private EditText mEditText;
 
+    private ViewGroup mInformationTitleGroup;
     private ImageView mSupplierLogoImageView;
     private TextView mMessengerNameTextView;
     private TextView mMessengerTelTextView;
     private ImageView mCallPhoneImageView;
     private TextView mSupplierAndNumTextView;
 
+    private View mRecyclerViewHead;
     private RecyclerView mRecyclerView;
+
+    private ViewGroup mErrorPage;
+    private TextView mErrorTextView;
 
     private IExpressActivityPresenter mExpressActivityPresenter;
 
-    // dialog和他们的状态控制位
-    private LoadFailedDialog mLoadFailedDialog;
+    // dialog
     private ProgressDialog mProgressDialog;
-    private boolean mIsLoadFailedDialogAdded = false;
-    private boolean mIsProgressDialogAdded = false;
+
+    private List<ExpressMotionItem> mRecyclerViewDataSource;
+    private ExpressMotionAdapter mRecyclerViewAdapter;
 
     @Override
     public void initView() {
@@ -59,22 +74,34 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
         mLineImageView = findViewById(R.id.module_d_activity_express_title_line_icon);
         mTitleTextView = findViewById(R.id.module_d_activity_express_title_text);
         mEditText = findViewById(R.id.module_d_activity_express_title_input);
+        mInformationTitleGroup = findViewById(R.id.module_d_activity_express_information);
         mSupplierLogoImageView = findViewById(R.id.module_d_activity_express_supplier_logo_icon);
         mMessengerNameTextView = findViewById(R.id.module_d_activity_express_messenger_name);
         mMessengerTelTextView = findViewById(R.id.module_d_activity_express_messenger_tel);
         mCallPhoneImageView = findViewById(R.id.module_d_activity_express_phone_icon);
         mSupplierAndNumTextView = findViewById(R.id.module_d_activity_express_supplier_and_num);
+        mRecyclerViewHead = findViewById(R.id.module_d_activity_express_recycler_view_head);
         mRecyclerView = findViewById(R.id.module_d_activity_express_recycler_view);
+        mErrorPage = findViewById(R.id.module_d_activity_express_error_page);
+        mErrorTextView = findViewById(R.id.module_d_activity_express_error_page_text);
 
         // imm
         StatusBarUtils.setImmersive(this);
         StatusBarUtils.fillStatusBarByView(this, findViewById(R.id.module_d_activity_express_placeholder_view));
+        // 初始化，错误页不可见，recyclerView，title不可见
+        mErrorPage.setVisibility(View.GONE);
+        mInformationTitleGroup.setVisibility(View.GONE);
+        mRecyclerViewHead.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
     }
 
     @Override
     public void initData() {
         mExpressActivityPresenter = new ExpressActivityPresenterImpl();
+        mExpressActivityPresenter.attach(this);
         mProgressDialog = new ProgressDialog();
+        mRecyclerViewDataSource = new ArrayList<>();
+        mRecyclerViewAdapter = new ExpressMotionAdapter(mRecyclerViewDataSource);
 
         mLeftImageView.setOnClickListener(v -> finish());
         mRightImageView.setOnClickListener(v -> showEditText());
@@ -102,6 +129,15 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
             }
             return true;
         });
+        // recyclerView
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mRecyclerViewAdapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mExpressActivityPresenter.detach();
+        super.onDestroy();
     }
 
     @Override
@@ -116,12 +152,12 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
 
     @Override
     public void showProgress() {
-
+        mProgressDialog.show(getSupportFragmentManager(), PROGRESS_DIALOG_TAG);
     }
 
     @Override
     public void showErrorPage() {
-
+        // 忽略这个方法， 设计上的缺陷
     }
 
     @Override
@@ -130,8 +166,38 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
     }
 
     @Override
-    public void showInformation(@Nullable ExpressJSON express) {
-
+    public void showInformation(ExpressJSON express) {
+        mProgressDialog.dismiss();
+        if(mErrorPage.getVisibility() == View.VISIBLE){
+            mErrorPage.setVisibility(View.GONE);
+        }
+        mInformationTitleGroup.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mRecyclerViewHead.setVisibility(View.VISIBLE);
+        ExpressJSON.Result result = express.getResult();
+        if(result != null){
+            ImageParam param = new ImageParam.Builder()
+                    .url(result.getExpressLogoUrl())
+                    .error(getDrawable(R.drawable.design_ic_load_failed))
+                    .imageView(mSupplierLogoImageView)
+                    .context(this)
+                    .build();
+            ImageUtil.INSTANCE.displayImage(param);
+            mMessengerNameTextView.setText(getString(R.string.module_d_activity_express_messenger_name, result.getMessengerName()));
+            mMessengerTelTextView.setText(getString(R.string.module_d_activity_express_messenger_tel, result.getMessengerPhone()));
+            mSupplierAndNumTextView.setText(getString(R.string.module_d_activity_express_supplier_and_num, result.getExpressName(), result.getNumber()));
+            // recyclerView
+            List<ExpressMotionItem> newDataSource = mExpressActivityPresenter.convertExpressJSON2ItemList(express);
+            if(newDataSource.size() > 0){
+                mRecyclerViewDataSource.clear();
+                mRecyclerViewDataSource.addAll(newDataSource);
+                mRecyclerViewAdapter.notifyDataSetChanged();
+            }else{
+                showToast(Constants.UNKNOWN_ERROR);
+            }
+        }else{
+            showToast(Constants.UNKNOWN_ERROR);
+        }
     }
 
     // 动画时长
@@ -245,8 +311,9 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
                 mRightImageView.setX(originXOfLineIcon);
                 // 白线瞬移到预定位置
                 mLineImageView.setX(originXOfLeftIcon + mLeftImageView.getWidth());
-                // editText不可见
-                mEditText.setVisibility(View.INVISIBLE);
+                // editText清空，不可见
+                mEditText.setText(null);
+                mEditText.setVisibility(View.GONE);
                 // 不可点击
                 mLeftImageView.setClickable(false);
                 mRightImageView.setClickable(false);
@@ -289,5 +356,16 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
         });
         // 启动动画
         leftAnimator.start();
+    }
+
+    @Override
+    public void showErrorPage(String errorMsg) {
+        mInformationTitleGroup.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
+        mRecyclerViewHead.setVisibility(View.GONE);
+        mProgressDialog.dismiss();
+
+        mErrorPage.setVisibility(View.VISIBLE);
+        mErrorTextView.setText(errorMsg);
     }
 }

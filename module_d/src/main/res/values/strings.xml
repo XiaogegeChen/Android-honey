@@ -15,4 +15,6 @@
     <string name="module_d_activity_express_messenger_name">快递员 %1$s</string>
     <string name="module_d_activity_express_messenger_tel">快递员电话 %1$s</string>
     <string name="module_d_activity_express_supplier_and_num">%1$s %2$s</string>
+
+    <string name="module_d_fragment_history_record_search">历史搜索</string>
 </resources>
