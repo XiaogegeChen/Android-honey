@@ -46,16 +46,15 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
     private TextView mTitleTextView;
     private EditText mEditText;
 
-    private ViewGroup mInformationTitleGroup;
     private ImageView mSupplierLogoImageView;
     private TextView mMessengerNameTextView;
     private TextView mMessengerTelTextView;
     private ImageView mCallPhoneImageView;
     private TextView mSupplierAndNumTextView;
 
-    private View mRecyclerViewHead;
     private RecyclerView mRecyclerView;
 
+    private View mNormalPage;
     private ViewGroup mErrorPage;
     private TextView mErrorTextView;
 
@@ -74,25 +73,22 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
         mLineImageView = findViewById(R.id.module_d_activity_express_title_line_icon);
         mTitleTextView = findViewById(R.id.module_d_activity_express_title_text);
         mEditText = findViewById(R.id.module_d_activity_express_title_input);
-        mInformationTitleGroup = findViewById(R.id.module_d_activity_express_information);
         mSupplierLogoImageView = findViewById(R.id.module_d_activity_express_supplier_logo_icon);
         mMessengerNameTextView = findViewById(R.id.module_d_activity_express_messenger_name);
         mMessengerTelTextView = findViewById(R.id.module_d_activity_express_messenger_tel);
         mCallPhoneImageView = findViewById(R.id.module_d_activity_express_phone_icon);
         mSupplierAndNumTextView = findViewById(R.id.module_d_activity_express_supplier_and_num);
-        mRecyclerViewHead = findViewById(R.id.module_d_activity_express_recycler_view_head);
         mRecyclerView = findViewById(R.id.module_d_activity_express_recycler_view);
         mErrorPage = findViewById(R.id.module_d_activity_express_error_page);
         mErrorTextView = findViewById(R.id.module_d_activity_express_error_page_text);
+        mNormalPage = findViewById(R.id.module_d_activity_express_normal_page);
 
         // imm
         StatusBarUtils.setImmersive(this);
         StatusBarUtils.fillStatusBarByView(this, findViewById(R.id.module_d_activity_express_placeholder_view));
         // 初始化，错误页不可见，recyclerView，title不可见
         mErrorPage.setVisibility(View.GONE);
-        mInformationTitleGroup.setVisibility(View.GONE);
-        mRecyclerViewHead.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.GONE);
+        mNormalPage.setVisibility(View.GONE);
     }
 
     @Override
@@ -105,6 +101,9 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
 
         mLeftImageView.setOnClickListener(v -> finish());
         mRightImageView.setOnClickListener(v -> showEditText());
+        mCallPhoneImageView.setOnClickListener(v -> {
+            // TODO 打电话
+        });
         // 监听输入
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -171,9 +170,7 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
         if(mErrorPage.getVisibility() == View.VISIBLE){
             mErrorPage.setVisibility(View.GONE);
         }
-        mInformationTitleGroup.setVisibility(View.VISIBLE);
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mRecyclerViewHead.setVisibility(View.VISIBLE);
+        mNormalPage.setVisibility(View.VISIBLE);
         ExpressJSON.Result result = express.getResult();
         if(result != null){
             ImageParam param = new ImageParam.Builder()
@@ -360,9 +357,7 @@ public class ExpressActivity extends BaseActivity implements IExpressActivityVie
 
     @Override
     public void showErrorPage(String errorMsg) {
-        mInformationTitleGroup.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.GONE);
-        mRecyclerViewHead.setVisibility(View.GONE);
+        mNormalPage.setVisibility(View.GONE);
         mProgressDialog.dismiss();
 
         mErrorPage.setVisibility(View.VISIBLE);

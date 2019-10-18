@@ -57,7 +57,6 @@ class MainActivity : EventBusActivity(), IMainActivityView{
 
         viewPager.adapter = object: MyFragmentPagerAdapter(supportFragmentManager, fragmentList){
             override fun getTitle(): List<String>? {
-
                 // 没有标题，返回null
                 return null
             }
