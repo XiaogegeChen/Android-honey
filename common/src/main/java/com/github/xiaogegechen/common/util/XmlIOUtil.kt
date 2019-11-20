@@ -24,6 +24,22 @@ object XmlIOUtil {
     }
 
     /**
+     * 拿到stringSet
+     */
+    fun readStringSet(key: String, context: Context): Set<String>?{
+        return PreferenceManager.getDefaultSharedPreferences(context).getStringSet(key, null)
+    }
+
+    /**
+     * 写入stringSet
+     */
+    fun writeStringSet(key: String, value: Set<String>, context: Context){
+        val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+        editor.putStringSet(key, value)
+        editor.apply()
+    }
+
+    /**
      * 拿到long
      */
     fun readLong(key: String, context: Context): Long{

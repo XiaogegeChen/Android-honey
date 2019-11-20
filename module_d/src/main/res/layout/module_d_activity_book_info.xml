@@ -16,7 +16,7 @@
                 android:layout_height="wrap_content"
                 app:collapsedTitleTextAppearance="@style/module_d_activity_info_collapsed_title"
                 app:expandedTitleTextAppearance="@style/module_d_activity_info_expanded_title"
-                app:contentScrim="@color/design_color_accent"
+                app:contentScrim="@color/module_d_book_color_primary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:toolbarId="@id/module_d_activity_book_info_tool_bar">
             <ImageView

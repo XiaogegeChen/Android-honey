@@ -2,9 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/module_d_activity_book_list_bg">
+        android:background="@color/module_d_activity_book_list_bg"
+        tools:context=".view.impl.BookListActivity">
     <com.github.xiaogegechen.design.viewgroup.TitleBar
             android:id="@+id/module_d_activity_book_list_title_bar"
             android:layout_width="match_parent"
@@ -12,6 +14,7 @@
             app:left_visibility="true"
             app:right_visibility="false"
             app:title_bar_title="@string/module_d_activity_book_list_title_text"
+            app:title_bar_bg_color="@color/module_d_book_color_primary"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>

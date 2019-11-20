@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="module_a_fragment_a_recycler_bg">#f2f2f2</color>
+
+    <color name="module_a_photo_color_primary">#CD344F</color>
+    <color name="module_a_photo_color_primary_dark">#912538</color>
+    <color name="module_a_photo_color_accent">@color/design_color_accent</color>
+
+</resources>

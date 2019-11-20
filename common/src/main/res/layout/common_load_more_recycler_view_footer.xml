@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+    <ProgressBar
+            android:id="@+id/common_load_more_progress"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="@dimen/common_load_more_recycler_footer_progress_size"
+            android:layout_height="@dimen/common_load_more_recycler_footer_progress_size"
+            android:layout_margin="@dimen/design_margin_self" />
+    <TextView
+            android:id="@+id/common_load_more_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/design_margin_self"
+            android:textColor="@color/design_color_text_black"
+            android:text="@string/common_load_more_error"/>
+    <TextView
+            android:id="@+id/common_load_more_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:textColor="@color/design_color_text_black"
+            android:text="@string/common_load_more_done"/>
+</FrameLayout>

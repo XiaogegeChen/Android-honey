@@ -23,7 +23,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${RETROFIT2}"
     implementation "com.squareup.retrofit2:converter-gson:${CONVERTER_GSON}"
     // 我的自定义view
-    implementation "com.github.xiaogegeChen:fineviews:${FINEVIEWS}"
+    implementation "com.github.xiaogegechen:fineviews:${FINEVIEWS}"
     // recyclerview
     implementation "androidx.recyclerview:recyclerview:${RECYCLERVIEW}"
 }

@@ -18,6 +18,7 @@ class TitleBar(context: Context, attr: AttributeSet?, defStyle: Int): FrameLayou
 
     init {
         LayoutInflater.from(context).inflate(R.layout.design_title_bar, this)
+        val rootLayout: FrameLayout? = findViewById(R.id.title_bar_root)
         val leftImage: ImageView? = findViewById(R.id.title_bar_left)
         val rightImage: ImageView? = findViewById(R.id.title_bar_right)
         mTitle = findViewById(R.id.title_bar_title)
@@ -26,6 +27,9 @@ class TitleBar(context: Context, attr: AttributeSet?, defStyle: Int): FrameLayou
         val leftVisibility = typeArray.getBoolean(R.styleable.TitleBar_left_visibility, false)
         val rightVisibility = typeArray.getBoolean(R.styleable.TitleBar_right_visibility, false)
         val titleText = typeArray.getString(R.styleable.TitleBar_title_bar_title)
+        val bgColor = typeArray.getColor(R.styleable.TitleBar_title_bar_bg_color, resources.getColor(R.color.design_color_accent))
+
+        rootLayout?.setBackgroundColor(bgColor)
 
         if(leftVisibility){
             leftImage?.visibility = View.VISIBLE

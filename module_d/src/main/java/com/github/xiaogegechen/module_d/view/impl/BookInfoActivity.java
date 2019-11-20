@@ -54,7 +54,9 @@ public class BookInfoActivity extends BaseActivity implements IBookInfoActivityV
         mBookInfoActivityPresenter.attach(this);
         // 坍塌布局坍塌后的颜色
         ColorDrawable contentScrimDrawable = (ColorDrawable) (mCollapsingToolbarLayout.getContentScrim());
-        mCollapsingToolbarLayoutContentScrimColor = contentScrimDrawable == null ? getResources().getColor(R.color.design_color_accent) : contentScrimDrawable.getColor();
+        mCollapsingToolbarLayoutContentScrimColor = contentScrimDrawable == null ?
+                getResources().getColor(R.color.module_d_book_color_primary) :
+                contentScrimDrawable.getColor();
         // 传递过来的book对象
         final BookInDB book = getIntent().getParcelableExtra(Constants.INTENT_PARAM_NAME);
 
@@ -137,14 +139,10 @@ public class BookInfoActivity extends BaseActivity implements IBookInfoActivityV
     }
 
     @Override
-    public void showProgress() {
-
-    }
+    public void showProgress() {}
 
     @Override
-    public void showErrorPage() {
-
-    }
+    public void showErrorPage() {}
 
     @Override
     public void showToast(@NotNull String message) {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="module_left_weather_color_primary">#638DE3</color>
+    <color name="module_left_weather_color_primary_dark">#4967A3</color>
+    <color name="module_left_weather_color_accent">#DE5D32</color>
+</resources>

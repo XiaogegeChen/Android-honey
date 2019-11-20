@@ -133,9 +133,7 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
         });
 
         // debug的入口
-        new FiveClickHelper().fiveClick(mTitleBar.getTextView(), v -> {
-            mBookListActivityPresenter.debug();
-        });
+        new FiveClickHelper().fiveClick(mTitleBar.getTextView(), v -> mBookListActivityPresenter.debug());
 
         mBookListActivityPresenter.queryCatalog();
     }
@@ -154,7 +152,7 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
 
     @Override
     public int getStatusBarColor() {
-        return getResources().getColor(R.color.design_color_accent);
+        return getResources().getColor(R.color.module_d_book_color_primary);
     }
 
     @Override
@@ -194,7 +192,10 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
     @Subscribe
     public void onNotifyBookListRefreshEvent(NotifyBookListRefreshEvent event){
         // 请求指定目录的图书列表
-        int id = event.getCatalogId();
+        int id = event.getCatalogInfo().getId();
+        // 标题显示当前目录
+        String catalog = event.getCatalogInfo().getCatalog();
+        mTitleBar.setText(catalog);
         mCurrentCatalogId = id;
         mLoadFailedDialog.setOnButtonClickListener(mOnBookListButtonClickListener);
         mBookListActivityPresenter.queryBookList(id);

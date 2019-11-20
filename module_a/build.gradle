@@ -15,6 +15,13 @@ dependencies {
         implementation project(':design')
     }
 
+    if (!isNetworkDebug.toBoolean()) {
+        implementation project(':network')
+    }
+
     implementation "org.greenrobot:eventbus:${EVENT_BUS}"
     implementation "com.google.android.material:material:${MATERIAL}"
+
+    implementation "com.squareup.retrofit2:retrofit:${RETROFIT2}"
+    implementation "com.squareup.retrofit2:converter-gson:${CONVERTER_GSON}"
 }

@@ -7,7 +7,7 @@
         android:layout_height="match_parent">
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarA"
                 android:layout_width="match_parent"
@@ -17,7 +17,7 @@
                     android:id="@+id/toolBarA"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/design_toolbar_height"
-                    android:background="@color/design_color_accent"
+                    android:background="@color/module_a_photo_color_primary"
                     app:layout_scrollFlags="scroll|enterAlways|snap"
                     app:titleTextColor="@color/design_color_white"
                     app:navigationIcon="@drawable/design_more"
@@ -26,16 +26,17 @@
                     android:id="@+id/tabLayoutA"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/design_tab_layout_height"
-                    android:background="@color/design_color_accent"
+                    android:background="@color/module_a_photo_color_primary"
                     app:tabIndicatorColor="@color/design_color_white"
                     app:tabIndicatorHeight="3dp"
                     app:tabSelectedTextColor="@color/design_color_white"
                     app:tabTextColor="#ECECEC"/>
         </com.google.android.material.appbar.AppBarLayout>
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewA"
+        <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPagerA"
+                android:background="@color/module_a_fragment_a_recycler_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

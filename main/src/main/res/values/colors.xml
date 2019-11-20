@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="main_menu_view_color_normal">#33334C</color>
+    <color name="main_menu_view_color_selected">#C74870</color>
 
+    <color name="main_menu_view_color_split">#37374D</color>
+
+    <color name="main_bottom_icon_color">#FFFFFF</color>
+
+    <color name="main_color_primary">#FE682D</color>
+    <color name="main_color_primary_dark">#CA5324</color>
+    <color name="main_color_accent">@color/design_color_accent</color>
 </resources>

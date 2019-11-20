@@ -5,6 +5,8 @@
     <dimen name="design_tab_layout_height">48dp</dimen>
     <dimen name="design_title_bar_height">48dp</dimen>
 
+    <dimen name="design_icon_common_size">24dp</dimen>
+
 
     <!-- 大多数组件留白 -->
     <dimen name="design_margin_left">16dp</dimen>

@@ -21,4 +21,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${RETROFIT2}"
 
     implementation "org.greenrobot:greendao:${GREEN_DAO}"
+
+    implementation "androidx.recyclerview:recyclerview:${RECYCLERVIEW}"
 }

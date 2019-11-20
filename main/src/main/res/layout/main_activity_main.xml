@@ -1,35 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer"
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.MainActivity">
-    <FrameLayout
+    <androidx.viewpager.widget.ViewPager
+            android:id="@+id/main_activity_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/design_navigation_height"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/navigation"
-                android:layout_gravity="bottom"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/design_navigation_height"
-                app:itemTextColor="@drawable/main_bottom_menu_selector"
-                app:labelVisibilityMode="labeled"
-                app:itemIconTint="@drawable/main_bottom_menu_selector"
-                app:itemBackground="@null"
-                app:menu="@menu/main_bottom_menu"/>
-    </FrameLayout>
-    <FrameLayout
-            android:id="@+id/left"
-            android:layout_gravity="start"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-</androidx.drawerlayout.widget.DrawerLayout>
+            android:layout_height="match_parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

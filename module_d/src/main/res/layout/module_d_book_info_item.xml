@@ -35,7 +35,7 @@
                 android:paddingRight="@dimen/design_margin_right"
                 android:autoLink="all"
                 android:linksClickable="true"
-                android:textColorLink="@color/design_color_accent"
+                android:textColorLink="@color/module_d_book_color_primary"
                 tools:text="香港是中国不可分割的一部分，香港是中国不可分割的一部分，香港是中国不可分割的一部分"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

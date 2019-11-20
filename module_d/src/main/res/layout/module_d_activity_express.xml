@@ -11,7 +11,7 @@
             android:id="@+id/module_d_activity_express_placeholder_view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/design_color_accent"
+            android:background="@color/module_d_express_color_primary"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
@@ -19,7 +19,7 @@
             android:id="@+id/module_d_activity_express_title_background"
             android:layout_width="match_parent"
             android:layout_height="@dimen/module_d_activity_express_title_height"
-            android:background="@color/design_color_accent"
+            android:background="@color/module_d_express_color_primary"
             app:layout_constraintTop_toBottomOf="@id/module_d_activity_express_placeholder_view"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
@@ -71,8 +71,9 @@
             android:paddingRight="@dimen/design_margin_right"
             android:hint="@string/module_d_activity_express_title_input_hint"
             android:visibility="invisible"
+            android:singleLine="true"
+            android:ellipsize="none"
             android:imeOptions="actionSearch"
-            android:inputType="number"
             app:layout_constraintTop_toTopOf="@id/module_d_activity_express_title_background"
             app:layout_constraintBottom_toBottomOf="@id/module_d_activity_express_title_background"
             app:layout_constraintLeft_toRightOf="@id/module_d_activity_express_title_left_icon"
@@ -123,17 +124,17 @@
                 app:layout_constraintBottom_toBottomOf="@id/module_d_activity_express_supplier_logo_icon" />
         <View
                 android:id="@+id/module_d_activity_express_split_line_vertical"
-                android:layout_width="2dp"
+                android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:background="@color/design_color_grey"
+                android:background="@color/design_line"
                 app:layout_constraintRight_toLeftOf="@id/module_d_activity_express_phone_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/module_d_activity_express_supplier_logo_icon"/>
         <View
                 android:id="@+id/module_d_activity_express_split_line_horizontal"
                 android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:background="@color/design_color_grey"
+                android:layout_height="1dp"
+                android:background="@color/design_line"
                 android:layout_marginTop="@dimen/design_margin_top"
                 app:layout_constraintTop_toBottomOf="@id/module_d_activity_express_supplier_logo_icon"
                 app:layout_constraintLeft_toLeftOf="parent"

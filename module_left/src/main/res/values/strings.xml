@@ -8,4 +8,10 @@
     <string name="module_left_version_name">版本 2.0.0</string>
     <string name="module_left_introduction">我不在乎浮光掠影的尘世，我只在乎你\n我不留恋似雪若花的浮生，我只留恋你</string>
 
+    <string name="module_left_activity_weather_detail_compare">比昨天 %1$s</string>
+    <string name="module_left_activity_manage_city_title">城市管理</string>
+    <string name="module_left_activity_manage_city_button_add">添加城市</string>
+    <string name="module_left_activity_select_city_input_hint">搜索城市</string>
+    <string name="module_left_activity_select_city_top_city">热门城市</string>
+
 </resources>

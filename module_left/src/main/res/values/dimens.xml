@@ -2,4 +2,8 @@
 <resources>
     <dimen name="module_left_left_head_height">200dp</dimen>
     <dimen name="module_left_left_head_image_size">96dp</dimen>
+
+    <dimen name="module_left_activity_manage_city_add_button_bg_height">56dp</dimen>
+    <dimen name="module_left_activity_manage_city_add_button_height">48dp</dimen>
+    <dimen name="module_left_activity_manage_city_add_button_height_half">24dp</dimen>
 </resources>

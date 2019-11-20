@@ -37,7 +37,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
         // 消息来实现
         holder.mTextView.setOnClickListener(v -> {
             CatalogInfo catalogInfo = mCatalogInfoList.get(holder.getAdapterPosition());
-            NotifyBookListRefreshEvent event = new NotifyBookListRefreshEvent(catalogInfo.getId());
+            NotifyBookListRefreshEvent event = new NotifyBookListRefreshEvent(catalogInfo);
             EventBus.getDefault().post(event);
         });
         return holder;

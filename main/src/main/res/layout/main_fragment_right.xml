@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <FrameLayout
+            android:id="@+id/main_fragment_right_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    <com.github.xiaogegechen.main.widget.MyMenuView
+            android:id="@+id/main_fragment_right_menu_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:menu_view_orientation="horizontal"
+            app:menu_view_reverse="true"
+            app:menu_view_animation_duration="40"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/main_fragment_right_fab"
+            android:layout_width="@dimen/main_float_action_button_size"
+            android:layout_height="@dimen/main_float_action_button_size"
+            android:src="@drawable/main_ic_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:elevation="8dp"
+            app:backgroundTint="@color/main_color_primary"/>
+    <ImageView
+            android:id="@+id/main_fragment_right_fab_icon"
+            android:layout_width="@dimen/main_float_action_button_size"
+            android:layout_height="@dimen/main_float_action_button_size"
+            android:src="@drawable/main_ic_add"
+            android:padding="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

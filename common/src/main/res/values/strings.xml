@@ -2,6 +2,12 @@
     <string name="common_app_name">common</string>
     <string name="common_progress_dialog_text">正在加载…</string>
 
+    <string name="common_progress_fragment_text">加载中…</string>
+    <string name="common_load_failed_fragment_text">无结果</string>
+
+    <string name="common_load_more_error">加载失败</string>
+    <string name="common_load_more_done">没有更多了</string>
+
     <string name="common_dialog_load_failed_title">加载失败</string>
     <string name="common_dialog_load_failed_content">加载失败,请检查网络设置或者尝试重新加载</string>
     <string name="common_dialog_load_failed_exit">稍后再试</string>

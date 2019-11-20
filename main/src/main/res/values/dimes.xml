@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_float_action_button_size">56dp</dimen>
+
+    <dimen name="main_menu_view_item_image_size">56dp</dimen>
+</resources>

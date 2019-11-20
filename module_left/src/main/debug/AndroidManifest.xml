@@ -5,7 +5,7 @@
     <application
             android:name="debug.ModuleLeftTestApplication"
             android:theme="@style/design_app_theme">
-        <activity android:name=".view.SettingActivity">
+        <activity android:name=".view.impl.SettingActivity">
         </activity>
         <activity android:name="debug.ModuleLeftTestActivity">
             <intent-filter>
@@ -15,7 +15,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.IntroductionActivity"/>
+        <activity android:name=".view.impl.IntroductionActivity"/>
     </application>
 
 </manifest>

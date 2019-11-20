@@ -1,10 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.navigation.NavigationView
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:headerLayout="@layout/module_left_head_layout"
-        app:menu="@menu/module_left_left_menu">
-</com.google.android.material.navigation.NavigationView>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/module_left_fragment_left_weather"
+        app:menu="@menu/module_left_left_menu" >
+    </com.google.android.material.navigation.NavigationView>
+    <View
+        android:id="@+id/module_left_fragment_left_bottom_bg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/design_color_white"
+        app:layout_constraintBottom_toBottomOf="@id/module_left_fragment_left_weather"
+        app:layout_constraintTop_toTopOf="@id/module_left_fragment_left_weather"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/module_left_fragment_left_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/design_margin_left"
+        android:layout_marginBottom="@dimen/design_margin_bottom"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/module_left_fragment_left_weather_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/design_color_text_black"
+            android:textSize="@dimen/design_sub_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="北京"/>
+        <TextView
+            android:id="@+id/module_left_fragment_left_weather_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/design_color_text_black"
+            android:textSize="@dimen/design_sub_title"
+            app:layout_constraintBottom_toTopOf="@id/module_left_fragment_left_weather_city"
+            app:layout_constraintLeft_toLeftOf="@id/module_left_fragment_left_weather_city"
+            app:layout_constraintRight_toRightOf="@id/module_left_fragment_left_weather_city"
+            android:text="-1°"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

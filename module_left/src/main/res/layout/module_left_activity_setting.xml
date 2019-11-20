@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.github.xiaogegechen.module_left.view.SettingActivity">
+        tools:context="com.github.xiaogegechen.module_left.view.impl.SettingActivity">
     <com.github.xiaogegechen.design.viewgroup.TitleBar
             android:id="@+id/settingTitleBar"
             android:layout_width="match_parent"

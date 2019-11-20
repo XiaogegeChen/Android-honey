@@ -16,4 +16,6 @@ dependencies {
     implementation "com.google.android.material:material:${MATERIAL}"
     //eventbus
     implementation "org.greenrobot:eventbus:${EVENT_BUS}"
+    // 我的自定义view
+    implementation "com.github.xiaogegechen:fineviews:${FINEVIEWS}"
 }

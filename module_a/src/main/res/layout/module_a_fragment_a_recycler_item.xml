@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        app:cardCornerRadius="3dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+                android:id="@+id/module_a_fragment_a_recycler_item_pic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="3dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:src="@drawable/logo"/>
+        <TextView
+                android:id="@+id/module_a_fragment_a_recycler_item_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/design_text"
+                android:textColor="@color/design_color_text_black"
+                android:paddingTop="@dimen/design_margin_top"
+                android:paddingBottom="@dimen/design_margin_bottom"
+                android:paddingLeft="@dimen/design_margin_left"
+                android:paddingRight="@dimen/design_margin_right"
+                app:layout_constraintLeft_toLeftOf="@id/module_a_fragment_a_recycler_item_pic"
+                app:layout_constraintRight_toRightOf="@id/module_a_fragment_a_recycler_item_pic"
+                app:layout_constraintTop_toBottomOf="@id/module_a_fragment_a_recycler_item_pic"
+                tools:text="美好的世界"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

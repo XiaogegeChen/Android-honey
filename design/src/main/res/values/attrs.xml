@@ -4,6 +4,7 @@
         <attr name="left_visibility" format="boolean"/>
         <attr name="right_visibility" format="boolean"/>
         <attr name="title_bar_title" format="string"/>
+        <attr name="title_bar_bg_color" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="MessageDialogLayout" tools:ignore="ResourceName">
@@ -15,5 +16,9 @@
 
     <declare-styleable name="ProgressDialogLayout" tools:ignore="ResourceName">
         <attr name="progress_dialog_text" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="TagTextView" tools:ignore="ResourceName">
+        <attr name="tag_text_view_background_color" format="color"/>
     </declare-styleable>
 </resources>

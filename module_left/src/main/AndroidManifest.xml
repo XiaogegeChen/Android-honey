@@ -1,7 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.github.xiaogegechen.module_left">
     <application>
-        <activity android:name=".view.IntroductionActivity"/>
-        <activity android:name=".view.SettingActivity"/>
+        <activity android:name=".view.impl.IntroductionActivity"/>
+        <activity android:name=".view.impl.SettingActivity"/>
+        <activity
+            android:name=".view.impl.WeatherActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".view.impl.ManageCityActivity"/>
+        <activity android:name=".view.impl.SelectCityActivity"/>
     </application>
 </manifest>
