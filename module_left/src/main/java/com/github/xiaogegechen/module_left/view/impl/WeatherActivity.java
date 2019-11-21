@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.github.xiaogegechen.common.base.BaseActivity;
+import com.github.xiaogegechen.common.test.FiveClickHelper;
 import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.module_left.R;
@@ -42,7 +43,14 @@ public class WeatherActivity extends BaseActivity implements IWeatherActivityVie
     public void initData() {
         mWeatherActivityPresenter = new WeatherActivityPresenterImpl();
         mWeatherActivityPresenter.attach(this);
-        mAddImageView.setOnClickListener(v -> mWeatherActivityPresenter.gotoManageCityActivity());
+        mAddImageView.setOnClickListener(v -> mWeatherActivityPresenter.addCity());
+        // debug
+        new FiveClickHelper()
+                .fiveClick(
+                        findViewById(R.id.module_left_activity_weather_debug),
+                        v -> mWeatherActivityPresenter.debug()
+                );
+        mWeatherActivityPresenter.gotoManageCityActivityIfNeeded();
     }
 
     @Override

@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".view.impl.WeatherActivity">
     <ImageView
         android:id="@+id/module_left_activity_weather_background_image"
         android:layout_width="match_parent"
@@ -17,6 +18,11 @@
         android:layout_height="1dp"
         android:background="@color/module_left_weather_color_primary"
         app:layout_constraintTop_toTopOf="parent"/>
+    <View
+        android:id="@+id/module_left_activity_weather_debug"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/module_left_activity_weather_title"
         android:layout_width="match_parent"

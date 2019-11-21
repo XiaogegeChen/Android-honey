@@ -22,5 +22,8 @@ internal class Constants {
 
         // intent参数名
         const val INTENT_PARAM_NAME = Constants.INTENT_PARAM_NAME
+
+        // 空数据
+        const val NULL_DATA = "N/A"
     }
 }

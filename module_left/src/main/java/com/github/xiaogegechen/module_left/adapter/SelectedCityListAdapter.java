@@ -37,8 +37,12 @@ public class SelectedCityListAdapter extends RecyclerView.Adapter<SelectedCityLi
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.module_left_activity_manage_city_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         holder.mDeleteImageView.setOnClickListener(v -> {
+            // TODO 点击事件，移除这个城市
             final int position = holder.getAdapterPosition();
             SelectedCity selectedCity = mSelectedCityList.get(position);
+        });
+        holder.itemView.setOnClickListener(v -> {
+            // TODO 点击事件，跳转到weatherActivity界面。
         });
         return holder;
     }
@@ -46,10 +50,25 @@ public class SelectedCityListAdapter extends RecyclerView.Adapter<SelectedCityLi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         SelectedCity selectedCity = mSelectedCityList.get(position);
+        // 城市名
         String location = selectedCity.getLocation();
-        String weather = selectedCity.getWeatherDescription() + " " + selectedCity.getTemp() + "°";
+        // 天气数据
+        StringBuilder weatherBuilder = new StringBuilder();
+        if(selectedCity.getWeatherDescription() == null){
+            weatherBuilder.append(Constants.NULL_DATA);
+        }else{
+            weatherBuilder.append(selectedCity.getWeatherDescription());
+        }
+        weatherBuilder.append(" ");
+        if(selectedCity.getTemp() == null){
+            weatherBuilder.append(Constants.NULL_DATA);
+        }else{
+            weatherBuilder.append(selectedCity.getTemp());
+        }
+        weatherBuilder.append("°");
+        // 填充
         holder.mCityTextView.setText(location);
-        holder.mWeatherTextView.setText(weather);
+        holder.mWeatherTextView.setText(weatherBuilder.toString());
         ImageParam param = new ImageParam.Builder()
                 .context(mContext)
                 .imageView(holder.mWeatherImageView)

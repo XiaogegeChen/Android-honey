@@ -5,9 +5,9 @@ import android.text.TextUtils;
 
 import com.github.xiaogegechen.LogInterceptor;
 import com.github.xiaogegechen.common.util.RetrofitHelper;
-import com.github.xiaogegechen.common.util.XmlIOUtil;
 import com.github.xiaogegechen.module_left.Api;
 import com.github.xiaogegechen.module_left.Constants;
+import com.github.xiaogegechen.module_left.helper.SelectedCitySetHelper;
 import com.github.xiaogegechen.module_left.model.CityInfo;
 import com.github.xiaogegechen.module_left.model.json.CityListJSON;
 import com.github.xiaogegechen.module_left.model.json.TopCityJSON;
@@ -16,9 +16,7 @@ import com.github.xiaogegechen.module_left.view.ISelectCityActivityView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,20 +40,11 @@ public class SelectCityActivityPresenterImpl implements ISelectCityActivityPrese
     private Call<CityListJSON> mCityListCall;
 
     private Context mContext;
-    // 城市列表集合，在activity结束时重新写入sp中。
-    private Set<String> mCityIdSet;
 
     @Override
     public void attach(ISelectCityActivityView selectCityActivityView) {
         mSelectCityActivityView = selectCityActivityView;
         mContext = (Context) mSelectCityActivityView;
-        // 读取城市列表
-        Set<String> selectedCitySet = XmlIOUtil.INSTANCE.readStringSet(Constants.XML_KEY_SELECTED_CITY_LIST_MODULE_LEFT, mContext);
-        if(selectedCitySet == null){
-            mCityIdSet = new HashSet<>();
-        }else{
-            mCityIdSet = selectedCitySet;
-        }
         // retrofit
         mSearchCityRetrofit = new Retrofit.Builder()
                 .baseUrl(Constants.WEATHER_SEARCH_CITY_URL)
@@ -97,18 +86,18 @@ public class SelectCityActivityPresenterImpl implements ISelectCityActivityPrese
     @Override
     public void finish() {
         // 更新sp
-        XmlIOUtil.INSTANCE.writeStringSet(Constants.XML_KEY_SELECTED_CITY_LIST_MODULE_LEFT, mCityIdSet, mContext);
+        SelectedCitySetHelper.getInstance(mContext.getApplicationContext()).commit();
         // TODO 通知其它activity
     }
 
     @Override
     public void removeCity(CityInfo cityInfo) {
-        mCityIdSet.remove(cityInfo.getCityId());
+        SelectedCitySetHelper.getInstance(mContext.getApplicationContext()).removeCity(cityInfo);
     }
 
     @Override
     public void addCity(CityInfo cityInfo) {
-        mCityIdSet.add(cityInfo.getCityId());
+        SelectedCitySetHelper.getInstance(mContext.getApplicationContext()).addCity(cityInfo);
     }
 
     @Override
@@ -158,14 +147,13 @@ public class SelectCityActivityPresenterImpl implements ISelectCityActivityPrese
      */
     private List<CityInfo> convertTopCityJSON2CityInfoList(TopCityJSON topCityJSON){
         List<CityInfo> result = topCityJSON.getResult().get(0).getCityInfoList();
-        if(mCityIdSet == null){
+        if(!SelectedCitySetHelper.getInstance(mContext.getApplicationContext()).hasSelectedCity()){
             // 还没有选择的城市，直接返回。
             return result;
         }
         for (CityInfo cityInfo : result) {
-            String cityId = cityInfo.getCityId();
-            // 对比 cityId，设置selected 字段。
-            if(mCityIdSet.contains(cityId)){
+            // 对比 cityId 和 location，设置selected 字段。
+            if(SelectedCitySetHelper.getInstance(mContext.getApplicationContext()).isCitySelected(cityInfo)){
                 cityInfo.setSelected(true);
             }else{
                 cityInfo.setSelected(false);

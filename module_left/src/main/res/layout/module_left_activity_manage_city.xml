@@ -26,7 +26,33 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/module_left_activity_manage_city_toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="@id/module_left_activity_manage_city_add_button_bg_split"/>
+    <ImageView
+        android:id="@+id/module_left_activity_manage_city_nothing"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/module_left_ic_nothing"
+        app:layout_constraintTop_toBottomOf="@id/module_left_activity_manage_city_toolbar"
+        app:layout_constraintBottom_toTopOf="@id/module_left_activity_manage_city_add_button_bg_split"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:contentDescription="@null" />
+    <TextView
+        android:id="@+id/module_left_activity_manage_city_nothing_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/module_left_activity_manage_city_nothing_desc"
+        android:textColor="@color/design_color_text_black"
+        android:textSize="@dimen/design_sub_title"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/module_left_activity_manage_city_nothing"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/module_left_activity_manage_city_nothing_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="module_left_activity_manage_city_nothing_description,module_left_activity_manage_city_nothing"/>
     <View
         android:id="@+id/module_left_activity_manage_city_add_button_bg"
         android:layout_width="match_parent"
