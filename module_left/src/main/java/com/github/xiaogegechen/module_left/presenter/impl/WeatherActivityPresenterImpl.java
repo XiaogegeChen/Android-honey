@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.github.xiaogegechen.common.test.TestActivity;
-import com.github.xiaogegechen.common.util.XmlIOUtil;
-import com.github.xiaogegechen.module_left.Constants;
 import com.github.xiaogegechen.module_left.helper.SelectedCitySetHelper;
 import com.github.xiaogegechen.module_left.presenter.IWeatherActivityPresenter;
 import com.github.xiaogegechen.module_left.view.IWeatherActivityView;
@@ -30,7 +28,7 @@ public class WeatherActivityPresenterImpl implements IWeatherActivityPresenter {
     }
 
     @Override
-    public void addCity() {
+    public void gotoManageCityActivity() {
         Intent intent = new Intent(mActivity, ManageCityActivity.class);
         mActivity.startActivity(intent);
     }
@@ -39,7 +37,7 @@ public class WeatherActivityPresenterImpl implements IWeatherActivityPresenter {
     public void gotoManageCityActivityIfNeeded() {
         if(!SelectedCitySetHelper.getInstance(mActivity.getApplicationContext()).hasSelectedCity()){
             // 没有添加任何城市，先添加城市
-            addCity();
+            gotoManageCityActivity();
         }
     }
 

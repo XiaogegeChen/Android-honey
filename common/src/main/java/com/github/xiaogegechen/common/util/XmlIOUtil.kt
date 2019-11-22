@@ -20,7 +20,7 @@ object XmlIOUtil {
     fun write(key: String, value: String, context: Context){
         val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
         editor.putString(key, value)
-        editor.apply()
+        editor.commit()
     }
 
     /**
@@ -36,7 +36,7 @@ object XmlIOUtil {
     fun writeStringSet(key: String, value: Set<String>, context: Context){
         val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
         editor.putStringSet(key, value)
-        editor.apply()
+        editor.commit()
     }
 
     /**
@@ -52,7 +52,11 @@ object XmlIOUtil {
     fun writeLong(key: String, value: Long, context: Context){
         val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
         editor.putLong(key, value)
-        editor.apply()
+        editor.commit()
+    }
+
+    fun deleteKey(key: String, context: Context){
+        PreferenceManager.getDefaultSharedPreferences(context).edit().remove(key).commit()
     }
 
 }

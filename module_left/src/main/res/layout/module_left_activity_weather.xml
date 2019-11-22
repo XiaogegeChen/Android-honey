@@ -64,6 +64,7 @@
         android:id="@+id/module_left_activity_weather_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/design_margin_top"
         app:layout_constraintTop_toBottomOf="@id/module_left_activity_weather_title"
         app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

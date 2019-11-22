@@ -2,6 +2,8 @@ package com.github.xiaogegechen.module_left;
 
 import com.github.xiaogegechen.module_left.model.json.CityListJSON;
 import com.github.xiaogegechen.module_left.model.json.TopCityJSON;
+import com.github.xiaogegechen.module_left.model.json.WeatherHourlyJSON;
+import com.github.xiaogegechen.module_left.model.json.WeatherNowJSON;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -30,4 +32,25 @@ public interface Api {
     Call<CityListJSON> queryCityList(@Query("key") String key,
                                      @Query("group") String group,
                                      @Query("location") String location);
+
+    /**
+     * 请求当前时刻的天气状况
+     * @param key 和风天气申请的key
+     * @param location 城市代码
+     * @return 实时天气状况
+     */
+    @GET("now")
+    Call<WeatherNowJSON> queryWeatherNow(@Query("key") String key,
+                                         @Query("location") String location);
+
+    /**
+     * 逐小时预报
+     * @param key 和风天气申请的key
+     * @param location 城市代码
+     * @return 逐小时预报的天气状态
+     */
+    @GET("hourly")
+    Call<WeatherHourlyJSON> queryWeatherHourly(@Query("key") String key,
+                                               @Query("location") String location);
+
 }

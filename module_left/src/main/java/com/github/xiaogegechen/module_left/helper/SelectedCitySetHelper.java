@@ -2,6 +2,7 @@ package com.github.xiaogegechen.module_left.helper;
 
 import android.content.Context;
 
+import com.github.xiaogegechen.common.util.LogUtil;
 import com.github.xiaogegechen.common.util.XmlIOUtil;
 import com.github.xiaogegechen.module_left.Constants;
 import com.github.xiaogegechen.module_left.model.CityInfo;
@@ -16,6 +17,8 @@ import java.util.Set;
  * 管理选择城市的操作，单例
  */
 public class SelectedCitySetHelper {
+
+    private static final String TAG = "SelectedCitySetHelper";
 
     private static final String SPLITTER = "_";
 
@@ -147,6 +150,8 @@ public class SelectedCitySetHelper {
      * 提交操作，这个操作会替换掉原有的列表，将改动提交到sp中，因此在进行了增删或者批量增删之后一定要commit。
      */
     public void commit(){
+        LogUtil.d(TAG, "mSelectedCitySet is : " + mSelectedCitySet);
+        XmlIOUtil.INSTANCE.deleteKey(Constants.XML_KEY_SELECTED_CITY_LIST_MODULE_LEFT, mApplicationContext);
         XmlIOUtil.INSTANCE.writeStringSet(
                 Constants.XML_KEY_SELECTED_CITY_LIST_MODULE_LEFT,
                 mSelectedCitySet,

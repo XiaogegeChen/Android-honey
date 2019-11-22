@@ -9,20 +9,26 @@ import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.xiaogegechen.common.base.BaseActivity;
+import com.github.xiaogegechen.common.base.EventBusActivity;
+import com.github.xiaogegechen.common.util.LogUtil;
 import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.module_left.R;
 import com.github.xiaogegechen.module_left.adapter.SelectedCityListAdapter;
 import com.github.xiaogegechen.module_left.model.SelectedCity;
+import com.github.xiaogegechen.module_left.model.event.NotifyCityRemovedEvent;
 import com.github.xiaogegechen.module_left.presenter.IManageCityActivityPresenter;
 import com.github.xiaogegechen.module_left.presenter.impl.ManageCityActivityPresenterImpl;
 import com.github.xiaogegechen.module_left.view.IManageCityActivityView;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManageCityActivity extends BaseActivity implements IManageCityActivityView {
+public class ManageCityActivity extends EventBusActivity implements IManageCityActivityView {
+
+    private static final String TAG = "ManageCityActivity";
 
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
@@ -117,5 +123,28 @@ public class ManageCityActivity extends BaseActivity implements IManageCityActiv
     public void showNothing() {
         mRecyclerView.setVisibility(View.GONE);
         mNothingGroup.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void removeCity(SelectedCity selectedCity) {
+        LogUtil.d(TAG, "click selectedCity is : " + selectedCity);
+        // 传过来的 selectedCity 不是 mRecyclerViewDataSource 中的一个实例，是一个深拷贝，因此需要遍历比较字段确
+        // 定位置
+        int position = -1;
+        for (int i = 0; i < mRecyclerViewDataSource.size(); i++) {
+            SelectedCity item = mRecyclerViewDataSource.get(i);
+            if(item.getId().equals(selectedCity.getId()) && item.getLocation().equals(selectedCity.getLocation())){
+                position = i;
+                break;
+            }
+        }
+        LogUtil.d(TAG, "position is : " + position);
+        mRecyclerViewDataSource.remove(position);
+        mSelectedCityListAdapter.notifyDataSetChanged();
+    }
+
+    @Subscribe
+    public void onHandleNotifyCityRemovedEvent(NotifyCityRemovedEvent event){
+        mManageCityActivityPresenter.handleNotifyCityRemovedEvent(event);
     }
 }

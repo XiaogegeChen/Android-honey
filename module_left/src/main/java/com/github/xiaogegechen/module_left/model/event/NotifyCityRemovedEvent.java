@@ -10,10 +10,29 @@ import com.github.xiaogegechen.module_left.model.CityInfo;
  */
 public class NotifyCityRemovedEvent {
 
+    /**
+     * 标志位，表示这个事件是在{@link com.github.xiaogegechen.module_left.view.impl.SelectCityActivity}中
+     * 发生的
+     */
+    public static final int FLAG_FROM_SELECT_CITY_ACTIVITY = 100;
+
+    /**
+     * 标志位，表示这个事件是在{@link com.github.xiaogegechen.module_left.view.impl.ManageCityActivity}中
+     * 发生的
+     */
+    public static final int FLAG_FROM_MANAGE_CITY_ACTIVITY = 101;
+
+    private int mFlag;
+
     private CityInfo mCityInfo;
 
-    public NotifyCityRemovedEvent(CityInfo cityInfo) {
+    public NotifyCityRemovedEvent(CityInfo cityInfo, int flag) {
+        mFlag = flag;
         mCityInfo = cityInfo;
+    }
+
+    public int getFlag() {
+        return mFlag;
     }
 
     public CityInfo getCityInfo() {

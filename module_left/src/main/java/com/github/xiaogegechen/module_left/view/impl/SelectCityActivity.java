@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.xiaogegechen.common.base.EventBusActivity;
 import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
+import com.github.xiaogegechen.module_left.Constants;
 import com.github.xiaogegechen.module_left.R;
 import com.github.xiaogegechen.module_left.adapter.CityListAdapter;
 import com.github.xiaogegechen.module_left.adapter.TopCityListAdapter;
@@ -144,13 +145,13 @@ public class SelectCityActivity extends EventBusActivity implements ISelectCityA
     public void onHandleCitySelectedEvent(NotifyCitySelectedEvent event){
         int flag = event.getFlag();
         CityInfo cityInfo = event.getCityInfo();
-        // 添加到sp已选择城市的列表中
+        // 添加到已选择城市的列表中
         mSelectCityActivityPresenter.addCity(cityInfo);
         // 如果是模糊搜索的结果，直接跳转到 weatherActivity
         if (flag == NotifyCitySelectedEvent.FLAG_FROM_FIND) {
             // 跳转到 weatherActivity，携带所选择的城市信息
             Intent intent = new Intent(this, WeatherActivity.class);
-            intent.putExtra("", cityInfo);
+            intent.putExtra(Constants.INTENT_PARAM_CITY_INFO, cityInfo);
             startActivity(intent);
         }
     }

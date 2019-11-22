@@ -18,6 +18,11 @@ public class SelectedCity {
 
     public SelectedCity() {}
 
+    public SelectedCity(String location, String id) {
+        mLocation = location;
+        mId = id;
+    }
+
     public String getWeatherCode() {
         return mWeatherCode;
     }
@@ -56,5 +61,13 @@ public class SelectedCity {
 
     public void setTemp(String temp) {
         mTemp = temp;
+    }
+
+    @Override
+    public String toString() {
+        return "SelectedCity{" +
+                "mLocation='" + mLocation + '\'' +
+                ", mId='" + mId + '\'' +
+                '}';
     }
 }

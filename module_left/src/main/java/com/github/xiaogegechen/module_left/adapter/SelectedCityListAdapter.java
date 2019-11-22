@@ -12,9 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.xiaogegechen.common.util.ImageParam;
 import com.github.xiaogegechen.common.util.ImageUtil;
+import com.github.xiaogegechen.common.util.LogUtil;
 import com.github.xiaogegechen.module_left.Constants;
 import com.github.xiaogegechen.module_left.R;
+import com.github.xiaogegechen.module_left.model.CityInfo;
 import com.github.xiaogegechen.module_left.model.SelectedCity;
+import com.github.xiaogegechen.module_left.model.event.NotifyCityRemovedEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -22,6 +27,8 @@ import java.util.List;
  * {@link com.github.xiaogegechen.module_left.view.impl.ManageCityActivity}中recyclerView的adapter
  */
 public class SelectedCityListAdapter extends RecyclerView.Adapter<SelectedCityListAdapter.ViewHolder> {
+
+    private static final String TAG = "SelectedCityListAdapter";
 
     private List<SelectedCity> mSelectedCityList;
     private Context mContext;
@@ -34,12 +41,21 @@ public class SelectedCityListAdapter extends RecyclerView.Adapter<SelectedCityLi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.module_left_activity_manage_city_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.module_left_activity_manage_city_item,
+                parent,
+                false
+        );
         final ViewHolder holder = new ViewHolder(view);
         holder.mDeleteImageView.setOnClickListener(v -> {
-            // TODO 点击事件，移除这个城市
+            // 点击事件，发送移除事件
             final int position = holder.getAdapterPosition();
             SelectedCity selectedCity = mSelectedCityList.get(position);
+            LogUtil.d(TAG, "selectedCity is : " + selectedCity);
+            EventBus.getDefault().post(new NotifyCityRemovedEvent(
+                    convertSelectedCity2CityInfo(selectedCity),
+                    NotifyCityRemovedEvent.FLAG_FROM_MANAGE_CITY_ACTIVITY)
+            );
         });
         holder.itemView.setOnClickListener(v -> {
             // TODO 点击事件，跳转到weatherActivity界面。
@@ -72,7 +88,7 @@ public class SelectedCityListAdapter extends RecyclerView.Adapter<SelectedCityLi
         ImageParam param = new ImageParam.Builder()
                 .context(mContext)
                 .imageView(holder.mWeatherImageView)
-                .url(Constants.WEATHER_ICON_URL + "")
+                .url(Constants.WEATHER_ICON_URL + selectedCity.getWeatherCode() + ".png")
                 .error(mContext.getResources().getDrawable(R.drawable.module_left_weather_na))
                 .placeholder(mContext.getResources().getDrawable(R.drawable.module_left_weather_na))
                 .build();
@@ -98,6 +114,20 @@ public class SelectedCityListAdapter extends RecyclerView.Adapter<SelectedCityLi
             mCityTextView = itemView.findViewById(R.id.module_left_activity_manage_city_item_city);
             mWeatherTextView = itemView.findViewById(R.id.module_left_activity_manage_city_item_weather);
         }
+    }
+
+    /**
+     * 将 SelectedCity 实例转化为 CityInfo 实例。因为是发送给
+     * {@link com.github.xiaogegechen.module_left.view.impl.ManageCityActivity}进行删除操作的，只需要
+     * cityId 和 location 两个字段即可
+     * @param selectedCity selectedCity
+     * @return cityInfo，cityId 和 location 两个字段不为空值，其它字段都是空值。
+     */
+    private static CityInfo convertSelectedCity2CityInfo(SelectedCity selectedCity){
+        CityInfo cityInfo = new CityInfo();
+        cityInfo.setLocation(selectedCity.getLocation());
+        cityInfo.setCityId(selectedCity.getId());
+        return cityInfo;
     }
 
 }

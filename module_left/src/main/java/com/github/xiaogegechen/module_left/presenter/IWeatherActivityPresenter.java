@@ -5,9 +5,9 @@ import com.github.xiaogegechen.module_left.view.IWeatherActivityView;
 
 public interface IWeatherActivityPresenter extends IBasePresenter<IWeatherActivityView> {
     /**
-     * 添加城市
+     * 跳转到{@link com.github.xiaogegechen.module_left.view.impl.ManageCityActivity}
      */
-    void addCity();
+    void gotoManageCityActivity();
 
     /**
      * onCreate 时检查有没有已经添加的城市，如果没有则需要直接跳转到{@link com.github.xiaogegechen.module_left.view.impl.ManageCityActivity}

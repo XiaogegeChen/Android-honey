@@ -33,10 +33,6 @@ public class NotifyCitySelectedEvent {
         return mFlag;
     }
 
-    public void setFlag(int flag) {
-        mFlag = flag;
-    }
-
     public CityInfo getCityInfo() {
         return mCityInfo;
     }

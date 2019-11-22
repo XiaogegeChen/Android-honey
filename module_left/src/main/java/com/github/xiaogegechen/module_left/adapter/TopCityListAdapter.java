@@ -50,7 +50,7 @@ public class TopCityListAdapter extends RecyclerView.Adapter<TopCityListAdapter.
                 // 如果已经选中，取消选中，并发送通知
                 cityInfo.setSelected(false);
                 tagTextView.setBgColor(mNormalBackgroundColor);
-                EventBus.getDefault().post(new NotifyCityRemovedEvent(cityInfo));
+                EventBus.getDefault().post(new NotifyCityRemovedEvent(cityInfo, NotifyCityRemovedEvent.FLAG_FROM_SELECT_CITY_ACTIVITY));
             }else {
                 // 如果没有选中，选中，并发送通知
                 cityInfo.setSelected(true);

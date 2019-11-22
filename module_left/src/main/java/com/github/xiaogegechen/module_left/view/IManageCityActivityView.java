@@ -16,4 +16,10 @@ public interface IManageCityActivityView extends IBaseView {
      * 显示没有选择城市的提示界面
      */
     void showNothing();
+
+    /**
+     * 从recyclerView中移除对应的城市，通常是移除按钮被点击后调用
+     * @param selectedCity city
+     */
+    void removeCity(SelectedCity selectedCity);
 }
