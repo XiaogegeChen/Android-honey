@@ -1,5 +1,6 @@
-package com.github.xiaogegechen.module_d.model;
+package com.github.xiaogegechen.module_d.model.json;
 
+import com.github.xiaogegechen.module_d.model.CatalogInfo;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

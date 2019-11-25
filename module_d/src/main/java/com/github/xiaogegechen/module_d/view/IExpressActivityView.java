@@ -1,9 +1,7 @@
 package com.github.xiaogegechen.module_d.view;
 
-import androidx.annotation.Nullable;
-
 import com.github.xiaogegechen.common.base.IBaseView;
-import com.github.xiaogegechen.module_d.model.ExpressJSON;
+import com.github.xiaogegechen.module_d.model.json.ExpressJSON;
 
 public interface IExpressActivityView extends IBaseView {
     /**

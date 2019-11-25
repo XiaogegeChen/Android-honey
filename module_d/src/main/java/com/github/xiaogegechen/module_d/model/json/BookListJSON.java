@@ -1,4 +1,4 @@
-package com.github.xiaogegechen.module_d.model;
+package com.github.xiaogegechen.module_d.model.json;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,7 +1,10 @@
 package com.github.xiaogegechen.module_left.view.impl;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -10,11 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.xiaogegechen.common.base.BaseFragment;
+import com.github.xiaogegechen.common.util.ImageParam;
+import com.github.xiaogegechen.common.util.ImageUtil;
 import com.github.xiaogegechen.common.util.ToastUtil;
+import com.github.xiaogegechen.module_left.Constants;
 import com.github.xiaogegechen.module_left.R;
 import com.github.xiaogegechen.module_left.adapter.WeatherAirAdapter;
+import com.github.xiaogegechen.module_left.adapter.WeatherHourlyAdapter;
 import com.github.xiaogegechen.module_left.model.CityInfo;
 import com.github.xiaogegechen.module_left.model.WeatherAir;
+import com.github.xiaogegechen.module_left.model.WeatherForecast;
+import com.github.xiaogegechen.module_left.model.WeatherHourly;
+import com.github.xiaogegechen.module_left.model.WeatherLifestyle;
 import com.github.xiaogegechen.module_left.presenter.IWeatherDetailFragmentPresenter;
 import com.github.xiaogegechen.module_left.presenter.impl.WeatherDetailFragmentPresenterImpl;
 import com.github.xiaogegechen.module_left.view.IWeatherDetailFragmentView;
@@ -34,11 +44,21 @@ public class WeatherDetailFragment extends BaseFragment implements IWeatherDetai
     private LinearLayout mForestLinearLayout;
     private RecyclerView mAirRecyclerView;
     private LinearLayout mLifeLinearLayout;
+
     // mAirRecyclerView 相关
     private List<WeatherAir> mAirRecyclerViewDataSource;
     private WeatherAirAdapter mAirRecyclerViewAdapter;
+    // mHourlyRecyclerView 相关
+    private List<WeatherHourly> mHourlyRecyclerViewDataSource;
+    private WeatherHourlyAdapter mHourlyRecyclerViewAdapter;
+    // mForestLinearLayout
+    private List<WeatherForecast> mForestLinearLayoutDataSource;
+    // mLifeLinearLayout
+    private List<WeatherLifestyle> mLifeLinearLayoutDataSource;
 
     private IWeatherDetailFragmentPresenter mWeatherDetailFragmentPresenter;
+
+    private Activity mActivity;
 
     // 这个fragment对应的城市
     private CityInfo mCityInfo;
@@ -67,11 +87,25 @@ public class WeatherDetailFragment extends BaseFragment implements IWeatherDetai
     public void initData() {
         mWeatherDetailFragmentPresenter = new WeatherDetailFragmentPresenterImpl();
         mWeatherDetailFragmentPresenter.attach(this);
+        mActivity = obtainActivity();
+        // mSwipeRefreshLayout
+        mSwipeRefreshLayout.setOnRefreshListener(() -> mWeatherDetailFragmentPresenter.queryWeather(mCityInfo));
         // mAirRecyclerView
         mAirRecyclerViewDataSource = new ArrayList<>();
         mAirRecyclerViewAdapter = new WeatherAirAdapter(mAirRecyclerViewDataSource, obtainActivity());
         mAirRecyclerView.setLayoutManager(new LinearLayoutManager(obtainActivity(), LinearLayoutManager.HORIZONTAL, false));
         mAirRecyclerView.setAdapter(mAirRecyclerViewAdapter);
+        // mHourlyRecyclerView
+        mHourlyRecyclerViewDataSource = new ArrayList<>();
+        mHourlyRecyclerViewAdapter = new WeatherHourlyAdapter(mHourlyRecyclerViewDataSource, obtainActivity());
+        mHourlyRecyclerView.setLayoutManager(new LinearLayoutManager(obtainActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mHourlyRecyclerView.setAdapter(mHourlyRecyclerViewAdapter);
+        // mForestLinearLayout
+        mForestLinearLayoutDataSource = new ArrayList<>();
+        // mLifeLinearLayout
+        mLifeLinearLayoutDataSource = new ArrayList<>();
+        // 进行一次刷新
+        mWeatherDetailFragmentPresenter.queryWeather(mCityInfo);
     }
 
     @Override
@@ -93,7 +127,7 @@ public class WeatherDetailFragment extends BaseFragment implements IWeatherDetai
 
     @Override
     public void showToast(String message) {
-        ToastUtil.show(obtainContext(), message);
+        ToastUtil.show(mActivity, message);
     }
 
     @Override
@@ -109,5 +143,73 @@ public class WeatherDetailFragment extends BaseFragment implements IWeatherDetai
         mAirRecyclerViewDataSource.clear();
         mAirRecyclerViewDataSource.addAll(weatherAirList);
         mAirRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showHourly(List<WeatherHourly> weatherHourlyList) {
+        mHourlyRecyclerViewDataSource.clear();
+        mHourlyRecyclerViewDataSource.addAll(weatherHourlyList);
+        mHourlyRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showForecast(List<WeatherForecast> weatherForecastList) {
+        mForestLinearLayoutDataSource.clear();
+        mForestLinearLayoutDataSource.addAll(weatherForecastList);
+        mForestLinearLayout.removeAllViews();
+        // TODO 优化性能
+        if(mForestLinearLayoutDataSource.size() > 0){
+            // 逐个加进linerLayout里面
+            for (WeatherForecast weatherForecast : mForestLinearLayoutDataSource) {
+                View view = LayoutInflater.from(obtainActivity()).inflate(R.layout.module_left_fragment_weather_detail_forecast_item, mForestLinearLayout, false);
+                ((TextView)(view.findViewById(R.id.module_left_fragment_weather_detail_forecast_item_time_desc))).setText(weatherForecast.getTimeDescription());
+                ((TextView)(view.findViewById(R.id.module_left_fragment_weather_detail_forecast_item_time))).setText(weatherForecast.getTime());
+                ((TextView)(view.findViewById(R.id.module_left_fragment_weather_detail_forecast_item_condition_desc))).setText(weatherForecast.getConditionDescription());
+                ((TextView)(view.findViewById(R.id.module_left_fragment_weather_detail_forecast_item_tem_min))).setText(weatherForecast.getTempMin());
+                ((TextView)(view.findViewById(R.id.module_left_fragment_weather_detail_forecast_item_temp_max))).setText(weatherForecast.getTempMax());
+                ImageParam param = new ImageParam.Builder()
+                        .context(mActivity)
+                        .url(Constants.WEATHER_ICON_URL + weatherForecast.getCode() + ".png")
+                        .error(mActivity.getResources().getDrawable(R.drawable.module_left_weather_na))
+                        .placeholder(mActivity.getResources().getDrawable(R.drawable.module_left_weather_na))
+                        .imageView(view.findViewById(R.id.module_left_fragment_weather_detail_forecast_item_icon))
+                        .build();
+                ImageUtil.INSTANCE.displayImage(param);
+                mForestLinearLayout.addView(view);
+            }
+        }
+    }
+
+    @Override
+    public void showLifestyle(List<WeatherLifestyle> weatherLifestyleList) {
+        mLifeLinearLayoutDataSource.clear();
+        mLifeLinearLayoutDataSource.addAll(weatherLifestyleList);
+        mLifeLinearLayout.removeAllViews();
+        // TODO 优化性能
+        if(mLifeLinearLayoutDataSource.size() > 0){
+            // 逐个加进linerLayout里面
+            for (WeatherLifestyle weatherLifestyle : mLifeLinearLayoutDataSource) {
+                View view = LayoutInflater.from(obtainActivity()).inflate(R.layout.module_left_fragment_weather_detail_lifestyle_item, mLifeLinearLayout, false);
+                ((TextView)(view.findViewById(R.id.module_left_fragment_weather_detail_lifestyle_item_name))).setText(weatherLifestyle.getName());
+                ((TextView)(view.findViewById(R.id.module_left_fragment_weather_detail_lifestyle_item_value))).setText(weatherLifestyle.getValue());
+                ((TextView)(view.findViewById(R.id.module_left_fragment_weather_detail_lifestyle_item_detail))).setText(weatherLifestyle.getDetail());
+                ((ImageView)(view.findViewById(R.id.module_left_fragment_weather_detail_lifestyle_item_icon))).setImageResource(weatherLifestyle.getIconId());
+                mLifeLinearLayout.addView(view);
+            }
+        }
+    }
+
+    @Override
+    public void showSwipeRefresh() {
+        if(!mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing (true);
+        }
+    }
+
+    @Override
+    public void hideSwipeRefresh() {
+        if(mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing (false);
+        }
     }
 }

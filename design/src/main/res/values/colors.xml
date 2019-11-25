@@ -10,7 +10,7 @@
 
     <color name="design_color_text_white">#FFFFFF</color>
     <color name="design_color_text_black">#000000</color>
-    <color name="design_color_text_grey">#A4A4A4</color>
+    <color name="design_color_text_grey">#CCCCCC</color>
 
 
     <!-- 分割线的颜色 -->

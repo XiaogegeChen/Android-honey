@@ -1,5 +1,7 @@
 package com.github.xiaogegechen.module_left
 
+import com.github.xiaogegechen.common.Constants
+
 internal class Constants {
     companion object{
         // 背景图和头像url
@@ -21,13 +23,13 @@ internal class Constants {
 
         // intent参数名
         const val INTENT_PARAM_CITY_INFO = "city_info"
+        const val INTENT_PARAM_NAME = Constants.INTENT_PARAM_NAME
 
         // 不同模块更新失败显示的信息
-        const val FORECAST_ERROR_MESSAGE = "更新未来七天天气信息失败"
+        const val FORECAST_ERROR_MESSAGE = "更新未来天气信息失败"
         const val NOW_ERROR_MESSAGE = "更新当前天气信息失败"
         const val HOURLY_ERROR_MESSAGE = "更新逐小时天气信息失败"
-        const val SUGGESTION_ERROR_MESSAGE = "更新生活建议信息失败"
-        const val AQI_ERROR_MESSAGE = "更新AQI信息失败"
+        const val LIFESTYLE_ERROR_MESSAGE = "更新生活建议信息失败"
         const val IMAGE_ERROR_MESSAGE = "更新图片失败"
 
         // 空数据

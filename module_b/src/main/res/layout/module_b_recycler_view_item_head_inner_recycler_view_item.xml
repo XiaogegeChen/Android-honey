@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#807098"
-            android:textSize="@dimen/design_sub_title"
+            android:textSize="@dimen/design_text"
             android:layout_gravity="center_horizontal"
             tools:text="颜色"/>
     <TextView
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#2f1557"
-            android:textSize="@dimen/design_sub_title"
+            android:textSize="@dimen/design_text"
             android:layout_gravity="center_horizontal"
             tools:text="墨绿色"/>
 </LinearLayout>

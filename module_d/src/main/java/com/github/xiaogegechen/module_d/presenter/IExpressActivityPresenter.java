@@ -1,7 +1,7 @@
 package com.github.xiaogegechen.module_d.presenter;
 
 import com.github.xiaogegechen.common.base.IBasePresenter;
-import com.github.xiaogegechen.module_d.model.ExpressJSON;
+import com.github.xiaogegechen.module_d.model.json.ExpressJSON;
 import com.github.xiaogegechen.module_d.model.ExpressMotionItem;
 import com.github.xiaogegechen.module_d.view.IExpressActivityView;
 

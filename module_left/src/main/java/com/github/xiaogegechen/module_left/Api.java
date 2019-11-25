@@ -2,7 +2,9 @@ package com.github.xiaogegechen.module_left;
 
 import com.github.xiaogegechen.module_left.model.json.CityListJSON;
 import com.github.xiaogegechen.module_left.model.json.TopCityJSON;
+import com.github.xiaogegechen.module_left.model.json.WeatherForecastJSON;
 import com.github.xiaogegechen.module_left.model.json.WeatherHourlyJSON;
+import com.github.xiaogegechen.module_left.model.json.WeatherLifestyleJSON;
 import com.github.xiaogegechen.module_left.model.json.WeatherNowJSON;
 
 import retrofit2.Call;
@@ -53,4 +55,23 @@ public interface Api {
     Call<WeatherHourlyJSON> queryWeatherHourly(@Query("key") String key,
                                                @Query("location") String location);
 
+    /**
+     * 未来几天天气
+     * @param key 和风天气申请的key
+     * @param location 城市代码
+     * @return 未来几天天气
+     */
+    @GET("forecast")
+    Call<WeatherForecastJSON> queryWeatherForecast(@Query("key") String key,
+                                                   @Query("location") String location);
+
+    /**
+     * 生活建议
+     * @param key 和风天气申请的key
+     * @param location 城市代码
+     * @return 生活建议
+     */
+    @GET("lifestyle")
+    Call<WeatherLifestyleJSON> queryWeatherLifestyle(@Query("key") String key,
+                                                     @Query("location") String location);
 }

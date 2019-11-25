@@ -25,7 +25,7 @@ import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.module_d.Constants;
 import com.github.xiaogegechen.module_d.R;
 import com.github.xiaogegechen.module_d.adapter.ExpressMotionAdapter;
-import com.github.xiaogegechen.module_d.model.ExpressJSON;
+import com.github.xiaogegechen.module_d.model.json.ExpressJSON;
 import com.github.xiaogegechen.module_d.model.ExpressMotionItem;
 import com.github.xiaogegechen.module_d.presenter.IExpressActivityPresenter;
 import com.github.xiaogegechen.module_d.presenter.impl.ExpressActivityPresenterImpl;

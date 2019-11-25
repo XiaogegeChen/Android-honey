@@ -21,4 +21,12 @@
     <declare-styleable name="TagTextView" tools:ignore="ResourceName">
         <attr name="tag_text_view_background_color" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="CornerImageView" tools:ignore="ResourceName">
+        <attr name="corner_image_left_top" format="dimension"/>
+        <attr name="corner_image_left_bottom" format="dimension"/>
+        <attr name="corner_image_right_top" format="dimension"/>
+        <attr name="corner_image_right_bottom" format="dimension"/>
+    </declare-styleable>
+
 </resources>

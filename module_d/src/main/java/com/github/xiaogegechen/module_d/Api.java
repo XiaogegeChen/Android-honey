@@ -1,8 +1,11 @@
 package com.github.xiaogegechen.module_d;
 
-import com.github.xiaogegechen.module_d.model.BookListJSON;
-import com.github.xiaogegechen.module_d.model.CatalogJSON;
-import com.github.xiaogegechen.module_d.model.ExpressJSON;
+import com.github.xiaogegechen.module_d.model.json.BingPictureImageJSON;
+import com.github.xiaogegechen.module_d.model.json.BingPictureModuleJSON;
+import com.github.xiaogegechen.module_d.model.json.BingPictureTopicJSON;
+import com.github.xiaogegechen.module_d.model.json.BookListJSON;
+import com.github.xiaogegechen.module_d.model.json.CatalogJSON;
+import com.github.xiaogegechen.module_d.model.json.ExpressJSON;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -45,4 +48,32 @@ public interface Api {
     @GET("kdi")
     @Headers("Authorization:APPCODE " + Constants.EXPRESS_APP_CODE)
     Call<ExpressJSON> queryExpress(@Query("no") String expressNumber);
+
+    /**
+     * 请求服务端，拿到bing套图的所有module。我自己的服务器，不限制次数，不需要做缓存
+     *
+     * @return bing套图的所有module
+     */
+    @GET("api/bing_pic_module")
+    Call<BingPictureModuleJSON> queryBingPictureModule();
+
+    /**
+     * 请求服务端，拿到bing套图指定module下的所有topic。自己的服务器，不限制次数，不需要做缓存
+     *
+     * @param moduleType 指定module的type
+     * @return 指定module下的所有topic
+     */
+    @GET("api/bing_pic_topic")
+    Call<BingPictureTopicJSON> queryBingPictureTopic(@Query("module_type") String moduleType);
+
+    /**
+     * 请求服务端，拿到bing套图指定topic下的所有图片。自己的服务器，不限制次数，不需要做缓存
+     *
+     * @param moduleType topic所在的module的type
+     * @param topicType 指定topic的type
+     * @return 指定topic下的所有图片
+     */
+    @GET("api/bing_pic")
+    Call<BingPictureImageJSON> queryBingPictureImage(@Query("module_type") String moduleType,
+                                                     @Query("topic_type") String topicType);
 }

@@ -17,4 +17,8 @@
     <string name="module_d_activity_express_supplier_and_num">%1$s %2$s</string>
 
     <string name="module_d_fragment_history_record_search">历史搜索</string>
+
+    <string name="module_d_fragment_bing_picture_title">精彩世界</string>
+    <string name="module_d_fragment_bing_picture_source_from">数据来源 必应搜索</string>
+    <string name="module_d_fragment_bing_picture_error">加载失败，下拉重新加载</string>
 </resources>

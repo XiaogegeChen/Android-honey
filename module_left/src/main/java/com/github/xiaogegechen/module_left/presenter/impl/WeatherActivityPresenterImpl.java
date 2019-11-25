@@ -5,10 +5,14 @@ import android.content.Intent;
 
 import com.github.xiaogegechen.common.test.TestActivity;
 import com.github.xiaogegechen.module_left.helper.SelectedCitySetHelper;
+import com.github.xiaogegechen.module_left.model.CityInfo;
+import com.github.xiaogegechen.module_left.model.SelectedCity;
 import com.github.xiaogegechen.module_left.presenter.IWeatherActivityPresenter;
 import com.github.xiaogegechen.module_left.view.IWeatherActivityView;
 import com.github.xiaogegechen.module_left.view.impl.ManageCityActivity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class WeatherActivityPresenterImpl implements IWeatherActivityPresenter {
@@ -38,6 +42,17 @@ public class WeatherActivityPresenterImpl implements IWeatherActivityPresenter {
         if(!SelectedCitySetHelper.getInstance(mActivity.getApplicationContext()).hasSelectedCity()){
             // 没有添加任何城市，先添加城市
             gotoManageCityActivity();
+        }else{
+            // 批量添加进viewPager
+            List<SelectedCity> selectedCityList = SelectedCitySetHelper.getInstance(mActivity.getApplicationContext()).getSelectedCity();
+            List<CityInfo> cityInfoList = new ArrayList<>();
+            for (SelectedCity selectedCity : selectedCityList) {
+                CityInfo cityInfo = new CityInfo();
+                cityInfo.setCityId(selectedCity.getId());
+                cityInfo.setLocation(selectedCity.getLocation());
+                cityInfoList.add(cityInfo);
+            }
+            mWeatherActivityView.addCityList2ViewPager(cityInfoList);
         }
     }
 

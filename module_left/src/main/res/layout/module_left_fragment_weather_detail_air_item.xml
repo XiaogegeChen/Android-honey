@@ -5,25 +5,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/design_margin_self">
+    android:layout_marginRight="@dimen/design_margin_right">
+    <View
+        android:id="@+id/module_left_fragment_weather_detail_air_item_splitter"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/design_line"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
         android:id="@+id/module_left_fragment_weather_detail_air_item_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/design_main_title"
+        android:textSize="@dimen/design_sub_title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/module_left_fragment_weather_detail_air_item_splitter"
         tools:text="18°C"
         tools:textColor="@color/module_left_weather_color_primary"/>
     <TextView
         android:id="@+id/module_left_fragment_weather_detail_air_item_key"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/design_sub_title"
+        android:textSize="@dimen/design_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/module_left_fragment_weather_detail_air_item_value"
+        app:layout_constraintTop_toBottomOf="@id/module_left_fragment_weather_detail_air_item_splitter"
         tools:text="体感温度"
         tools:textColor="@color/module_left_weather_color_primary"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
