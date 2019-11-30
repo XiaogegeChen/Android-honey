@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <corners android:radius="@dimen/module_left_activity_manage_city_add_button_height_half"/>
-    <solid android:color="@color/module_left_weather_color_primary"/>
-</shape>

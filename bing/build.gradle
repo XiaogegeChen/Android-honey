@@ -1,0 +1,30 @@
+if (isBingDebug.toBoolean()) {
+    apply from: "${rootProject.rootDir}/set.gradle"
+    project.defaultAppSetting()
+} else {
+    apply from: "${rootProject.rootDir}/set.gradle"
+    project.defaultLibrarySetting()
+}
+
+dependencies {
+
+    if(!isCommonDebug.toBoolean()){
+        implementation project(':common')
+    }
+
+    if(!isDesignDebug.toBoolean()){
+        implementation project(':design')
+    }
+
+    if (!isNetworkDebug.toBoolean()) {
+        implementation project(':network')
+    }
+
+    // recyclerview
+    implementation "androidx.recyclerview:recyclerview:${RECYCLERVIEW}"
+    implementation "androidx.cardview:cardview:${CARDVIEW}"
+    //图片圆化
+    implementation "org.greenrobot:eventbus:${EVENT_BUS}"
+    implementation "com.squareup.retrofit2:retrofit:${RETROFIT2}"
+    implementation "com.squareup.retrofit2:converter-gson:${CONVERTER_GSON}"
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bing_picture_title">精彩世界</string>
+    <string name="bing_picture_source_from">数据来源 必应搜索</string>
+    <string name="bing_picture_error">加载失败，下拉重新加载</string>
+</resources>

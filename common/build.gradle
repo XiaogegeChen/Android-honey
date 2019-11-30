@@ -23,4 +23,6 @@ dependencies {
     implementation "org.greenrobot:greendao:${GREEN_DAO}"
 
     implementation "androidx.recyclerview:recyclerview:${RECYCLERVIEW}"
+
+    implementation "androidx.cardview:cardview:${CARDVIEW}"
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/toast_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="@dimen/common_toast_z"
+    app:cardCornerRadius="@dimen/design_margin_top">
+    <TextView
+        android:id="@android:id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/design_sub_title"
+        android:textColor="@color/design_color_text_black"
+        android:background="@color/design_color_white"
+        android:padding="16dp"
+        android:gravity="center"
+        tools:text="数据已经更新"/>
+</androidx.cardview.widget.CardView>

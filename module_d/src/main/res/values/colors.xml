@@ -11,8 +11,4 @@
     <color name="module_d_express_color_primary_dark">#5108AF</color>
     <color name="module_d_express_color_accent">@color/design_color_accent</color>
 
-    <color name="module_d_bing_picture_color_primary">#18FFFF</color>
-    <color name="module_d_bing_picture_color_primary_dark">#14D1D1</color>
-    <color name="module_d_bing_picture_color_accent">@color/design_color_accent</color>
-
 </resources>

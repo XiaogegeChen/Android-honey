@@ -51,4 +51,14 @@ public class MenuItem {
     public void setDescription(String description) {
         mDescription = description;
     }
+
+    @Override
+    public String toString() {
+        return "MenuItem{" +
+                "mIconId=" + mIconId +
+                ", mNormalColor=" + mNormalColor +
+                ", mSelectedColor=" + mSelectedColor +
+                ", mDescription='" + mDescription + '\'' +
+                '}';
+    }
 }

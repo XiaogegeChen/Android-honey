@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.xiaogegechen.common.util.LogUtil;
 import com.github.xiaogegechen.library.MenuView;
 import com.github.xiaogegechen.main.R;
 import com.github.xiaogegechen.main.event.NotifyMenuClickEvent;
@@ -18,6 +19,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 public class MyMenuViewAdapter extends MenuView.Adapter {
+
+    private static final String TAG = "MyMenuViewAdapter";
 
     private List<MenuItem> mDataList;
     private SparseArray<View> mViewMap;
@@ -43,22 +46,18 @@ public class MyMenuViewAdapter extends MenuView.Adapter {
         // 配置子项的显示
         final ImageView iconImageView = view.findViewById(R.id.main_activity_menu_item_image);
         final TextView descriptionTextView = view.findViewById(R.id.main_activity_menu_item_text);
-        final View splitView = view.findViewById(R.id.main_activity_menu_item_split);
-        final int iconId = item.getIconId();
-        boolean isCloseItem = true;
-        // 有的子项没有图标，关闭按钮就没有图标
-        if(iconId != 0){
-            iconImageView.setImageResource(item.getIconId());
-            isCloseItem = false;
-        }
+        iconImageView.setImageResource(item.getIconId());
         iconImageView.setBackgroundColor(mContext.getResources().getColor(item.getNormalColor()));
         descriptionTextView.setText(item.getDescription());
         descriptionTextView.setTextColor(mContext.getResources().getColor(item.getNormalColor()));
         // 点击事件
-        final boolean finalIsCloseItem = isCloseItem;
         iconImageView.setOnClickListener(v -> {
-            // 关闭按钮只需要响应点击，不需要改变样式
-            if(!finalIsCloseItem){
+            // 最后一个是关闭按钮
+            if(position == mDataList.size() - 1){
+                // 关闭按钮比较特殊，它并不影响 mCurrentSelectedPosition，mLastSelectedPosition，只需要响应
+                // 点击，不需要改变样式
+                EventBus.getDefault().post(new NotifyMenuClickEvent(position, -1));
+            }else{
                 // 更新两个position
                 if(position != mCurrentSelectedPosition){
                     mLastSelectedPosition = mCurrentSelectedPosition;
@@ -66,7 +65,6 @@ public class MyMenuViewAdapter extends MenuView.Adapter {
                 mCurrentSelectedPosition = position;
                 v.setBackgroundColor(mContext.getResources().getColor(item.getSelectedColor()));
                 descriptionTextView.setTextColor(mContext.getResources().getColor(item.getSelectedColor()));
-                splitView.setBackgroundColor(mContext.getResources().getColor(item.getSelectedColor()));
                 // 还原上一个view
                 if(mLastSelectedPosition != -1){
                     View lastSelectedView = mViewMap.get(mLastSelectedPosition);
@@ -75,14 +73,9 @@ public class MyMenuViewAdapter extends MenuView.Adapter {
                                 .setBackgroundColor(mContext.getResources().getColor(item.getNormalColor()));
                         ((TextView) lastSelectedView.findViewById(R.id.main_activity_menu_item_text))
                                 .setTextColor(mContext.getResources().getColor(item.getNormalColor()));
-                        lastSelectedView.findViewById(R.id.main_activity_menu_item_split)
-                                .setBackgroundColor(mContext.getResources().getColor(item.getNormalColor()));
                     }
                 }
                 EventBus.getDefault().post(new NotifyMenuClickEvent(mCurrentSelectedPosition, mLastSelectedPosition));
-            }else{
-                // 关闭按钮比较特殊，它并不影响 mCurrentSelectedPosition，mLastSelectedPosition
-                EventBus.getDefault().post(new NotifyMenuClickEvent(position, -1));
             }
         });
         mViewMap.put(position, view);
@@ -106,9 +99,10 @@ public class MyMenuViewAdapter extends MenuView.Adapter {
         mCurrentSelectedPosition = position;
         final View view = mViewMap.get(position);
         final MenuItem item = mDataList.get(position);
+        LogUtil.d(TAG, "makeViewSelected item is " + item.toString());
         if (view != null) {
-            view.findViewById(R.id.main_activity_menu_item_image).setBackgroundColor(item.getSelectedColor());
-            ((TextView)view.findViewById(R.id.main_activity_menu_item_text)).setTextColor(item.getSelectedColor());
+            view.findViewById(R.id.main_activity_menu_item_image).setBackgroundColor(mContext.getResources().getColor(item.getSelectedColor()));
+            ((TextView)view.findViewById(R.id.main_activity_menu_item_text)).setTextColor(mContext.getResources().getColor(item.getSelectedColor()));
         }
     }
 }

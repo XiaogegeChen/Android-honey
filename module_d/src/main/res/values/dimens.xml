@@ -17,6 +17,4 @@
 
     <dimen name="module_d_fragment_history_record_delete_icon_size">32dp</dimen>
 
-    <dimen name="module_d_fragment_bing_picture_image_height">200dp</dimen>
-    <dimen name="module_d_fragment_bing_picture_image_corner">15dp</dimen>
 </resources>

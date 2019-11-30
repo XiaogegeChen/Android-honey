@@ -3,11 +3,13 @@ package com.github.xiaogegechen.main.view;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -34,6 +36,8 @@ import static com.github.xiaogegechen.common.arouter.ARouterMap.MODULE_A_FRAGMEN
 import static com.github.xiaogegechen.common.arouter.ARouterMap.MODULE_B_FRAGMENT_B_PATH;
 import static com.github.xiaogegechen.common.arouter.ARouterMap.MODULE_C_FRAGMENT_C_PATH;
 import static com.github.xiaogegechen.common.arouter.ARouterMap.MODULE_D_FRAGMENT_D_PATH;
+import static com.github.xiaogegechen.common.arouter.ARouterMap.BING_FRAGMENT_BING;
+import static com.github.xiaogegechen.common.arouter.ARouterMap.WEATHER_FRAGMENT_WEATHER;
 
 public class FragmentRight extends EventBusFragment {
 
@@ -42,6 +46,20 @@ public class FragmentRight extends EventBusFragment {
     private static final int DURATION = 100;
     private static final Interpolator INTERPOLATOR = new LinearInterpolator();
 
+    // fragment的路径集合，从右向左
+    private static final List<String> FRAGMENT_PATH_LIST = new ArrayList<>();
+    static {
+        FRAGMENT_PATH_LIST.add(MODULE_A_FRAGMENT_A_PATH);
+        FRAGMENT_PATH_LIST.add(MODULE_B_FRAGMENT_B_PATH);
+        FRAGMENT_PATH_LIST.add(MODULE_C_FRAGMENT_C_PATH);
+        FRAGMENT_PATH_LIST.add(MODULE_D_FRAGMENT_D_PATH);
+        FRAGMENT_PATH_LIST.add(BING_FRAGMENT_BING);
+        FRAGMENT_PATH_LIST.add(WEATHER_FRAGMENT_WEATHER);
+        Collections.reverse(FRAGMENT_PATH_LIST);
+    }
+
+    private SparseArray<BaseFragment> mFragmentSparseArray;
+
     private MyMenuView mMyMenuView;
     private FloatingActionButton mFloatingActionButton;
     private ImageView mFloatingActionButtonIcon;
@@ -49,7 +67,6 @@ public class FragmentRight extends EventBusFragment {
     private ObjectAnimator mFloatingActionButtonIconOpenAnimator;
     private ObjectAnimator mFloatingActionButtonIconCloseAnimator;
     private MyMenuViewAdapter mMyMenuViewAdapter;
-    private List<BaseFragment> mFragmentList;
 
     private FragmentManager mFragmentManager;
 
@@ -63,29 +80,10 @@ public class FragmentRight extends EventBusFragment {
     @Override
     public void initData() {
         mFragmentManager = getFragmentManager();
-        initFragments();
+        mFragmentSparseArray = new SparseArray<>();
         initAnimator();
         initMenuView();
         mFloatingActionButton.setOnClickListener(v -> openMenuView());
-    }
-
-    private void initFragments(){
-        mFragmentList = new ArrayList<>();
-        BaseFragment fragmentA = (BaseFragment) ARouter.getInstance().build(MODULE_A_FRAGMENT_A_PATH).navigation();
-        BaseFragment fragmentB = (BaseFragment) ARouter.getInstance().build(MODULE_B_FRAGMENT_B_PATH).navigation();
-        BaseFragment fragmentC = (BaseFragment) ARouter.getInstance().build(MODULE_C_FRAGMENT_C_PATH).navigation();
-        BaseFragment fragmentD = (BaseFragment) ARouter.getInstance().build(MODULE_D_FRAGMENT_D_PATH).navigation();
-        mFragmentList.add(fragmentA);
-        mFragmentList.add(fragmentB);
-        mFragmentList.add(fragmentC);
-        mFragmentList.add(fragmentD);
-        Collections.reverse(mFragmentList);
-        // 添加进指定区域
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        for (BaseFragment fragment : mFragmentList) {
-            transaction.add(R.id.main_fragment_right_container, fragment);
-        }
-        transaction.commit();
     }
 
     private void initAnimator(){
@@ -114,8 +112,14 @@ public class FragmentRight extends EventBusFragment {
         mFloatingActionButtonIconOpenAnimator.start();
     }
 
+    /**
+     * 关闭动画，分以下步骤：
+     * 1. 关闭menuView
+     * 2. 加号图标出现
+     * 3. 加号图标旋转90度
+     * 4. fab显示
+     */
     private void closeMenuView(){
-        // 关闭menuView，图标旋转， fab显示
         mFloatingActionButtonIconCloseAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -130,18 +134,37 @@ public class FragmentRight extends EventBusFragment {
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                mMyMenuView.setVisibility(View.GONE);
+                mFloatingActionButtonIcon.setVisibility(View.VISIBLE);
                 mFloatingActionButtonIconCloseAnimator.start();
             }
         });
         mMyMenuView.close();
     }
 
+    /**
+     * 打开动画，分以下步骤：
+     * 1. fab消失
+     * 2. 加号图标旋转90度
+     * 3. menuView展开
+     * 4. 加号图标消失
+     */
     private void openMenuView(){
-        // fab 先消失，图标旋转， menuView展开
+        mMyMenuView.setVisibility(View.VISIBLE);
         mFloatingActionButtonIconOpenAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                mMyMenuView.setOpenAnimatorListener(new MenuView.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        // menu动画开始之前就隐藏，避免视觉混乱
+                        mFloatingActionButtonIcon.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {}
+                });
                 mMyMenuView.open();
                 mFloatingActionButtonIconOpenAnimator.removeListener(this);
             }
@@ -175,14 +198,40 @@ public class FragmentRight extends EventBusFragment {
      * @param lastSelectedPosition 需要显示的fragment的位置
      */
     private void showFragment(int currentSelectedPosition, int lastSelectedPosition){
+
+        LogUtil.d(TAG, "mFragmentSparseArray -> " + mFragmentSparseArray.toString());
+
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         // 先隐藏上一个fragment,lastSelectedPosition 可能是-1,无效，要排除
         if(lastSelectedPosition >= 0){
-            transaction.hide(mFragmentList.get(lastSelectedPosition));
+            Fragment lastFragment = addFragmentIfNeeded(lastSelectedPosition);
+            LogUtil.d(TAG, "lastFragment -> " + lastFragment.toString());
+            transaction.hide(lastFragment);
         }
         // 显示需要的fragment
-        transaction.show(mFragmentList.get(currentSelectedPosition));
+        Fragment currentFragment = addFragmentIfNeeded(currentSelectedPosition);
+        LogUtil.d(TAG, "currentFragment -> " + currentFragment.toString());
+        transaction.show(currentFragment);
         // 提交事务
         transaction.commit();
+    }
+
+    /**
+     * 获取指定位置的fragment，如果这个fragment还没有加进map中，先加进map中，再返回这个fragment，实现懒加载
+     *
+     * @param position 指定位置
+     * @return 这个位置的fragment
+     */
+    private BaseFragment addFragmentIfNeeded(int position){
+        BaseFragment fragment = mFragmentSparseArray.get(position);
+        if(fragment == null){
+            fragment = (BaseFragment) ARouter.getInstance().build(FRAGMENT_PATH_LIST.get(position)).navigation();
+            FragmentTransaction transaction = mFragmentManager.beginTransaction();
+            transaction.add(R.id.main_fragment_right_container, fragment);
+            transaction.hide(fragment);
+            transaction.commit();
+            mFragmentSparseArray.put(position, fragment);
+        }
+        return fragment;
     }
 }

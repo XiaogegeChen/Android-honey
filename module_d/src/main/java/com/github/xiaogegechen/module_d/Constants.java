@@ -18,6 +18,8 @@ public class Constants {
     public static final String XML_KEY_CATALOG_SESSION_MODULE_D = "catalog_session_module_d";
     public static final String XML_KEY_BOOK_LIST_SESSION_MODULE_D = "book_list_session_module_d";
 
+    public static final String OK = "数据已更新";
+    public static final String NETWORK_ERROR = "网络错误，请检查网络连接或者重试";
     public static final String UNKNOWN_ERROR = "未知错误";
     public static final String QUERY_DATA_FAILED = "更新数据失败";
     public static final String CANCEL_LOAD = "取消加载";

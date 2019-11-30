@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
 import com.github.xiaogegechen.common.base.AppConfig.Companion.LOG
+import com.github.xiaogegechen.common.util.ToastUtil
 
 open class App: Application() {
 
@@ -20,6 +21,7 @@ open class App: Application() {
             ARouter.openDebug()
         }
         ARouter.init(this@App)
+        ToastUtil.init(mContext)
 
         // 初始化module
         initModule()
@@ -40,11 +42,14 @@ open class App: Application() {
 
     companion object{
         //所有module的Application集合
-        private val MODULE = arrayOf("com.github.xiaogegechen.module_a.ModuleAApplication",
+        private val MODULE = arrayOf(
+            "com.github.xiaogegechen.module_a.ModuleAApplication",
             "com.github.xiaogegechen.module_b.ModuleBApplication",
             "com.github.xiaogegechen.module_c.ModuleCApplication",
             "com.github.xiaogegechen.module_d.ModuleDApplication",
-            "com.github.xiaogegechen.module_left.ModuleLeftApplication"
+            "com.github.xiaogegechen.module_left.ModuleLeftApplication",
+            "com.github.xiaogegechen.bing.BingApplication",
+            "com.github.xiaogegechen.weather.WeatherApplication"
         )
     }
 

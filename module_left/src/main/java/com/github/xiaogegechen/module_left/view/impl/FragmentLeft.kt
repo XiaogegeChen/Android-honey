@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.github.xiaogegechen.common.arouter.ARouterMap.Companion.MODULE_LEFT_FRAGMENT_D_LEFT
+import com.github.xiaogegechen.common.arouter.ARouterMap.MODULE_LEFT_FRAGMENT_LEFT
 import com.github.xiaogegechen.common.base.BaseFragment
 import com.github.xiaogegechen.common.util.ImageParam
 import com.github.xiaogegechen.common.util.ImageUtil
@@ -18,7 +18,7 @@ import com.github.xiaogegechen.module_left.presenter.impl.FragmentLeftPresenterI
 import com.github.xiaogegechen.module_left.view.IFragmentLeftView
 import com.google.android.material.navigation.NavigationView
 
-@Route(path = MODULE_LEFT_FRAGMENT_D_LEFT)
+@Route(path = MODULE_LEFT_FRAGMENT_LEFT)
 class FragmentLeft: BaseFragment(), IFragmentLeftView {
 
     private var mBgImage: ImageView? = null

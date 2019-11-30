@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-        android:id="@+id/title_bar_root"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/design_color_accent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/title_bar_root"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/design_color_accent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
             android:id="@+id/title_bar_left"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginStart="8dp"
-            android:layout_gravity="center_vertical|start"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:src="@drawable/design_ic_back_white"/>
     <TextView
             android:id="@+id/title_bar_title"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxWidth="300dp"
             android:minLines="1"
             android:maxLines="1"
             android:textColor="@color/design_color_text_white"
             android:textSize="@dimen/design_app_bar"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/design_margin_left"
+            android:layout_marginRight="@dimen/design_margin_right"
+            app:layout_constraintLeft_toRightOf="@id/title_bar_left"
+            app:layout_constraintRight_toLeftOf="@id/title_bar_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="小哥哥"/>
     <ImageView
             android:id="@+id/title_bar_right"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginEnd="8dp"
-            android:layout_gravity="center_vertical|end"
-            android:src="@drawable/design_right"/>
-</FrameLayout>
+            android:src="@drawable/design_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,1 +1,1 @@
-include ':app', ':design', ':main', ':common', ':module_a', ':module_b', ':module_c', ':module_d', ':module_left', ':network'
+include ':app', ':design', ':main', ':common', ':module_a', ':module_b', ':module_c', ':module_d', ':module_left', ':network', ':bing', ':weather'

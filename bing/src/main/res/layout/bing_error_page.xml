@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/bing_error_page_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/bing_ic_nothing"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bing_error_page_desc"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:contentDescription="@null" />
+    <TextView
+        android:id="@+id/bing_error_page_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/bing_picture_error"
+        android:textColor="@color/design_color_text_black"
+        android:textSize="@dimen/design_sub_title"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/bing_error_page_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

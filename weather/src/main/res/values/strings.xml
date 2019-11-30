@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="weather_detail_compare">比昨天 %1$s</string>
+
+    <string name="weather_activity_manage_city_title">城市管理</string>
+    <string name="weather_activity_manage_city_button_add">添加城市</string>
+    <string name="weather_activity_manage_city_nothing_desc">未添加任何城市</string>
+
+    <string name="weather_activity_select_city_input_hint">搜索城市</string>
+    <string name="weather_activity_select_city_top_city">热门城市</string>
+
+</resources>

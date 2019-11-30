@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/module_left_fragment_weather_detail_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:background="@color/weather_color_primary">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/weather_fragment_weather_detail_now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/design_margin_top"
+                android:layout_marginBottom="@dimen/design_margin_bottom"
+                android:layout_marginLeft="@dimen/design_margin_left"
+                android:layout_marginRight="@dimen/design_margin_right" >
+                <TextView
+                    android:id="@+id/weather_fragment_weather_detail_now_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/design_color_text_white"
+                    android:textSize="60sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="20°C" />
+                <TextView
+                    android:id="@+id/weather_fragment_weather_detail_now_des"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/design_color_text_white"
+                    android:textSize="@dimen/design_text"
+                    app:layout_constraintLeft_toRightOf="@id/weather_fragment_weather_detail_now_temp"
+                    app:layout_constraintBottom_toTopOf="@id/weather_fragment_weather_detail_now_compare"
+                    tools:text="小雪" />
+                <TextView
+                    android:id="@+id/weather_fragment_weather_detail_now_compare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/design_color_text_white"
+                    android:textSize="@dimen/design_text"
+                    app:layout_constraintLeft_toRightOf="@id/weather_fragment_weather_detail_now_temp"
+                    app:layout_constraintBottom_toBottomOf="@id/weather_fragment_weather_detail_now_temp"
+                    tools:text="@string/weather_detail_compare"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/weather_fragment_weather_detail_hour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/design_margin_top"
+                android:layout_marginBottom="@dimen/design_margin_bottom"
+                android:layout_marginLeft="@dimen/design_margin_left"
+                android:layout_marginRight="@dimen/design_margin_right"
+                android:orientation="horizontal"/>
+            <LinearLayout
+                android:id="@+id/weather_fragment_weather_detail_forest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/design_margin_top"
+                android:layout_marginBottom="@dimen/design_margin_bottom"
+                android:layout_marginLeft="@dimen/design_margin_left"
+                android:layout_marginRight="@dimen/design_margin_right" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/weather_fragment_weather_detail_air"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/design_margin_top"
+                android:layout_marginBottom="@dimen/design_margin_bottom"
+                android:layout_marginLeft="@dimen/design_margin_left"
+                android:layout_marginRight="@dimen/design_margin_right" />
+            <LinearLayout
+                android:id="@+id/weather_fragment_weather_detail_life"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/design_margin_top"
+                android:layout_marginBottom="@dimen/design_margin_bottom"
+                android:layout_marginLeft="@dimen/design_margin_left"
+                android:layout_marginRight="@dimen/design_margin_right" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

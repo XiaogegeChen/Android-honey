@@ -1,17 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="module_left_weather_color_primary">#638DE3</color>
-    <color name="module_left_weather_color_primary_dark">#4967A3</color>
-    <color name="module_left_weather_color_accent">#DE5D32</color>
-
-    <color name="module_left_weather_color_feel_temp">#FFFFFF</color>
-    <color name="module_left_weather_color_wind_degree">#FFFFFF</color>
-    <color name="module_left_weather_color_wind_direction">#FFFFFF</color>
-    <color name="module_left_weather_color_wind_power">#FFFFFF</color>
-    <color name="module_left_weather_color_wind_speed">#FFFFFF</color>
-    <color name="module_left_weather_color_humidity">#FFFFFF</color>
-    <color name="module_left_weather_color_precipitation">#FFFFFF</color>
-    <color name="module_left_weather_color_pressure">#FFFFFF</color>
-    <color name="module_left_weather_color_visibility">#FFFFFF</color>
-    <color name="module_left_weather_color_cloud">#FFFFFF</color>
 </resources>

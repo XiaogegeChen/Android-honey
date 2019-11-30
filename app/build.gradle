@@ -38,5 +38,13 @@ dependencies {
             implementation project(':module_left')
         }
 
+        if(!isBingDebug.toBoolean()){
+            implementation project(':bing')
+        }
+
+        if(!isWeatherDebug.toBoolean()){
+            implementation project(':weather')
+        }
+
     }
 }

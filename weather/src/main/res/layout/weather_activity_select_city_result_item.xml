@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/weather_activity_select_city_result_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/design_margin_top"
+        android:layout_marginBottom="@dimen/design_margin_bottom"
+        android:layout_marginLeft="@dimen/design_margin_left"
+        android:layout_marginRight="@dimen/design_margin_right"
+        android:textSize="@dimen/design_sub_title"
+        android:textColor="@color/design_color_text_black"
+        tools:text="沈阳，辽宁，中国"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/design_line"/>
+</LinearLayout>

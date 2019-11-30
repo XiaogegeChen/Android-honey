@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="common_load_more_recycler_footer_progress_size">56dp</dimen>
+
+    <dimen name="common_toast_corner">4dp</dimen>
+    <dimen name="common_toast_z">4dp</dimen>
 </resources>

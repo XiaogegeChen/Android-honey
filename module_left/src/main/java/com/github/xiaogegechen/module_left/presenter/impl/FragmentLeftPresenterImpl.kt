@@ -9,7 +9,6 @@ import com.github.xiaogegechen.module_left.view.impl.FragmentLeft
 import com.github.xiaogegechen.module_left.view.IFragmentLeftView
 import com.github.xiaogegechen.module_left.view.impl.IntroductionActivity
 import com.github.xiaogegechen.module_left.view.impl.SettingActivity
-import com.github.xiaogegechen.module_left.view.impl.WeatherActivity
 
 class FragmentLeftPresenterImpl: IFragmentLeftPresenter {
 
@@ -54,7 +53,7 @@ class FragmentLeftPresenterImpl: IFragmentLeftPresenter {
     }
 
     override fun gotoWeather() {
-        mContext?.startActivity(Intent(mContext, WeatherActivity::class.java))
+        // TODO
     }
 
     override fun detach() {

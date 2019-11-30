@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.github.xiaogegechen.bing">
+    <application>
+        <activity android:name=".view.impl.BingActivity"/>
+        <activity android:name=".view.impl.BingTopicDetailActivity"/>
+    </application>
+</manifest>

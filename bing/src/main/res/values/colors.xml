@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="bing_color_primary">#18FFFF</color>
+    <color name="bing__color_primary_dark">#14D1D1</color>
+    <color name="bing_color_accent">@color/design_color_accent</color>
+
+</resources>

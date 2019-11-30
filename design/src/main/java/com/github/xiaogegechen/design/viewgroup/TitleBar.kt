@@ -4,12 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.xiaogegechen.design.R
 
-class TitleBar(context: Context, attr: AttributeSet?, defStyle: Int): FrameLayout(context, attr, defStyle) {
+class TitleBar(context: Context, attr: AttributeSet?, defStyle: Int): ConstraintLayout(context, attr, defStyle) {
     constructor(context: Context, attr: AttributeSet?):this(context, attr, 0)
     constructor(context: Context):this(context, null)
 
@@ -18,7 +19,7 @@ class TitleBar(context: Context, attr: AttributeSet?, defStyle: Int): FrameLayou
 
     init {
         LayoutInflater.from(context).inflate(R.layout.design_title_bar, this)
-        val rootLayout: FrameLayout? = findViewById(R.id.title_bar_root)
+        val rootLayout: ViewGroup? = findViewById(R.id.title_bar_root)
         val leftImage: ImageView? = findViewById(R.id.title_bar_left)
         val rightImage: ImageView? = findViewById(R.id.title_bar_right)
         mTitle = findViewById(R.id.title_bar_title)

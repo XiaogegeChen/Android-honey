@@ -3,10 +3,5 @@
     <application>
         <activity android:name=".view.impl.IntroductionActivity"/>
         <activity android:name=".view.impl.SettingActivity"/>
-        <activity
-            android:name=".view.impl.WeatherActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".view.impl.ManageCityActivity"/>
-        <activity android:name=".view.impl.SelectCityActivity"/>
     </application>
 </manifest>
