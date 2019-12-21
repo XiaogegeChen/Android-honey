@@ -1,12 +1,20 @@
 package com.github.xiaogegechen.bing.presenter.impl;
 
+import android.app.Activity;
+import android.content.Intent;
+
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+
 import com.github.xiaogegechen.LogInterceptor;
 import com.github.xiaogegechen.bing.Api;
 import com.github.xiaogegechen.bing.model.Image;
 import com.github.xiaogegechen.bing.model.Topic;
+import com.github.xiaogegechen.bing.model.event.NotifyGotoBigPicEvent;
 import com.github.xiaogegechen.bing.model.json.ImageJSON;
 import com.github.xiaogegechen.bing.presenter.IBingTopicDetailActivityPresenter;
 import com.github.xiaogegechen.bing.view.IBingTopicDetailActivityView;
+import com.github.xiaogegechen.bing.view.impl.BigPicActivity;
 import com.github.xiaogegechen.common.Constants;
 import com.github.xiaogegechen.common.network.CheckHelper;
 import com.github.xiaogegechen.common.util.RetrofitHelper;
@@ -30,9 +38,12 @@ public class BingTopicDetailActivityPresenterImpl implements IBingTopicDetailAct
     private Retrofit mBingPictureRetrofit;
     private Call<ImageJSON> mBingPictureImageCall;
 
+    private Activity mActivity;
+
     @Override
     public void attach(IBingTopicDetailActivityView bingTopicDetailActivityView) {
         mBingTopicDetailActivityView = bingTopicDetailActivityView;
+        mActivity = (Activity) mBingTopicDetailActivityView;
         mBingPictureRetrofit = new Retrofit.Builder()
                 .baseUrl(Constants.MY_SERVER_BASE_URL)
                 .client(new OkHttpClient.Builder().addInterceptor(new LogInterceptor()).build())
@@ -87,6 +98,19 @@ public class BingTopicDetailActivityPresenterImpl implements IBingTopicDetailAct
                 }
             }
         });
+    }
+
+    @Override
+    public void gotoBigPicActivity(NotifyGotoBigPicEvent event) {
+        Intent intent = new Intent(mActivity, BigPicActivity.class);
+        intent.putExtra(com.github.xiaogegechen.bing.Constants.INTENT_PARAM_NAME, event.getImage());
+        // imageView 动画
+        @SuppressWarnings("unchecked")
+        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                mActivity,
+                new Pair<>(event.getImageView(), com.github.xiaogegechen.bing.Constants.BIG_PIC_NAME)
+        );
+        mActivity.startActivity(intent, activityOptions.toBundle());
     }
 
     /**

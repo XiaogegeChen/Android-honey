@@ -13,16 +13,19 @@ import com.github.xiaogegechen.bing.R;
 import com.github.xiaogegechen.bing.adapter.ImageListAdapter;
 import com.github.xiaogegechen.bing.model.Image;
 import com.github.xiaogegechen.bing.model.Topic;
+import com.github.xiaogegechen.bing.model.event.NotifyGotoBigPicEvent;
 import com.github.xiaogegechen.bing.presenter.IBingTopicDetailActivityPresenter;
 import com.github.xiaogegechen.bing.presenter.impl.BingTopicDetailActivityPresenterImpl;
 import com.github.xiaogegechen.bing.view.IBingTopicDetailActivityView;
-import com.github.xiaogegechen.common.base.BaseActivity;
+import com.github.xiaogegechen.common.base.EventBusActivity;
 import com.github.xiaogegechen.common.util.ToastUtil;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BingTopicDetailActivity extends BaseActivity implements IBingTopicDetailActivityView {
+public class BingTopicDetailActivity extends EventBusActivity implements IBingTopicDetailActivityView {
 
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
@@ -78,6 +81,11 @@ public class BingTopicDetailActivity extends BaseActivity implements IBingTopicD
     @Override
     public boolean isSupportSwipeBack() {
         return false;
+    }
+
+    @Subscribe
+    public void handleNotifyGotoBigPicEvent(NotifyGotoBigPicEvent event){
+        mBingTopicDetailActivityPresenter.gotoBigPicActivity(event);
     }
 
     @Override

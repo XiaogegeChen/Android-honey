@@ -11,8 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.xiaogegechen.bing.R;
 import com.github.xiaogegechen.bing.model.Image;
+import com.github.xiaogegechen.bing.model.event.NotifyGotoBigPicEvent;
 import com.github.xiaogegechen.common.util.ImageParam;
 import com.github.xiaogegechen.common.util.ImageUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -30,9 +33,10 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bing_activity_bing_topic_detail_item, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        holder.itemView.setOnClickListener(v -> {
-            // TODO 点击跳转到图片详情界面
+        final ViewHolder holder = new ViewHolder(view);
+        holder.mImageView.setOnClickListener(v -> {
+            int position = holder.getAdapterPosition();
+            EventBus.getDefault().post(new NotifyGotoBigPicEvent(mImageList.get(position), holder.mImageView));
         });
         return holder;
     }

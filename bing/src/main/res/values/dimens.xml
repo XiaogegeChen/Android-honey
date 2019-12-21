@@ -4,4 +4,7 @@
     <dimen name="bing_module_image_height">200dp</dimen>
     <dimen name="bing_module_image_corner">8dp</dimen>
     <dimen name="bing_topic_detail_image_corner">8dp</dimen>
+
+    <dimen name="bing_big_pic_download_size">32dp</dimen>
+    <dimen name="bing_big_pic_progress_size">48dp</dimen>
 </resources>

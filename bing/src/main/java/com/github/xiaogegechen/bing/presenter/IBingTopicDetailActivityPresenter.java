@@ -1,6 +1,7 @@
 package com.github.xiaogegechen.bing.presenter;
 
 import com.github.xiaogegechen.bing.model.Topic;
+import com.github.xiaogegechen.bing.model.event.NotifyGotoBigPicEvent;
 import com.github.xiaogegechen.bing.view.IBingTopicDetailActivityView;
 import com.github.xiaogegechen.common.base.IBasePresenter;
 
@@ -12,4 +13,10 @@ public interface IBingTopicDetailActivityPresenter extends IBasePresenter<IBingT
      */
     void queryImageList(Topic topic);
 
+    /**
+     * 跳转到图片详情页面
+     *
+     * @param event 事件
+     */
+    void gotoBigPicActivity(NotifyGotoBigPicEvent event);
 }

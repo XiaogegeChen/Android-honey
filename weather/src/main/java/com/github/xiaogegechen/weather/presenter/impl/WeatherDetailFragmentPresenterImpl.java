@@ -1,10 +1,14 @@
 package com.github.xiaogegechen.weather.presenter.impl;
 
+import android.app.Activity;
+
 import com.github.xiaogegechen.LogInterceptor;
+import com.github.xiaogegechen.common.base.BaseFragment;
 import com.github.xiaogegechen.common.util.RetrofitHelper;
 import com.github.xiaogegechen.weather.Api;
 import com.github.xiaogegechen.weather.Constants;
 import com.github.xiaogegechen.weather.R;
+import com.github.xiaogegechen.weather.helper.WeatherInfoCacheHelper;
 import com.github.xiaogegechen.weather.model.Air;
 import com.github.xiaogegechen.weather.model.CityInfo;
 import com.github.xiaogegechen.weather.model.Forecast;
@@ -43,6 +47,7 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
     private static final String VISIBILITY_SUFFIX = "km";
 
     private IWeatherDetailFragmentView mWeatherDetailFragmentView;
+    private Activity mActivity;
 
     private Retrofit mHWeatherRetrofit;
     private Call<NowJSON> mWeatherNowCall;
@@ -53,6 +58,7 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
     @Override
     public void attach(IWeatherDetailFragmentView weatherDetailFragmentView) {
         mWeatherDetailFragmentView = weatherDetailFragmentView;
+        mActivity = ((BaseFragment)(mWeatherDetailFragmentView)).obtainActivity();
         mHWeatherRetrofit = new Retrofit.Builder()
                 .baseUrl(Constants.WEATHER_QUERY_BASIC_WEATHER_URL)
                 .client(new OkHttpClient.Builder().addInterceptor(new LogInterceptor()).build())
@@ -88,7 +94,7 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
      * 请求实时天气并显示
      * @param cityInfo 指定城市
      */
-    private void queryNow(CityInfo cityInfo){
+    private void queryNow(final CityInfo cityInfo){
         mWeatherDetailFragmentView.showSwipeRefresh();
         mWeatherNowCall = mHWeatherRetrofit.create(Api.class).queryWeatherNow(Constants.WEATHER_KEY, cityInfo.getCityId());
         mWeatherNowCall.enqueue(new Callback<NowJSON>() {
@@ -100,9 +106,11 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
                     NowJSON.Result.Now now = body.getResult().get(0).getNow();
                     String tempText = now.getTmp() + TEMP_SUFFIX;
                     String weatherDescriptionText = now.getCondDescription();
-                    String compareText = compareTempWithYesterday(tempText);
+                    String compareText = compareTempWithLast(cityInfo, tempText);
                     List<Air> weatherAirList = convertNowJSON2AirList(body);
                     mWeatherDetailFragmentView.showNow(tempText, weatherDescriptionText, compareText, weatherAirList);
+                    // 更新上一时刻的温度
+                    WeatherInfoCacheHelper.getInstance(mActivity.getApplicationContext()).updateLastTemp(cityInfo, now.getTmp());
                 }else{
                     mWeatherDetailFragmentView.showToast(Constants.NOW_ERROR_MESSAGE);
                 }
@@ -113,7 +121,6 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
                 if(!call.isCanceled()){
                     mWeatherDetailFragmentView.hideSwipeRefresh();
                     mWeatherDetailFragmentView.showToast(Constants.NOW_ERROR_MESSAGE);
-                    // TODO 使用缓存
                 }
             }
         });
@@ -144,7 +151,6 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
                 if(!call.isCanceled()){
                     mWeatherDetailFragmentView.hideSwipeRefresh();
                     mWeatherDetailFragmentView.showToast(Constants.HOURLY_ERROR_MESSAGE);
-                    // TODO 使用缓存
                 }
             }
         });
@@ -175,7 +181,6 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
                 if(!call.isCanceled()){
                     mWeatherDetailFragmentView.hideSwipeRefresh();
                     mWeatherDetailFragmentView.showToast(Constants.FORECAST_ERROR_MESSAGE);
-                    // TODO 使用缓存
                 }
             }
         });
@@ -206,20 +211,29 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
                 if(!call.isCanceled()){
                     mWeatherDetailFragmentView.hideSwipeRefresh();
                     mWeatherDetailFragmentView.showToast(Constants.LIFESTYLE_ERROR_MESSAGE);
-                    // TODO 使用缓存
                 }
             }
         });
     }
 
     /**
-     * 和昨天的温度对比，拿到对比结果
+     * 和上一时刻的温度对比，拿到对比结果
      * @param tempNow 当前温度
-     * @return 对比结果，如果大于昨天的温度，返回"高_°C"，如果小于昨天的温度，返回"低_°C"，
+     * @return 对比结果，如果大于上一时刻的温度，返回"高_°C"，如果小于上一时刻的温度，返回"低_°C"，
      */
-    private String compareTempWithYesterday(String tempNow){
-        // TODO 拿到昨天温度
-        int tempYesterday = 0;
+    private String compareTempWithLast(CityInfo cityInfo, String tempNow){
+        String tempYesterdayString = WeatherInfoCacheHelper.getInstance(mActivity.getApplicationContext()).getLastTemp(cityInfo);
+        int tempYesterday;
+        if(tempYesterdayString == null){
+            // 说明没有昨天的数据
+            tempYesterday = 0;
+        }else{
+            try{
+                tempYesterday = Integer.parseInt(tempYesterdayString);
+            }catch (Exception e){
+                tempYesterday = 0;
+            }
+        }
         int diff = 0;
         try{
             diff = Integer.parseInt(tempNow) - tempYesterday;
@@ -428,7 +442,6 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
             int todayMonth = today.get(Calendar.MONTH) + 1;
             int todayDay = today.get(Calendar.DAY_OF_MONTH);
             int todayMonthLength = lengthOfMonth(isLeap(todayYear), todayMonth);
-
             // 计算明天的日期
             int tomorrowDay = todayDay + 1;
             int tomorrowMonth = todayMonth;
@@ -441,13 +454,11 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
                     tomorrowYear = todayYear + 1;
                 }
             }
-
             // 从originTime拆分出年月日
             String[] originTimeString = originTime.split("-");
             int originTimeYear = Integer.parseInt(originTimeString[0]);
             int originTimeMonth = Integer.parseInt(originTimeString[1]);
             int originTimeDay = Integer.parseInt(originTimeString[2]);
-
             if(todayYear == originTimeYear && todayMonth == originTimeMonth && todayDay == originTimeDay){
                 return "今天";
             }
@@ -455,7 +466,6 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
             if(tomorrowYear == originTimeYear && tomorrowMonth == originTimeMonth && tomorrowDay == originTimeDay){
                 return "明天";
             }
-
             // 如果超过两天那就计算是周几
             Calendar originTimeCalendar = new GregorianCalendar();
             originTimeCalendar.set(originTimeYear, originTimeMonth - 1, originTimeDay);
@@ -486,7 +496,6 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
                     break;
 
             }
-
         }catch (Exception e){
             e.printStackTrace();
         }

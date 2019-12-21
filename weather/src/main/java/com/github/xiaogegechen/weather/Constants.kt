@@ -10,6 +10,7 @@ internal class Constants {
 
         // xml_key
         const val XML_KEY_SELECTED_CITY_LIST_MODULE_LEFT = "select_cities_module_left"
+        const val XML_KEY_LAST_TEMP_PREFIX = "last_temp_"
 
         // intent参数名
         const val INTENT_PARAM_CITY_INFO = "city_info"

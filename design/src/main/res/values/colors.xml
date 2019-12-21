@@ -8,6 +8,8 @@
     <color name="design_color_white">#FFFFFF</color>
     <color name="design_color_line">#ECECEC</color>
 
+    <color name="design_color_black">#000000</color>
+
     <color name="design_color_text_white">#FFFFFF</color>
     <color name="design_color_text_black">#000000</color>
     <color name="design_color_text_grey">#CCCCCC</color>
@@ -22,4 +24,6 @@
     <color name="design_dialog_confirm">#007aff</color>
     <color name="design_dialog_cancel">#f44336</color>
     <color name="design_dialog_line">#2c000000</color>
+
+    <color name="design_transparent">#00000000</color>
 </resources>

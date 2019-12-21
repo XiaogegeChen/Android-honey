@@ -8,4 +8,10 @@ public class Constants {
 
     // intent param name
     public static final String INTENT_PARAM_NAME = "intent_param_name";
+
+    // 共享元素
+    public static final String BIG_PIC_NAME = "big_pic";
+
+    // 下载图片文件夹
+    public static final String IMAGE_DIR = "bing_images";
 }
