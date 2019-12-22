@@ -5,7 +5,6 @@
     <string name="bing_picture_error">加载失败，下拉重新加载</string>
 
     <string name="bing_big_pic_view_origin">查看原图</string>
-
     <string name="bing_big_pic_view_failed">查看原图失败，已显示缩略图</string>
     <string name="bing_big_pic_view_ok">已显示原图</string>
     <string name="bing_big_pic_start">开始下载</string>
@@ -14,4 +13,5 @@
     <string name="bing_big_pic_down_fail">下载失败，失败信息 %1$s</string>
     <string name="bing_big_pic_permission_denied">权限被拒绝，分享功能无法使用</string>
     <string name="bing_big_pic_permission_denied_forever">权限被永久拒绝，若要继续使用分享功能请手动开启</string>
+    <string name="bing_big_pic_from_text">图片来源 %1$s</string>
 </resources>

@@ -35,6 +35,20 @@
         app:left_visibility="true"
         app:layout_constraintTop_toBottomOf="@id/big_pic_vh"/>
     <TextView
+        android:id="@+id/big_pic_from_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bing_big_pic_from_text"
+        android:textSize="@dimen/design_text"
+        android:textColor="@color/design_color_text_white"
+        android:layout_marginBottom="@dimen/design_margin_bottom"
+        android:paddingLeft="@dimen/design_margin_left"
+        android:paddingRight="@dimen/design_margin_right"
+        android:autoLink="all"
+        android:linksClickable="false"
+        android:textColorLink="@color/bing_color_primary"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
         android:id="@+id/big_pic_view_origin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,10 +57,10 @@
         android:textColor="@color/design_color_white"
         android:layout_marginBottom="@dimen/design_margin_bottom"
         android:background="@drawable/bing_big_pic_view_origin_bg"
-        android:padding="@dimen/design_margin_self"
+        android:padding="4dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/big_pic_from_url"/>
     <ImageView
         android:id="@+id/big_pic_down"
         android:layout_width="@dimen/bing_big_pic_download_size"
@@ -65,4 +79,83 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/big_pic_view_origin"
         app:layout_constraintTop_toTopOf="@id/big_pic_view_origin" />
+    <View
+        android:id="@+id/big_pic_draw_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:alpha="0"
+        android:visibility="invisible"/>
+    <com.github.xiaogegechen.design.viewgroup.DrawerLayout
+        android:id="@+id/big_pic_draw"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/big_pic_vh"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/big_pic_draw_head"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bing_big_pic_draw_head_height"
+            android:background="@drawable/bing_big_pic_draw_head_bg">
+            <ImageView
+                android:id="@+id/big_pic_draw_head_disappear"
+                android:layout_width="@dimen/bing_big_pic_draw_head_icon_size"
+                android:layout_height="@dimen/bing_big_pic_draw_head_icon_size"
+                android:src="@drawable/design_ic_cancel"
+                android:layout_marginLeft="@dimen/design_margin_left"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+            <ImageView
+                android:id="@+id/big_pic_draw_head_close"
+                android:layout_width="@dimen/bing_big_pic_draw_head_icon_size"
+                android:layout_height="@dimen/bing_big_pic_draw_head_icon_size"
+                android:src="@drawable/design_ic_down"
+                android:layout_marginRight="@dimen/design_margin_right"
+                android:padding="5dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+            <TextView
+                android:id="@+id/big_pic_draw_head_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/design_sub_title"
+                android:textColor="@color/design_color_text_white"
+                android:minLines="1"
+                android:maxLines="1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/big_pic_draw_head_disappear"
+                app:layout_constraintRight_toLeftOf="@id/big_pic_draw_head_close"
+                tools:text="http://www.baidu.com"/>
+            <View
+                android:id="@+id/big_pic_draw_head_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/design_color_line"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <ProgressBar
+                android:id="@+id/big_pic_draw_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:indeterminateTint="@color/bing_color_primary"
+                android:progressBackgroundTint="@color/design_color_white"
+                app:layout_constraintTop_toTopOf="parent"/>
+            <WebView
+                android:id="@+id/big_pic_draw_webView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/big_pic_draw_progress"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.github.xiaogegechen.design.viewgroup.DrawerLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
