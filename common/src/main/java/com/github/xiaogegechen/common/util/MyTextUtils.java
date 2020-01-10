@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Locale;
 
 /**
  * 文字处理工具类
@@ -44,5 +45,29 @@ public class MyTextUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 保留两位小数
+     *
+     * @param input 输入
+     * @return 两位小数的字符串
+     */
+    public static String round(float input){
+       return String.format(Locale.ENGLISH, "%.2f", input);
+    }
+
+    /**
+     * 处理文件大小，如果大于1MB就按MB为单位，否则以kb为单位
+     *
+     * @param kb 大小kb
+     * @return 文件大小
+     */
+    public static String handleFileSize(float kb){
+        if(kb > 1024){
+            return round(kb / 1024) + "MB";
+        }else{
+            return round(kb) + "kb";
+        }
     }
 }

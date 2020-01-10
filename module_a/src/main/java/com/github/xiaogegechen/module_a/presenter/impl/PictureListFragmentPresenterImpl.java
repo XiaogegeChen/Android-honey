@@ -98,10 +98,8 @@ public class PictureListFragmentPresenterImpl implements IPictureListFragmentPre
                 List<PictureItem> pictureItemList = new ArrayList<>();
                 for (int i = 0; i < size; i++) {
                     PictureJSON.Picture picture = pictureList.get(i);
-                    String url = picture.getUrl();
                     SentenceJSON.Sentence sentence = sentenceList.get(i);
-                    String sentenceContent = sentence.getContent();
-                    PictureItem item = new PictureItem(url, sentenceContent);
+                    PictureItem item = combinePictureAndSentence(picture, sentence);
                     pictureItemList.add(item);
                 }
                 mPictureListFragmentView.showPictureList(pictureItemList);
@@ -202,5 +200,19 @@ public class PictureListFragmentPresenterImpl implements IPictureListFragmentPre
     private static boolean isSentenceSuccess(SentenceJSON sentenceJSON){
         return sentenceJSON != null
                 && Integer.parseInt(sentenceJSON.getErrorCode()) == Constants.MY_SERVER_RESPONSE_SUCCESS;
+    }
+
+    private static PictureItem combinePictureAndSentence(PictureJSON.Picture picture, SentenceJSON.Sentence sentence){
+        PictureItem item = new PictureItem();
+        item.setRealUrl(picture.getRealUrl());
+        item.setRealImageWidth(Integer.parseInt(picture.getRealImageWidth()));
+        item.setRealImageHeight(Integer.parseInt(picture.getRealImageHeight()));
+        item.setRealImageFileSize(Float.parseFloat(picture.getRealImageFileSize()));
+        item.setCompressUrl(picture.getCompressUrl());
+        item.setCompressImageWidth(Integer.parseInt(picture.getCompressImageWidth()));
+        item.setCompressImageHeight(Integer.parseInt(picture.getCompressImageHeight()));
+        item.setCompressImageFileSize(Float.parseFloat(picture.getCompressImageFileSize()));
+        item.setDescription(sentence.getContent());
+        return item;
     }
 }

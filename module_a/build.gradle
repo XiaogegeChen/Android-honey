@@ -24,4 +24,9 @@ dependencies {
 
     implementation "com.squareup.retrofit2:retrofit:${RETROFIT2}"
     implementation "com.squareup.retrofit2:converter-gson:${CONVERTER_GSON}"
+
+    // glide
+    implementation "com.github.bumptech.glide:glide:${GLIDE}"
+
+    implementation "com.github.chrisbanes:PhotoView:${PHOTO_VIEW}"
 }

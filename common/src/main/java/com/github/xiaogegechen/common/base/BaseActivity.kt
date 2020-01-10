@@ -48,6 +48,7 @@ abstract class BaseActivity : AppCompatActivity(){
     abstract fun getLayoutId() : Int
 
     // 是否支持滑动返回
+    @Deprecated("")
     abstract fun isSupportSwipeBack() : Boolean
 
     // 改变状态栏颜色

@@ -108,16 +108,93 @@ public class PictureJSON {
     }
 
     public static class Picture{
-        // 图片url
-        @SerializedName("url")
-        private String mUrl;
+        // 大图片url
+        @SerializedName("r_url")
+        private String mRealUrl;
+        // 大图片宽度
+        @SerializedName("r_w")
+        private String mRealImageWidth;
+        // 大图片高度
+        @SerializedName("r_h")
+        private String mRealImageHeight;
+        // 大图片文件大小
+        @SerializedName("r_f_s")
+        private String mRealImageFileSize;
+        // 小图片url
+        @SerializedName("c_url")
+        private String mCompressUrl;
+        // 小图片宽度
+        @SerializedName("c_w")
+        private String mCompressImageWidth;
+        // 小图片高度
+        @SerializedName("c_h")
+        private String mCompressImageHeight;
+        // 小图片文件大小
+        @SerializedName("c_f_s")
+        private String mCompressImageFileSize;
 
-        public String getUrl() {
-            return mUrl;
+        public String getRealUrl() {
+            return mRealUrl;
         }
 
-        public void setUrl(String url) {
-            mUrl = url;
+        public void setRealUrl(String realUrl) {
+            mRealUrl = realUrl;
+        }
+
+        public String getRealImageWidth() {
+            return mRealImageWidth;
+        }
+
+        public void setRealImageWidth(String realImageWidth) {
+            mRealImageWidth = realImageWidth;
+        }
+
+        public String getRealImageHeight() {
+            return mRealImageHeight;
+        }
+
+        public void setRealImageHeight(String realImageHeight) {
+            mRealImageHeight = realImageHeight;
+        }
+
+        public String getRealImageFileSize() {
+            return mRealImageFileSize;
+        }
+
+        public void setRealImageFileSize(String realImageFileSize) {
+            mRealImageFileSize = realImageFileSize;
+        }
+
+        public String getCompressUrl() {
+            return mCompressUrl;
+        }
+
+        public void setCompressUrl(String compressUrl) {
+            mCompressUrl = compressUrl;
+        }
+
+        public String getCompressImageWidth() {
+            return mCompressImageWidth;
+        }
+
+        public void setCompressImageWidth(String compressImageWidth) {
+            mCompressImageWidth = compressImageWidth;
+        }
+
+        public String getCompressImageHeight() {
+            return mCompressImageHeight;
+        }
+
+        public void setCompressImageHeight(String compressImageHeight) {
+            mCompressImageHeight = compressImageHeight;
+        }
+
+        public String getCompressImageFileSize() {
+            return mCompressImageFileSize;
+        }
+
+        public void setCompressImageFileSize(String compressImageFileSize) {
+            mCompressImageFileSize = compressImageFileSize;
         }
     }
 }

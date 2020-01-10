@@ -1,22 +1,30 @@
 package com.github.xiaogegechen.module_a.view.impl;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.github.xiaogegechen.common.adapter.MyFragmentPagerAdapter;
 import com.github.xiaogegechen.common.base.BaseFragment;
+import com.github.xiaogegechen.common.base.EventBusFragment;
 import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
+import com.github.xiaogegechen.module_a.Constants;
 import com.github.xiaogegechen.module_a.R;
+import com.github.xiaogegechen.module_a.model.event.NotifyPicClickedEvent;
 import com.github.xiaogegechen.module_a.presenter.impl.FragmentAPresenterImpl;
 import com.github.xiaogegechen.module_a.presenter.IFragmentAPresenter;
 import com.github.xiaogegechen.module_a.view.IFragmentAView;
 import com.google.android.material.tabs.TabLayout;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -26,13 +34,14 @@ import java.util.List;
 import static com.github.xiaogegechen.common.arouter.ARouterMap.MODULE_A_FRAGMENT_A_PATH;
 
 @Route(path = MODULE_A_FRAGMENT_A_PATH)
-public class FragmentA extends BaseFragment implements IFragmentAView {
+public class FragmentA extends EventBusFragment implements IFragmentAView {
 
     private TabLayout mTabLayout;
     private Toolbar mToolbar;
     private ViewPager mViewPager;
 
     private IFragmentAPresenter mFragmentAPresenter;
+    private Activity mActivity;
 
     @Override
     public void initView(@NotNull View view) {
@@ -53,6 +62,7 @@ public class FragmentA extends BaseFragment implements IFragmentAView {
     public void initData() {
         mFragmentAPresenter = new FragmentAPresenterImpl();
         mFragmentAPresenter.attach(this);
+        mActivity = obtainActivity();
         // tabLayout标题
         String[] titleArray = obtainResources().getStringArray(R.array.module_a_tab_titles);
         for (String s : titleArray) {
@@ -90,6 +100,19 @@ public class FragmentA extends BaseFragment implements IFragmentAView {
     public void onDestroy() {
         super.onDestroy();
         mFragmentAPresenter.detach();
+    }
+
+    @Subscribe
+    public void onHandleNotifyPicClickedEvent(NotifyPicClickedEvent event){
+        // 跳转
+        Intent intent = new Intent(obtainActivity(), BigPicActivity.class);
+        intent.putExtra(Constants.BIG_PIC_INTENT_PARAM, event.getPictureItem());
+        @SuppressWarnings("unchecked")
+        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                mActivity,
+                new Pair<>(event.getImageView(), Constants.BIG_PIC_NAME)
+        );
+        mActivity.startActivity(intent, activityOptions.toBundle());
     }
 
     @Override

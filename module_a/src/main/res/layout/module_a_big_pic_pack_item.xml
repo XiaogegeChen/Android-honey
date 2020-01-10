@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/design_color_white">
+    <com.github.xiaogegechen.design.view.ProgressButton
+        android:id="@+id/packing_pb"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/design_margin_left"
+        android:layout_marginRight="@dimen/design_margin_right"
+        android:layout_marginTop="@dimen/design_margin_top"
+        android:layout_marginBottom="@dimen/design_margin_bottom"
+        app:pb_text_size="18sp"
+        app:pb_text="原图"
+        app:pb_init_bg_color="@color/module_a_photo_color_primary"
+        app:pb_work_text_color="@color/module_a_photo_color_primary"
+        app:pb_progress_color="@color/module_a_photo_color_primary"/>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/design_color_line"
+        android:layout_height="1dp"/>
+</LinearLayout>

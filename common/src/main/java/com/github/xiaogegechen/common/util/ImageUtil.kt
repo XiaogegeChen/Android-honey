@@ -15,6 +15,7 @@ object ImageUtil {
 
     private const val TAG = "ImageUtil"
 
+    @Deprecated("do not suggest")
     fun displayImage(param: ImageParam){
         if(checkParam(param)){
             Glide.with(param.context!!)
@@ -24,6 +25,7 @@ object ImageUtil {
         }
     }
 
+    @Deprecated("do not suggest")
     private fun checkParam(param: ImageParam): Boolean{
         if(param.context == null || param.imageView == null){
             Log.e(TAG, "imageView or context is null while display image")
@@ -41,6 +43,7 @@ object ImageUtil {
      * @param context context
      * @param callback 结果回调
      */
+    @Deprecated("do not suggest")
      fun saveImage(bitmap: Bitmap, dirName: String, url: String, context: Context, callback: SaveImageCallback){
         val dir = File(context.getExternalFilesDir(null), dirName)
         if(!dir.exists()){
@@ -70,6 +73,7 @@ object ImageUtil {
      * @param context context
      * @param callback 结果回调
      */
+    @Deprecated("do not suggest")
      fun saveImage(url: String, dirName: String, context: Context, callback: SaveImageCallback){
         try {
             val uRL = URL(url)
@@ -87,6 +91,7 @@ object ImageUtil {
     /**
      * 保存图片的回调
      */
+    @Deprecated("do not suggest")
      interface SaveImageCallback{
         /**
          * 保存图片成功的回调方法

@@ -29,4 +29,27 @@
         <attr name="corner_image_right_bottom" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="ProgressButton" tools:ignore="ResourceName">
+        <!--初始文字颜色-->
+        <attr name="pb_init_text_color" format="color"/>
+        <!--初始背景颜色-->
+        <attr name="pb_init_bg_color" format="color"/>
+        <!--显示进度时文字颜色-->
+        <attr name="pb_work_text_color" format="color"/>
+        <!--显示进度时背景颜色-->
+        <attr name="pb_work_bg_color" format="color"/>
+        <!--进度条颜色-->
+        <attr name="pb_progress_color" format="color"/>
+        <!--被进度条遮挡的文字颜色-->
+        <attr name="pb_progress_text_color" format="color"/>
+        <!--文字大小-->
+        <attr name="pb_text_size" format="dimension"/>
+        <!--文字-->
+        <attr name="pb_text" format="string"/>
+        <!--是初始状态还是显示进度的状态-->
+        <attr name="pb_work_mode" format="boolean"/>
+        <!--当前进度-->
+        <attr name="pb_work_progress" format="integer"/>
+    </declare-styleable>
+
 </resources>

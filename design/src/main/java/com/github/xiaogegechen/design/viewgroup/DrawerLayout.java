@@ -86,21 +86,18 @@ public class DrawerLayout extends LinearLayout {
     public DrawerLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         // 添加一个默认的监听器
-        addOnTranslationYChangeListener(new OnTranslationYChangeListener() {
-            @Override
-            public void onTranslationYChange(float currentTranslationY) {
-                // 处于关闭状态时，背景view要设置为GONE
-                if (mBgView != null) {
-                    if(currentTranslationY == getMaxTranslationY()){
-                        mBgView.setVisibility(GONE);
-                    }else{
-                        // 其它时刻背景view透明度随位置变化
-                        if(mBgView.getVisibility() != VISIBLE){
-                            mBgView.setVisibility(VISIBLE);
-                        }
-                        float rate = currentTranslationY / getMaxTranslationY();
-                        mBgView.setAlpha((1 - rate) * mBgViewMaxAlpha);
+        addOnTranslationYChangeListener(currentTranslationY -> {
+            // 处于关闭状态时，背景view要设置为GONE
+            if (mBgView != null) {
+                if(currentTranslationY == getMaxTranslationY()){
+                    mBgView.setVisibility(GONE);
+                }else{
+                    // 其它时刻背景view透明度随位置变化
+                    if(mBgView.getVisibility() != VISIBLE){
+                        mBgView.setVisibility(VISIBLE);
                     }
+                    float rate = currentTranslationY / getMaxTranslationY();
+                    mBgView.setAlpha((1 - rate) * mBgViewMaxAlpha);
                 }
             }
         });
@@ -455,6 +452,12 @@ public class DrawerLayout extends LinearLayout {
     public void setBgView(View bgView, float bgViewMaxAlpha){
         mBgView = bgView;
         mBgViewMaxAlpha = bgViewMaxAlpha;
+        if (mBgView != null) {
+            mBgView.setOnClickListener(v -> {
+                // 背景点击时关闭抽屉
+                close();
+            });
+        }
     }
 
     /**

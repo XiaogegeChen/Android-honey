@@ -4,4 +4,31 @@
         <item>风景和美食</item>
         <item>表情包</item>
     </string-array>
+
+    <string name="module_a_big_pic_down">下载</string>
+    <string-array name="module_a_big_pic_down_pack">
+        <item>原图</item>
+        <item>缩略图</item>
+    </string-array>
+
+    <string name="module_a_big_pic_share">分享</string>
+    <string-array name="module_a_big_pic_share_pack">
+        <item>原图</item>
+        <item>缩略图</item>
+    </string-array>
+
+    <string name="module_a_big_pic_view_origin">查看原图(%1$s)</string>
+    <string name="module_a_big_pic_view_failed">查看原图失败，已显示缩略图</string>
+    <string name="module_a_big_pic_view_ok">已显示原图</string>
+    <string name="module_a_big_pic_start">开始下载</string>
+    <string name="module_a_big_pic_downing">正在下载</string>
+    <string name="module_a_big_pic_downing_detail">正在下载 %1$s</string>
+    <string name="module_a_big_pic_down_ok_brief">下载完成</string>
+    <string name="module_a_big_pic_down_ok">下载完成，图片已保存在 %1$s</string>
+    <string name="module_a_big_pic_down_continue">继续</string>
+    <string name="module_a_big_pic_down_fail_retry">下载失败，点击重试</string>
+    <string name="module_a_big_pic_down_fail">下载失败，失败信息 %1$s</string>
+    <string name="module_a_big_pic_permission_denied">权限被拒绝，分享功能无法使用</string>
+    <string name="module_a_big_pic_permission_denied_forever">权限被永久拒绝，若要继续使用分享功能请手动开启</string>
+
 </resources>

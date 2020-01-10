@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="module_a_big_pic_download_size">24dp</dimen>
+    <dimen name="module_a_big_pic_progress_size">48dp</dimen>
+    <dimen name="module_a_big_pic_draw_head_height">48dp</dimen>
+    <dimen name="module_a_big_pic_draw_head_corner">8dp</dimen>
+    <dimen name="module_a_big_pic_draw_head_icon_size">32dp</dimen>
+</resources>

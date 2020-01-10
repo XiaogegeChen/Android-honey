@@ -1,6 +1,7 @@
 package com.github.xiaogegechen.module_a.presenter.impl
 
 import com.github.xiaogegechen.common.event.NotifyDrawerOpenEvent
+import com.github.xiaogegechen.module_a.model.PictureItem
 import com.github.xiaogegechen.module_a.presenter.IFragmentAPresenter
 import com.github.xiaogegechen.module_a.view.IFragmentAView
 import org.greenrobot.eventbus.EventBus
