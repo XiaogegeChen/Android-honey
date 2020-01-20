@@ -25,7 +25,6 @@ public class ToastUtil {
     private static TextView sTextView;
 
     public static void init(Context applicationContext){
-
         // 屏幕高
         int screenWidth = ScreenUtil.INSTANCE.getScreenParamsInPixel(applicationContext)[0];
         // 加载自定义toast视图

@@ -55,6 +55,22 @@ object XmlIOUtil {
         editor.commit()
     }
 
+    /**
+     * 读Boolean
+     */
+    fun readBoolean(key: String, context: Context): Boolean{
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, false)
+    }
+
+    /**
+     * 写入Boolean
+     */
+    fun writeBoolean(key: String, value: Boolean, context: Context){
+        val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+        editor.putBoolean(key, value)
+        editor.commit()
+    }
+
     fun deleteKey(key: String, context: Context){
         PreferenceManager.getDefaultSharedPreferences(context).edit().remove(key).commit()
     }

@@ -1,6 +1,7 @@
 package com.github.xiaogegechen.weather;
 
 import com.github.xiaogegechen.weather.model.json.CityListJSON;
+import com.github.xiaogegechen.weather.model.json.DayPicJSON;
 import com.github.xiaogegechen.weather.model.json.ForecastJSON;
 import com.github.xiaogegechen.weather.model.json.HourlyJSON;
 import com.github.xiaogegechen.weather.model.json.LifestyleJSON;
@@ -74,4 +75,11 @@ public interface Api {
     @GET("lifestyle")
     Call<LifestyleJSON> queryWeatherLifestyle(@Query("key") String key,
                                               @Query("location") String location);
+
+    /**
+     * 每日一图
+     * @return 每日一图
+     */
+    @GET("api/bing_pic_day")
+    Call<DayPicJSON> queryDayPic();
 }

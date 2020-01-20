@@ -17,6 +17,7 @@ import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.weather.R;
 import com.github.xiaogegechen.weather.model.CityInfo;
+import com.github.xiaogegechen.weather.model.event.NotifyApplySettingEvent;
 import com.github.xiaogegechen.weather.presenter.IWeatherFragmentPresenter;
 import com.github.xiaogegechen.weather.presenter.impl.WeatherFragmentPresenterImpl;
 import com.github.xiaogegechen.weather.view.IWeatherFragmentView;
@@ -31,11 +32,10 @@ import static com.github.xiaogegechen.common.arouter.ARouterMap.WEATHER_FRAGMENT
 
 @Route(path = WEATHER_FRAGMENT_WEATHER)
 public class WeatherFragment extends EventBusFragment implements IWeatherFragmentView {
-
     private ImageView mBackgroundImageView;
     private ImageView mAddImageView;
     private TextView mCityNameTextView;
-    private TextView mRefreshTimeTextView;
+    private TextView mSettingTextView;
     private ViewPager mViewPager;
     private View mDebugView;
     // viewPager相关
@@ -49,19 +49,24 @@ public class WeatherFragment extends EventBusFragment implements IWeatherFragmen
         mBackgroundImageView = view.findViewById(R.id.weather_activity_weather_background_image);
         mAddImageView = view.findViewById(R.id.weather_activity_weather_add);
         mCityNameTextView = view.findViewById(R.id.weather_activity_weather_city_name);
-        mRefreshTimeTextView = view.findViewById(R.id.weather_activity_weather_refresh_time);
+        mSettingTextView = view.findViewById(R.id.weather_activity_weather_setting);
         mViewPager = view.findViewById(R.id.weather_activity_weather_content);
         mDebugView = view.findViewById(R.id.weather_activity_weather_debug);
-
         // imm
         StatusBarUtils.fillStatusBarByView(obtainActivity(), view.findViewById(R.id.weather_activity_weather_placeholder_view));
     }
 
     @Override
     public void initData() {
-        mWeatherFragmentPresenter = new WeatherFragmentPresenterImpl();
+        mWeatherFragmentPresenter = new WeatherFragmentPresenterImpl(mBackgroundImageView);
         mWeatherFragmentPresenter.attach(this);
+        // mAddImageView
         mAddImageView.setOnClickListener(v -> mWeatherFragmentPresenter.gotoManageCityActivity());
+        // mSettingTextView
+        mSettingTextView.setOnClickListener(v -> {
+            // 进入设置界面
+            mWeatherFragmentPresenter.gotoSetting();
+        });
         // debug
         new FiveClickHelper()
                 .fiveClick(
@@ -70,6 +75,8 @@ public class WeatherFragment extends EventBusFragment implements IWeatherFragmen
                 );
         // viewPager配置
         initViewPager();
+        // 加载背景图
+        mWeatherFragmentPresenter.queryDayPic();
         // 如果没有选择的城市则需要跳转到管理城市页面，有的都添加进viewPager中
         mWeatherFragmentPresenter.gotoManageCityActivityIfNeeded();
     }
@@ -118,6 +125,12 @@ public class WeatherFragment extends EventBusFragment implements IWeatherFragmen
             CityInfo cityInfo = (CityInfo) event.getData()[0];
             addCity2ViewPager(cityInfo);
         }
+    }
+
+    @Subscribe
+    public void onHandleNotifyApplySettingEvent(NotifyApplySettingEvent event){
+        boolean allowBgChange = event.isAllowBgChange();
+        mWeatherFragmentPresenter.isAllowBgChange(allowBgChange);
     }
 
     @Override

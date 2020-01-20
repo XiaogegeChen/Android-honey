@@ -74,6 +74,7 @@ public class BingFragment extends BaseFragment implements IBingFragmentView {
         mModuleRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mModuleRecyclerView.setAdapter(mModuleRecyclerViewAdapter);
         // mSwipeRefreshLayout
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.bing_color_primary, R.color.bing__color_primary_dark);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mBingFragmentPresenter.queryModuleAndTopic());
         // 初始化完成，请求一次
         mBingFragmentPresenter.queryModuleAndTopic();

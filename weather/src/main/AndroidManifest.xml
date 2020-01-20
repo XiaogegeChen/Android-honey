@@ -3,5 +3,6 @@
     <application>
         <activity android:name=".view.impl.ManageCityActivity"/>
         <activity android:name=".view.impl.SelectCityActivity"/>
+        <activity android:name=".view.impl.SettingActivity"/>
     </application>
 </manifest>

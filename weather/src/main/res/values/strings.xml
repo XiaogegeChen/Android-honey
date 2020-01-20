@@ -1,5 +1,8 @@
 <resources>
 
+    <string name="weather_setting">设置</string>
+    <string name="weather_setting_allow_bg_change">允许背景图切换</string>
+
     <string name="weather_detail_compare">比上次更新 %1$s</string>
 
     <string name="weather_activity_manage_city_title">城市管理</string>

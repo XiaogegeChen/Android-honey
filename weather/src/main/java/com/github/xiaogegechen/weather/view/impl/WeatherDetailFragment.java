@@ -89,6 +89,7 @@ public class WeatherDetailFragment extends BaseFragment implements IWeatherDetai
         mWeatherDetailFragmentPresenter.attach(this);
         mActivity = obtainActivity();
         // mSwipeRefreshLayout
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.weather_color_primary, R.color.weather_color_primary_dark);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mWeatherDetailFragmentPresenter.queryWeather(mCityInfo));
         // mAirRecyclerView
         mAirRecyclerViewDataSource = new ArrayList<>();

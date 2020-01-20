@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/design_sub_title"
+        android:textColor="@color/design_color_text_black"
+        android:layout_marginStart="@dimen/design_margin_left"
+        android:clickable="false"
+        tools:text="关于"/>
+    <Switch
+        android:id="@+id/switchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:checked="true"
+        android:clickable="false"
+        android:layout_marginEnd="@dimen/design_margin_right"
+        android:layout_gravity="end|center_vertical"
+        android:backgroundTint="@color/weather_color_primary"/>
+</FrameLayout>
