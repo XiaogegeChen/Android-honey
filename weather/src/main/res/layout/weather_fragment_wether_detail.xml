@@ -16,9 +16,8 @@
             tools:background="@color/weather_color_primary">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/weather_fragment_weather_detail_now"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/design_margin_top"
                 android:layout_marginBottom="@dimen/design_margin_bottom"
                 android:layout_marginLeft="@dimen/design_margin_left"
                 android:layout_marginRight="@dimen/design_margin_right" >
@@ -37,18 +36,19 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/design_color_text_white"
                     android:textSize="@dimen/design_text"
-                    app:layout_constraintLeft_toRightOf="@id/weather_fragment_weather_detail_now_temp"
-                    app:layout_constraintBottom_toTopOf="@id/weather_fragment_weather_detail_now_compare"
-                    tools:text="小雪" />
-                <TextView
-                    android:id="@+id/weather_fragment_weather_detail_now_compare"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/design_color_text_white"
-                    android:textSize="@dimen/design_text"
+                    android:layout_marginBottom="@dimen/design_margin_bottom"
                     app:layout_constraintLeft_toRightOf="@id/weather_fragment_weather_detail_now_temp"
                     app:layout_constraintBottom_toBottomOf="@id/weather_fragment_weather_detail_now_temp"
-                    tools:text="@string/weather_detail_compare"/>
+                    tools:text="小雪" />
+                <ImageView
+                    android:id="@+id/refreshButton"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:src="@drawable/weather_ic_refresh"
+                    android:contentDescription="@null" />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/weather_fragment_weather_detail_hour"

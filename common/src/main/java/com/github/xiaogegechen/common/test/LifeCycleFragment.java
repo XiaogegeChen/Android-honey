@@ -106,4 +106,10 @@ public abstract class LifeCycleFragment extends BaseFragment {
         LogUtil.d(TAG, "onDetach");
         super.onDetach();
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        LogUtil.d(TAG, "onHiddenChanged. hidden -> " + hidden);
+        super.onHiddenChanged(hidden);
+    }
 }

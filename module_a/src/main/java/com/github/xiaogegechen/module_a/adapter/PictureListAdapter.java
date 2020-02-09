@@ -2,16 +2,18 @@ package com.github.xiaogegechen.module_a.adapter;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.xiaogegechen.common.adapter.LoadMoreRecyclerViewAdapter;
-import com.github.xiaogegechen.common.util.LogUtil;
+import com.github.xiaogegechen.design.view.ColorfulTextView;
+import com.github.xiaogegechen.module_a.Constants;
 import com.github.xiaogegechen.module_a.R;
 import com.github.xiaogegechen.module_a.model.PictureItem;
 import com.github.xiaogegechen.module_a.model.event.NotifyPicClickedEvent;
@@ -21,9 +23,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 public class PictureListAdapter extends LoadMoreRecyclerViewAdapter<PictureListAdapter.ViewHolder, PictureItem> {
-
-    private static final String TAG = "PictureListAdapter";
-
     public PictureListAdapter(List<PictureItem> list, Context context) {
         super(list, context);
     }
@@ -56,23 +55,39 @@ public class PictureListAdapter extends LoadMoreRecyclerViewAdapter<PictureListA
         final PictureItem item = mList.get(position);
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.mTextView.setText(item.getDescription());
-        LogUtil.d(TAG, "url is -> " + item.getCompressUrl());
+        holder.mTextView.setPeriod(Constants.TEXT_COLOR_CHANGE_PERIOD);
+        holder.mTextView.start();
+        // mImageView 设置高度
+        int imageViewWidth = calculateImageWidth(holder.mRootView);
+        holder.mImageView.getLayoutParams().height = (int) ((item.getCompressImageHeight() * 1.0 / item.getCompressImageWidth()) * imageViewWidth);
         Glide.with(mContext)
                 .load(item.getCompressUrl())
                 .apply(new RequestOptions()
-                        .placeholder(mContext.getResources().getDrawable(R.drawable.module_a_photo_loading))
-                        .error(mContext.getResources().getDrawable(R.drawable.module_a_load_photo_failed)))
+                        .placeholder(mContext.getResources().getDrawable(R.drawable.design_loading))
+                        .error(mContext.getResources().getDrawable(R.drawable.design_error)))
                 .into(holder.mImageView);
+    }
+
+    private int calculateImageWidth(View view){
+        RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
+        if (layoutManager instanceof StaggeredGridLayoutManager){
+            int count = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            return mRecyclerView.getWidth() / count - layoutParams.leftMargin - layoutParams.rightMargin;
+        }
+        return 0;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView mImageView;
-        TextView mTextView;
+        ColorfulTextView mTextView;
+        ViewGroup mRootView;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.module_a_fragment_a_recycler_item_pic);
             mTextView = itemView.findViewById(R.id.module_a_fragment_a_recycler_item_text);
+            mRootView = itemView.findViewById(R.id.root);
         }
     }
 }

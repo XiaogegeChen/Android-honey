@@ -41,6 +41,11 @@ abstract class BaseFragment : Fragment(){
         return mContext?.resources
     }
 
+    // 状态栏文字颜色，返回false为白色，true为黑色
+    open fun isStatusBarTextDark(): Boolean{
+        return false
+    }
+
     abstract fun initData()
 
     abstract fun initView(view: View)

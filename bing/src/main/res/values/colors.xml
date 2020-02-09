@@ -2,7 +2,7 @@
 <resources>
 
     <color name="bing_color_primary">#18FFFF</color>
-    <color name="bing__color_primary_dark">#14D1D1</color>
+    <color name="bing__color_primary_dark">#12B6B6</color>
     <color name="bing_color_accent">@color/design_color_accent</color>
 
 </resources>

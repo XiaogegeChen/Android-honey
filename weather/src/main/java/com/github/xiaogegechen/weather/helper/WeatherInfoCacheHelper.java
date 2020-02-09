@@ -8,6 +8,8 @@ import com.github.xiaogegechen.weather.model.CityInfo;
 
 /**
  * 管理天气信息的缓存，单例模式
+ *
+ * @deprecated 弃用，这个需求不要了
  */
 public class WeatherInfoCacheHelper {
     private volatile static WeatherInfoCacheHelper sInstance;

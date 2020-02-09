@@ -1,5 +1,7 @@
 package com.github.xiaogegechen.common.util;
 
+import android.os.Parcelable;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -69,5 +71,22 @@ public class MyTextUtils {
         }else{
             return round(kb) + "kb";
         }
+    }
+
+    public static String printParcelableArray(Parcelable[] dataArray){
+        if(dataArray.length == 0){
+            return "[]";
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("total length -> ")
+                .append(dataArray.length);
+        builder.append(", data -> ").append("[");
+        for (Parcelable parcelable : dataArray) {
+            builder.append(parcelable.toString());
+            builder.append(", ");
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

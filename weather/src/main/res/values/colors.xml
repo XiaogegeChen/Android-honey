@@ -4,14 +4,18 @@
     <color name="weather_color_primary_dark">#4967A3</color>
     <color name="weather_color_accent">#DE5D32</color>
 
-    <color name="weather_color_feel_temp">#FFFFFF</color>
-    <color name="weather_color_wind_degree">#FFFFFF</color>
-    <color name="weather_color_wind_direction">#FFFFFF</color>
-    <color name="weather_color_wind_power">#FFFFFF</color>
-    <color name="weather_color_wind_speed">#FFFFFF</color>
-    <color name="weather_color_humidity">#FFFFFF</color>
-    <color name="weather_color_precipitation">#FFFFFF</color>
-    <color name="weather_color_pressure">#FFFFFF</color>
-    <color name="weather_color_visibility">#FFFFFF</color>
-    <color name="weather_color_cloud">#FFFFFF</color>
+    <color name="weather_color_feel_temp">#79d9aa</color>
+    <color name="weather_color_wind_degree">#ef977e</color>
+    <color name="weather_color_wind_direction">#F89840</color>
+    <color name="weather_color_wind_power">#1cdcf5</color>
+    <color name="weather_color_wind_speed">#bcfad0</color>
+    <color name="weather_color_humidity">#63a0ff</color>
+    <color name="weather_color_pressure">#64c4fc</color>
+    <color name="weather_color_cloud">#fffaeb</color>
+
+    <color name="weather_color_satellite">#ff9d1e</color>
+    <color name="weather_color_precipitation">#67d8ec</color>
+    <color name="weather_color_temperature">#ed1c24</color>
+    <color name="weather_color_visibility">#d45c21</color>
+    <color name="weather_color_wind">#964bfc</color>
 </resources>

@@ -6,7 +6,13 @@ import com.github.xiaogegechen.weather.model.json.ForecastJSON;
 import com.github.xiaogegechen.weather.model.json.HourlyJSON;
 import com.github.xiaogegechen.weather.model.json.LifestyleJSON;
 import com.github.xiaogegechen.weather.model.json.NowJSON;
+import com.github.xiaogegechen.weather.model.json.PrecipitationJSON;
+import com.github.xiaogegechen.weather.model.json.SatelliteJSON;
+import com.github.xiaogegechen.weather.model.json.SatelliteTypeJSON;
+import com.github.xiaogegechen.weather.model.json.TemperatureJSON;
 import com.github.xiaogegechen.weather.model.json.TopCityJSON;
+import com.github.xiaogegechen.weather.model.json.VisibilityJSON;
+import com.github.xiaogegechen.weather.model.json.WindJSON;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -82,4 +88,53 @@ public interface Api {
      */
     @GET("api/bing_pic_day")
     Call<DayPicJSON> queryDayPic();
+
+    /**
+     * 降水量分布图
+     *
+     * @return 降水量分布
+     */
+    @GET("api/weather/precipitation_real")
+    Call<PrecipitationJSON> queryPrecipitation();
+
+    /**
+     * 温度分布图
+     *
+     * @return 温度分布
+     */
+    @GET("api/weather/temperature_real")
+    Call<TemperatureJSON> queryTemperature();
+
+    /**
+     * 能见度分布图
+     *
+     * @return 能见度分布
+     */
+    @GET("api/weather/visibility_real")
+    Call<VisibilityJSON> queryVisibility();
+
+    /**
+     * 风向分布图
+     *
+     * @return 风向分布
+     */
+    @GET("api/weather/wind_real")
+    Call<WindJSON> queryWind();
+
+    /**
+     * 卫星云图分类
+     *
+     * @return 卫星云图分类
+     */
+    @GET("api/weather/satellite_type_real")
+    Call<SatelliteTypeJSON> querySatelliteType();
+
+    /**
+     * 卫星云图分布
+     *
+     * @param type 类型，用数字表示，请求这个接口之前先请求{@link #querySatelliteType()}拿到可选的类型
+     * @return 卫星云图
+     */
+    @GET("api/weather/satellite_real")
+    Call<SatelliteJSON> querySatellite(@Query("t_s") String type);
 }

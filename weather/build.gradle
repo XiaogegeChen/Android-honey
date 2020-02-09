@@ -1,3 +1,4 @@
+//apply plugin: 'org.greenrobot.greendao'
 if (isWeatherDebug.toBoolean()) {
     apply from: "${rootProject.rootDir}/set.gradle"
     project.defaultAppSetting()
@@ -28,4 +29,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:${CONVERTER_GSON}"
     // glide
     implementation "com.github.bumptech.glide:glide:${GLIDE}"
+    implementation "com.google.android.material:material:${MATERIAL}"
+
+    implementation "org.greenrobot:greendao:${GREEN_DAO}"
 }

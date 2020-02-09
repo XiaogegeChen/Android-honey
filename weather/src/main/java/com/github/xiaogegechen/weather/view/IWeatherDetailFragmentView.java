@@ -15,10 +15,10 @@ public interface IWeatherDetailFragmentView extends IBaseView {
      *
      * @param tempText 温度
      * @param weatherDescriptionText 天气状况描述
-     * @param compareText 与昨天对比
      * @param weatherAirList 空气状况
+     * @param condCode 天气状态码
      */
-    void showNow(String tempText, String weatherDescriptionText, String compareText, List<Air> weatherAirList);
+    void showNow(String tempText, String weatherDescriptionText, List<Air> weatherAirList, String condCode);
 
     /**
      * 在视图中显示逐小时天气。

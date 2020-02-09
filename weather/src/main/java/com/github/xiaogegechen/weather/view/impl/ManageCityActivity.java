@@ -15,8 +15,9 @@ import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.weather.R;
 import com.github.xiaogegechen.weather.adapter.SelectedCityListAdapter;
-import com.github.xiaogegechen.weather.model.SelectedCity;
+import com.github.xiaogegechen.weather.model.SelectedCityForRvInMCAct;
 import com.github.xiaogegechen.weather.model.event.NotifyCityRemovedEvent;
+import com.github.xiaogegechen.weather.model.event.NotifySelectedCityRvInMCActItemClickEvent;
 import com.github.xiaogegechen.weather.presenter.IManageCityActivityPresenter;
 import com.github.xiaogegechen.weather.presenter.impl.ManageCityActivityPresenterImpl;
 import com.github.xiaogegechen.weather.view.IManageCityActivityView;
@@ -27,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManageCityActivity extends EventBusActivity implements IManageCityActivityView {
-
     private static final String TAG = "ManageCityActivity";
 
     private Toolbar mToolbar;
@@ -36,7 +36,7 @@ public class ManageCityActivity extends EventBusActivity implements IManageCityA
     private Group mNothingGroup;
 
     private SelectedCityListAdapter mSelectedCityListAdapter;
-    private List<SelectedCity> mRecyclerViewDataSource;
+    private List<SelectedCityForRvInMCAct> mRecyclerViewDataSource;
 
     private IManageCityActivityPresenter mManageCityActivityPresenter;
 
@@ -111,12 +111,44 @@ public class ManageCityActivity extends EventBusActivity implements IManageCityA
     }
 
     @Override
-    public void showSelectedCity(List<SelectedCity> selectedCityList) {
-        mNothingGroup.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mRecyclerViewDataSource.clear();
-        mRecyclerViewDataSource.addAll(selectedCityList);
-        mSelectedCityListAdapter.notifyDataSetChanged();
+    public void changeItem(SelectedCityForRvInMCAct newData) {
+        for (int i = 0; i < mRecyclerViewDataSource.size(); i++) {
+            SelectedCityForRvInMCAct oldData = mRecyclerViewDataSource.get(i);
+            if (oldData.getId().equals(newData.getId())) {
+                // 替换
+                oldData.setWeatherCode(newData.getWeatherCode());
+                oldData.setWeatherDescription(newData.getWeatherDescription());
+                oldData.setTemp(newData.getTemp());
+                // 通知 recyclerView 更新对应条目
+                mSelectedCityListAdapter.notifyItemChanged(i);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void removeItem(String cityId) {
+        for (int i = 0; i < mRecyclerViewDataSource.size(); i++) {
+            if(cityId.equals(mRecyclerViewDataSource.get(i).getId())){
+                // 删除
+                mRecyclerViewDataSource.remove(i);
+                mSelectedCityListAdapter.notifyItemRemoved(i);
+                if(mRecyclerViewDataSource.size() == 0){
+                    showNothing();
+                }
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void addItem(SelectedCityForRvInMCAct selectedCityForRvInMCAct) {
+        if(mRecyclerViewDataSource.size() == 0){
+            mNothingGroup.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+        mRecyclerViewDataSource.add(selectedCityForRvInMCAct);
+        mSelectedCityListAdapter.notifyItemInserted(mRecyclerViewDataSource.size() - 1);
     }
 
     @Override
@@ -126,25 +158,30 @@ public class ManageCityActivity extends EventBusActivity implements IManageCityA
     }
 
     @Override
-    public void removeCity(SelectedCity selectedCity) {
-        LogUtil.d(TAG, "click selectedCity is : " + selectedCity);
-        // 传过来的 selectedCity 不是 mRecyclerViewDataSource 中的一个实例，是一个深拷贝，因此需要遍历比较字段确
+    public void removeCity(SelectedCityForRvInMCAct selectedCityForRvInMCAct) {
+        LogUtil.d(TAG, "click selectedCityForRvInMCAct is : " + selectedCityForRvInMCAct);
+        // 传过来的 selectedCityForRvInMCAct 不是 mRecyclerViewDataSource 中的一个实例，是一个深拷贝，因此需要遍历比较字段确
         // 定位置
         int position = -1;
         for (int i = 0; i < mRecyclerViewDataSource.size(); i++) {
-            SelectedCity item = mRecyclerViewDataSource.get(i);
-            if(item.getId().equals(selectedCity.getId()) && item.getLocation().equals(selectedCity.getLocation())){
+            SelectedCityForRvInMCAct item = mRecyclerViewDataSource.get(i);
+            if(item.getId().equals(selectedCityForRvInMCAct.getId())){
                 position = i;
                 break;
             }
         }
         LogUtil.d(TAG, "position is : " + position);
         mRecyclerViewDataSource.remove(position);
-        mSelectedCityListAdapter.notifyDataSetChanged();
+        mSelectedCityListAdapter.notifyItemRemoved(position);
     }
 
     @Subscribe
     public void onHandleNotifyCityRemovedEvent(NotifyCityRemovedEvent event){
         mManageCityActivityPresenter.handleNotifyCityRemovedEvent(event);
+    }
+
+    @Subscribe
+    public void onHandleNotifySelectedCityRvInMCActItemClickEvent(NotifySelectedCityRvInMCActItemClickEvent event){
+        mManageCityActivityPresenter.handleNotifySelectedCityRvInMCActItemClickEvent(event);
     }
 }

@@ -1,11 +1,11 @@
 package com.github.xiaogegechen.bing.model.json;
 
-import com.github.xiaogegechen.common.network.Checkable;
+import com.github.xiaogegechen.common.network.MyServerCheckable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ModuleJSON implements Checkable {
+public class ModuleJSON implements MyServerCheckable {
     /**
      * result : {"module_count":6,"module_list":[{"module_type":200,"module_title":" 今日热图"},{"module_type":201,"module_title":" 明星"},{"module_type":202,"module_title":" 美女"},{"module_type":203,"module_title":" 摄影"},{"module_type":204,"module_title":" 壁纸"},{"module_type":205,"module_title":" 动漫"}]}
      * error_code : 0

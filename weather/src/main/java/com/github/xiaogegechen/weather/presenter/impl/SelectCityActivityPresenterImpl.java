@@ -1,13 +1,13 @@
 package com.github.xiaogegechen.weather.presenter.impl;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.github.xiaogegechen.LogInterceptor;
+import com.github.xiaogegechen.common.network.CheckHelper;
 import com.github.xiaogegechen.common.util.RetrofitHelper;
 import com.github.xiaogegechen.weather.Api;
 import com.github.xiaogegechen.weather.Constants;
-import com.github.xiaogegechen.weather.helper.SelectedCitySetHelper;
+import com.github.xiaogegechen.weather.helper.SelectedCitiesManager;
 import com.github.xiaogegechen.weather.model.CityInfo;
 import com.github.xiaogegechen.weather.model.json.CityListJSON;
 import com.github.xiaogegechen.weather.model.json.TopCityJSON;
@@ -39,12 +39,9 @@ public class SelectCityActivityPresenterImpl implements ISelectCityActivityPrese
     private Call<TopCityJSON> mTopCityCall;
     private Call<CityListJSON> mCityListCall;
 
-    private Context mContext;
-
     @Override
     public void attach(ISelectCityActivityView selectCityActivityView) {
         mSelectCityActivityView = selectCityActivityView;
-        mContext = (Context) mSelectCityActivityView;
         // retrofit
         mSearchCityRetrofit = new Retrofit.Builder()
                 .baseUrl(Constants.WEATHER_SEARCH_CITY_URL)
@@ -65,12 +62,20 @@ public class SelectCityActivityPresenterImpl implements ISelectCityActivityPrese
         mTopCityCall.enqueue(new Callback<TopCityJSON>() {
             @Override
             public void onResponse(@NotNull Call<TopCityJSON> call, @NotNull Response<TopCityJSON> response) {
-                TopCityJSON body = response.body();
-                if (body != null && isTopCityJSONOK(body)) {
-                    List<CityInfo> cityInfoList = convertTopCityJSON2CityInfoList(body);
-                    mSelectCityActivityView.showTopCityList(cityInfoList);
-                }else{
-                    mSelectCityActivityView.showToast("未查询到热门城市");
+                final TopCityJSON body = response.body();
+                if (body != null) {
+                    CheckHelper.checkResultFromHWeatherServer(body, new com.github.xiaogegechen.common.network.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            List<CityInfo> cityInfoList = convertTopCityJSON2CityInfoList(body);
+                            mSelectCityActivityView.showTopCityList(cityInfoList);
+                        }
+
+                        @Override
+                        public void onFailure(String errorCode, String errorMessage) {
+                            mSelectCityActivityView.showToast("未查询到热门城市");
+                        }
+                    });
                 }
             }
 
@@ -84,20 +89,13 @@ public class SelectCityActivityPresenterImpl implements ISelectCityActivityPrese
     }
 
     @Override
-    public void finish() {
-        // 更新sp
-        SelectedCitySetHelper.getInstance(mContext.getApplicationContext()).commit();
-        // TODO 通知其它activity
-    }
-
-    @Override
     public void removeCity(CityInfo cityInfo) {
-        SelectedCitySetHelper.getInstance(mContext.getApplicationContext()).removeCity(cityInfo);
+        SelectedCitiesManager.getInstance().removeCity(cityInfo);
     }
 
     @Override
     public void addCity(CityInfo cityInfo) {
-        SelectedCitySetHelper.getInstance(mContext.getApplicationContext()).addCity(cityInfo);
+        SelectedCitiesManager.getInstance().addCity(cityInfo);
     }
 
     @Override
@@ -119,12 +117,20 @@ public class SelectCityActivityPresenterImpl implements ISelectCityActivityPrese
             mCityListCall.enqueue(new Callback<CityListJSON>() {
                 @Override
                 public void onResponse(@NotNull Call<CityListJSON> call, @NotNull Response<CityListJSON> response) {
-                    CityListJSON body = response.body();
-                    if(body != null && isCityListJSONOK(body)){
-                        List<CityInfo> cityInfoList = convertCityListJSON2CityInfoList(body);
-                        mSelectCityActivityView.showCityList(cityInfoList);
-                    }else{
-                        mSelectCityActivityView.showToast("没有查询到相关城市");
+                    final CityListJSON body = response.body();
+                    if (body != null) {
+                        CheckHelper.checkResultFromHWeatherServer(body, new com.github.xiaogegechen.common.network.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                List<CityInfo> cityInfoList = convertCityListJSON2CityInfoList(body);
+                                mSelectCityActivityView.showCityList(cityInfoList);
+                            }
+
+                            @Override
+                            public void onFailure(String errorCode, String errorMessage) {
+                                mSelectCityActivityView.showToast("没有查询到相关城市");
+                            }
+                        });
                     }
                 }
 
@@ -147,13 +153,13 @@ public class SelectCityActivityPresenterImpl implements ISelectCityActivityPrese
      */
     private List<CityInfo> convertTopCityJSON2CityInfoList(TopCityJSON topCityJSON){
         List<CityInfo> result = topCityJSON.getResult().get(0).getCityInfoList();
-        if(!SelectedCitySetHelper.getInstance(mContext.getApplicationContext()).hasSelectedCity()){
+        if(!SelectedCitiesManager.getInstance().hasSelectedCity()){
             // 还没有选择的城市，直接返回。
             return result;
         }
         for (CityInfo cityInfo : result) {
             // 对比 cityId 和 location，设置selected 字段。
-            if(SelectedCitySetHelper.getInstance(mContext.getApplicationContext()).isCitySelected(cityInfo)){
+            if(SelectedCitiesManager.getInstance().isCitySelected(cityInfo)){
                 cityInfo.setSelected(true);
             }else{
                 cityInfo.setSelected(false);
@@ -164,15 +170,6 @@ public class SelectCityActivityPresenterImpl implements ISelectCityActivityPrese
 
     private List<CityInfo> convertCityListJSON2CityInfoList(CityListJSON cityListJSON){
         return cityListJSON.getResult().get(0).getCityInfoList();
-    }
-
-    // 响应的数据是否有效
-    private static boolean isTopCityJSONOK(TopCityJSON topCityJSON){
-        return "ok".equals(topCityJSON.getResult().get(0).getStatus());
-    }
-
-    private static boolean isCityListJSONOK(CityListJSON cityListJSON){
-        return "ok".equals(cityListJSON.getResult().get(0).getStatus());
     }
 
     /**

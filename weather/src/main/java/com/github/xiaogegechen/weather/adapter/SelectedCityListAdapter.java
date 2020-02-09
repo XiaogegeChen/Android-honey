@@ -10,14 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.xiaogegechen.common.util.ImageParam;
-import com.github.xiaogegechen.common.util.ImageUtil;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.xiaogegechen.common.util.LogUtil;
 import com.github.xiaogegechen.weather.Constants;
 import com.github.xiaogegechen.weather.R;
 import com.github.xiaogegechen.weather.model.CityInfo;
-import com.github.xiaogegechen.weather.model.SelectedCity;
+import com.github.xiaogegechen.weather.model.SelectedCityForRvInMCAct;
 import com.github.xiaogegechen.weather.model.event.NotifyCityRemovedEvent;
+import com.github.xiaogegechen.weather.model.event.NotifySelectedCityRvInMCActItemClickEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -30,11 +31,11 @@ public class SelectedCityListAdapter extends RecyclerView.Adapter<SelectedCityLi
 
     private static final String TAG = "SelectedCityListAdapter";
 
-    private List<SelectedCity> mSelectedCityList;
+    private List<SelectedCityForRvInMCAct> mSelectedCityForRvInMCActList;
     private Context mContext;
 
-    public SelectedCityListAdapter(List<SelectedCity> selectedCityList, Context context) {
-        mSelectedCityList = selectedCityList;
+    public SelectedCityListAdapter(List<SelectedCityForRvInMCAct> selectedCityForRvInMCActList, Context context) {
+        mSelectedCityForRvInMCActList = selectedCityForRvInMCActList;
         mContext = context;
     }
 
@@ -50,54 +51,55 @@ public class SelectedCityListAdapter extends RecyclerView.Adapter<SelectedCityLi
         holder.mDeleteImageView.setOnClickListener(v -> {
             // 点击事件，发送移除事件
             final int position = holder.getAdapterPosition();
-            SelectedCity selectedCity = mSelectedCityList.get(position);
-            LogUtil.d(TAG, "selectedCity is : " + selectedCity);
+            SelectedCityForRvInMCAct selectedCityForRvInMCAct = mSelectedCityForRvInMCActList.get(position);
+            LogUtil.d(TAG, "selectedCityForRvInMCAct is : " + selectedCityForRvInMCAct);
             EventBus.getDefault().post(new NotifyCityRemovedEvent(
-                    convertSelectedCity2CityInfo(selectedCity),
+                    convertSelectedCity2CityInfo(selectedCityForRvInMCAct),
                     NotifyCityRemovedEvent.FLAG_FROM_MANAGE_CITY_ACTIVITY)
             );
         });
         holder.itemView.setOnClickListener(v -> {
-            // TODO 点击事件，跳转到weatherActivity界面。
+            final int position = holder.getAdapterPosition();
+            SelectedCityForRvInMCAct selectedCityForRvInMCAct = mSelectedCityForRvInMCActList.get(position);
+            EventBus.getDefault().post(new NotifySelectedCityRvInMCActItemClickEvent(selectedCityForRvInMCAct.getId()));
         });
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SelectedCity selectedCity = mSelectedCityList.get(position);
+        SelectedCityForRvInMCAct selectedCityForRvInMCAct = mSelectedCityForRvInMCActList.get(position);
         // 城市名
-        String location = selectedCity.getLocation();
+        String location = selectedCityForRvInMCAct.getLocation();
         // 天气数据
         StringBuilder weatherBuilder = new StringBuilder();
-        if(selectedCity.getWeatherDescription() == null){
+        if(selectedCityForRvInMCAct.getWeatherDescription() == null){
             weatherBuilder.append(Constants.NULL_DATA);
         }else{
-            weatherBuilder.append(selectedCity.getWeatherDescription());
+            weatherBuilder.append(selectedCityForRvInMCAct.getWeatherDescription());
         }
         weatherBuilder.append(" ");
-        if(selectedCity.getTemp() == null){
+        if(selectedCityForRvInMCAct.getTemp() == null){
             weatherBuilder.append(Constants.NULL_DATA);
         }else{
-            weatherBuilder.append(selectedCity.getTemp());
+            weatherBuilder.append(selectedCityForRvInMCAct.getTemp());
         }
         weatherBuilder.append("°");
         // 填充
         holder.mCityTextView.setText(location);
         holder.mWeatherTextView.setText(weatherBuilder.toString());
-        ImageParam param = new ImageParam.Builder()
-                .context(mContext)
-                .imageView(holder.mWeatherImageView)
-                .url(Constants.WEATHER_ICON_URL + selectedCity.getWeatherCode() + ".png")
-                .error(mContext.getResources().getDrawable(R.drawable.weather_ic_na))
-                .placeholder(mContext.getResources().getDrawable(R.drawable.weather_ic_na))
-                .build();
-        ImageUtil.INSTANCE.displayImage(param);
+        Glide.with(mContext)
+                .asBitmap()
+                .load(Constants.WEATHER_ICON_URL + selectedCityForRvInMCAct.getWeatherCode() + ".png")
+                .apply(new RequestOptions()
+                        .error(mContext.getResources().getDrawable(R.drawable.weather_ic_na))
+                        .placeholder(mContext.getResources().getDrawable(R.drawable.weather_ic_na)))
+                .into(holder.mWeatherImageView);
     }
 
     @Override
     public int getItemCount() {
-        return mSelectedCityList.size();
+        return mSelectedCityForRvInMCActList.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -117,16 +119,16 @@ public class SelectedCityListAdapter extends RecyclerView.Adapter<SelectedCityLi
     }
 
     /**
-     * 将 SelectedCity 实例转化为 CityInfo 实例。因为是发送给
+     * 将 SelectedCityForRvInMCAct 实例转化为 CityInfo 实例。因为是发送给
      * {@link com.github.xiaogegechen.weather.view.impl.ManageCityActivity}进行删除操作的，只需要
      * cityId 和 location 两个字段即可
-     * @param selectedCity selectedCity
+     * @param selectedCityForRvInMCAct selectedCityForRvInMCAct
      * @return cityInfo，cityId 和 location 两个字段不为空值，其它字段都是空值。
      */
-    private static CityInfo convertSelectedCity2CityInfo(SelectedCity selectedCity){
+    private static CityInfo convertSelectedCity2CityInfo(SelectedCityForRvInMCAct selectedCityForRvInMCAct){
         CityInfo cityInfo = new CityInfo();
-        cityInfo.setLocation(selectedCity.getLocation());
-        cityInfo.setCityId(selectedCity.getId());
+        cityInfo.setLocation(selectedCityForRvInMCAct.getLocation());
+        cityInfo.setCityId(selectedCityForRvInMCAct.getId());
         return cityInfo;
     }
 

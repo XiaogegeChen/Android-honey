@@ -16,6 +16,9 @@ import androidx.annotation.Nullable;
 
 import com.github.xiaogegechen.design.R;
 
+/**
+ * 显示进度的按钮
+ */
 public class ProgressButton extends View {
     //-----------------默认值-----------------------
     private static final int INIT_BG_COLOR = Color.parseColor("#1f7ffb");

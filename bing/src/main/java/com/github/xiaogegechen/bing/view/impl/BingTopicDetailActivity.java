@@ -18,6 +18,7 @@ import com.github.xiaogegechen.bing.presenter.IBingTopicDetailActivityPresenter;
 import com.github.xiaogegechen.bing.presenter.impl.BingTopicDetailActivityPresenterImpl;
 import com.github.xiaogegechen.bing.view.IBingTopicDetailActivityView;
 import com.github.xiaogegechen.common.base.EventBusActivity;
+import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -43,6 +44,9 @@ public class BingTopicDetailActivity extends EventBusActivity implements IBingTo
         mRecyclerView = findViewById(R.id.bing_activity_bing_topic_detail_recycler);
         mErrorPageViewGroup = findViewById(R.id.bing_activity_bing_topic_detail_error);
         mSwipeRefreshLayout = findViewById(R.id.bing_activity_bing_topic_detail_refresh);
+        // imm
+        StatusBarUtils.setImmersive(this);
+        StatusBarUtils.fillStatusBarByView(this, findViewById(R.id.bing_activity_bing_topic_detail_placeholder));
     }
 
     @Override

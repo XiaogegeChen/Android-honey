@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/design_margin_top"
-    android:paddingBottom="@dimen/design_margin_bottom"
     android:background="@color/design_color_white">
     <ImageView
         android:id="@+id/weather_activity_manage_city_item_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:contentDescription="@null"
         android:layout_marginLeft="@dimen/design_margin_left"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +47,8 @@
         android:layout_marginRight="@dimen/design_margin_right"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        android:contentDescription="@null" />
     <View
         android:id="@+id/weather_activity_manage_city_item_splitter"
         android:layout_width="match_parent"

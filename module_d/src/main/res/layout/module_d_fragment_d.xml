@@ -7,7 +7,7 @@
         android:layout_height="match_parent">
     <View
             android:id="@+id/module_d_fragment_d_title_placeholder"
-            android:background="@color/design_color_accent"
+            android:background="@drawable/module_d_gradient_primary"
             android:layout_width="match_parent"
             android:layout_height="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -15,7 +15,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
     <TextView
             android:id="@+id/module_d_fragment_d_title_name"
-            android:background="@color/design_color_accent"
+            android:background="@drawable/module_d_gradient_primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/module_d_title_name"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content">
             <View
                     android:id="@+id/module_d_fragment_d_placeholder"
-                    android:background="@color/design_color_accent"
+                    android:background="@drawable/module_d_gradient_primary"
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -59,7 +59,7 @@
                     app:layout_constraintTop_toTopOf="parent"/>
             <TextView
                     android:id="@+id/module_d_fragment_d_name"
-                    android:background="@color/design_color_accent"
+                    android:background="@drawable/module_d_gradient_primary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/module_d_name"
@@ -86,7 +86,7 @@
                     app:layout_constraintRight_toRightOf="@id/module_d_fragment_d_name"/>
             <TextView
                     android:id="@+id/module_d_fragment_d_total"
-                    android:background="@color/design_color_accent"
+                    android:background="@drawable/module_d_gradient_primary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/module_d_total"
@@ -101,7 +101,7 @@
             <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/module_d_fragment_d_first_item_bg_height"
-                    android:background="@color/design_color_accent"
+                    android:background="@drawable/module_d_gradient_primary"
                     app:layout_constraintTop_toBottomOf="@id/module_d_fragment_d_total"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>

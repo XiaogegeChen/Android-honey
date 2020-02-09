@@ -10,6 +10,9 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.github.xiaogegechen.design.R;
 
+/**
+ * 圆角imageView
+ */
 public class CornerImageView extends AppCompatImageView {
 
     private Path mPath;

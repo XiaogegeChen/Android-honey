@@ -108,12 +108,20 @@ public class PictureListFragment extends BaseFragment
 
     @Override
     public void showToast(String message) {
-        ToastUtil.show(obtainContext(), message);
+        ToastUtil.show(message);
     }
 
     @Override
     public void showPictureList(List<PictureItem> pictureItemList) {
+        // 发现第一次加数据后会自动滑动到最后一个，立马触发了下一次请求，体验不好，在这个位置修复
+        boolean firstFlag = false;
+        if (mDataSource.size() == 0){
+            firstFlag = true;
+        }
         mAdapter.addToEnd(pictureItemList);
+        if (firstFlag){
+            mRecyclerView.scrollToPosition(0);
+        }
     }
 
     @Override

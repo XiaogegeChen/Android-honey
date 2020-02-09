@@ -4,5 +4,7 @@ import com.github.xiaogegechen.common.base.IBasePresenter;
 import com.github.xiaogegechen.weather.view.ISettingActivityView;
 
 public interface ISettingActivityPresenter extends IBasePresenter<ISettingActivityView> {
+    void setAllowBgChange(boolean allow);
 
+    boolean isAllowBgChange();
 }

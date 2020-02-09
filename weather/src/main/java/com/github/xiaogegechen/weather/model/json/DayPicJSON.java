@@ -1,11 +1,11 @@
 package com.github.xiaogegechen.weather.model.json;
 
-import com.github.xiaogegechen.common.network.Checkable;
+import com.github.xiaogegechen.common.network.MyServerCheckable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class DayPicJSON implements Checkable {
+public class DayPicJSON implements MyServerCheckable {
     private Result result;
     @SerializedName("error_code")
     private String errorCode;

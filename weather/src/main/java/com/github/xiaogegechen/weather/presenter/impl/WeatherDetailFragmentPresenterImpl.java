@@ -1,14 +1,16 @@
 package com.github.xiaogegechen.weather.presenter.impl;
 
-import android.app.Activity;
+import androidx.annotation.IntDef;
 
 import com.github.xiaogegechen.LogInterceptor;
-import com.github.xiaogegechen.common.base.BaseFragment;
+import com.github.xiaogegechen.common.network.CheckHelper;
+import com.github.xiaogegechen.common.util.LogUtil;
 import com.github.xiaogegechen.common.util.RetrofitHelper;
+import com.github.xiaogegechen.common.util.TimeUtils;
 import com.github.xiaogegechen.weather.Api;
 import com.github.xiaogegechen.weather.Constants;
 import com.github.xiaogegechen.weather.R;
-import com.github.xiaogegechen.weather.helper.WeatherInfoCacheHelper;
+import com.github.xiaogegechen.weather.helper.WeatherDetailCacheManager;
 import com.github.xiaogegechen.weather.model.Air;
 import com.github.xiaogegechen.weather.model.CityInfo;
 import com.github.xiaogegechen.weather.model.Forecast;
@@ -20,13 +22,14 @@ import com.github.xiaogegechen.weather.model.json.LifestyleJSON;
 import com.github.xiaogegechen.weather.model.json.NowJSON;
 import com.github.xiaogegechen.weather.presenter.IWeatherDetailFragmentPresenter;
 import com.github.xiaogegechen.weather.view.IWeatherDetailFragmentView;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -37,7 +40,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmentPresenter {
-
+    private static final String TAG = "WeatherDetailFragmentPr";
     private static final String TEMP_SUFFIX = "°C";
     private static final String DEGREE_SUFFIX = "°";
     private static final String SPEED_SUFFIX = "km/h";
@@ -46,8 +49,16 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
     private static final String PRESSURE_SUFFIX = "hPa";
     private static final String VISIBILITY_SUFFIX = "km";
 
+    private static final int FROM_DB = 100;
+    private static final int FROM_NETWORK = 101;
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({
+            FROM_DB,
+            FROM_NETWORK
+    })
+    private @interface DataFrom{}
+
     private IWeatherDetailFragmentView mWeatherDetailFragmentView;
-    private Activity mActivity;
 
     private Retrofit mHWeatherRetrofit;
     private Call<NowJSON> mWeatherNowCall;
@@ -58,7 +69,6 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
     @Override
     public void attach(IWeatherDetailFragmentView weatherDetailFragmentView) {
         mWeatherDetailFragmentView = weatherDetailFragmentView;
-        mActivity = ((BaseFragment)(mWeatherDetailFragmentView)).obtainActivity();
         mHWeatherRetrofit = new Retrofit.Builder()
                 .baseUrl(Constants.WEATHER_QUERY_BASIC_WEATHER_URL)
                 .client(new OkHttpClient.Builder().addInterceptor(new LogInterceptor()).build())
@@ -78,46 +88,60 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
 
     @Override
     public void queryWeather(CityInfo cityInfo) {
-        // 先取消掉之前的请求，再做新的请求
-        RetrofitHelper.cancelCalls(mWeatherNowCall,
-                mWeatherHourlyCall,
-                mWeatherForecastCall,
-                mWeatherLiftStyleCall
-        );
-        queryNow(cityInfo);
-        queryHourly(cityInfo);
-        queryForecast(cityInfo);
-        queryLifestyle(cityInfo);
+        if(WeatherDetailCacheManager.getInstance().shouldRefresh(cityInfo.getCityId())){
+            queryWeatherFromNetwork(cityInfo);
+        }else{
+            queryWeatherFromDb(cityInfo);
+        }
+    }
+
+    /**
+     * 从网络拉取天气信息
+     * @param cityInfo 指定的城市
+     */
+    @Override
+    public void queryWeatherFromNetwork(CityInfo cityInfo) {
+        logInfo("query weather from network, cityId -> " + cityInfo.getCityId() + ", location -> " + cityInfo.getLocation());
+        queryNowFromNetWork(cityInfo);
+        queryHourlyFromNetWork(cityInfo);
+        queryForecastFromNetWork(cityInfo);
+        queryLifestyleFromNetWork(cityInfo);
+    }
+
+    /**
+     * 从数据库拉取天气信息
+     * @param cityInfo 指定城市
+     */
+    private void queryWeatherFromDb(CityInfo cityInfo) {
+        logInfo("query weather from db, cityId -> " + cityInfo.getCityId() + ", location -> " + cityInfo.getLocation());
+        queryNowFromDb(cityInfo);
+        queryHourlyFromDb(cityInfo);
+        queryForecastFromDb(cityInfo);
+        queryLifestyleFromDb(cityInfo);
     }
 
     /**
      * 请求实时天气并显示
      * @param cityInfo 指定城市
      */
-    private void queryNow(final CityInfo cityInfo){
+    private void queryNowFromNetWork(final CityInfo cityInfo){
+        // 先取消掉之前的请求，再做新的请求
+        RetrofitHelper.cancelCall(mWeatherNowCall);
         mWeatherDetailFragmentView.showSwipeRefresh();
         mWeatherNowCall = mHWeatherRetrofit.create(Api.class).queryWeatherNow(Constants.WEATHER_KEY, cityInfo.getCityId());
         mWeatherNowCall.enqueue(new Callback<NowJSON>() {
             @Override
             public void onResponse(@NotNull Call<NowJSON> call, @NotNull Response<NowJSON> response) {
+                logInfo("query now from network success, cityId -> " + cityInfo.getCityId());
                 mWeatherDetailFragmentView.hideSwipeRefresh();
-                NowJSON body = response.body();
-                if(isWeatherNowJSONOK(body)){
-                    NowJSON.Result.Now now = body.getResult().get(0).getNow();
-                    String tempText = now.getTmp() + TEMP_SUFFIX;
-                    String weatherDescriptionText = now.getCondDescription();
-                    String compareText = compareTempWithLast(cityInfo, tempText);
-                    List<Air> weatherAirList = convertNowJSON2AirList(body);
-                    mWeatherDetailFragmentView.showNow(tempText, weatherDescriptionText, compareText, weatherAirList);
-                    // 更新上一时刻的温度
-                    WeatherInfoCacheHelper.getInstance(mActivity.getApplicationContext()).updateLastTemp(cityInfo, now.getTmp());
-                }else{
-                    mWeatherDetailFragmentView.showToast(Constants.NOW_ERROR_MESSAGE);
-                }
+                final NowJSON body = response.body();
+                handleNowJSON(cityInfo, body, FROM_NETWORK);
             }
 
             @Override
             public void onFailure(@NotNull Call<NowJSON> call, @NotNull Throwable t) {
+                logError("query now from network failed, cityId -> " + cityInfo.getCityId() + ", exception -> " + t.getMessage());
+                t.printStackTrace();
                 if(!call.isCanceled()){
                     mWeatherDetailFragmentView.hideSwipeRefresh();
                     mWeatherDetailFragmentView.showToast(Constants.NOW_ERROR_MESSAGE);
@@ -130,24 +154,24 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
      * 请求24小时天气并显示
      * @param cityInfo 指定城市
      */
-    private void queryHourly(CityInfo cityInfo){
+    private void queryHourlyFromNetWork(CityInfo cityInfo){
+        // 先取消掉之前的请求，再做新的请求
+        RetrofitHelper.cancelCall(mWeatherHourlyCall);
         mWeatherDetailFragmentView.showSwipeRefresh();
         mWeatherHourlyCall = mHWeatherRetrofit.create(Api.class).queryWeatherHourly(Constants.WEATHER_KEY, cityInfo.getCityId());
         mWeatherHourlyCall.enqueue(new Callback<HourlyJSON>() {
             @Override
             public void onResponse(@NotNull Call<HourlyJSON> call, @NotNull Response<HourlyJSON> response) {
+                logInfo("query hourly from network success, cityId -> " + cityInfo.getCityId());
                 mWeatherDetailFragmentView.hideSwipeRefresh();
-                HourlyJSON body = response.body();
-                if(isWeatherHourlyJSONOK(body)){
-                    List<Hourly> weatherHourlyList = convertHourlyJSON2HourlyList(body);
-                    mWeatherDetailFragmentView.showHourly(weatherHourlyList);
-                }else{
-                    mWeatherDetailFragmentView.showToast(Constants.HOURLY_ERROR_MESSAGE);
-                }
+                final HourlyJSON body = response.body();
+                handleHourlyJSON(cityInfo, body, FROM_NETWORK);
             }
 
             @Override
             public void onFailure(@NotNull Call<HourlyJSON> call, @NotNull Throwable t) {
+                logError("query hourly from network failed, cityId -> " + cityInfo.getCityId() + ", exception -> " + t.getMessage());
+                t.printStackTrace();
                 if(!call.isCanceled()){
                     mWeatherDetailFragmentView.hideSwipeRefresh();
                     mWeatherDetailFragmentView.showToast(Constants.HOURLY_ERROR_MESSAGE);
@@ -160,24 +184,24 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
      * 请求未来几天天气并显示
      * @param cityInfo 指定城市
      */
-    private void queryForecast(CityInfo cityInfo){
+    private void queryForecastFromNetWork(CityInfo cityInfo){
+        // 先取消掉之前的请求，再做新的请求
+        RetrofitHelper.cancelCall(mWeatherForecastCall);
         mWeatherDetailFragmentView.showSwipeRefresh();
         mWeatherForecastCall = mHWeatherRetrofit.create(Api.class).queryWeatherForecast(Constants.WEATHER_KEY, cityInfo.getCityId());
         mWeatherForecastCall.enqueue(new Callback<ForecastJSON>() {
             @Override
             public void onResponse(@NotNull Call<ForecastJSON> call, @NotNull Response<ForecastJSON> response) {
+                logInfo("query forecast from network success, cityId -> " + cityInfo.getCityId());
                 mWeatherDetailFragmentView.hideSwipeRefresh();
-                ForecastJSON body = response.body();
-                if(isWeatherForecastJSONOK(body)){
-                    List<Forecast> weatherForecastList = convertForecastJSON2ForecastList(body);
-                    mWeatherDetailFragmentView.showForecast(weatherForecastList);
-                }else {
-                    mWeatherDetailFragmentView.showToast(Constants.FORECAST_ERROR_MESSAGE);
-                }
+                final ForecastJSON body = response.body();
+                handleForecastJSON(cityInfo, body, FROM_NETWORK);
             }
 
             @Override
             public void onFailure(@NotNull Call<ForecastJSON> call, @NotNull Throwable t) {
+                logError("query forecast from network failed, cityId -> " + cityInfo.getCityId() + ", exception -> " + t.getMessage());
+                t.printStackTrace();
                 if(!call.isCanceled()){
                     mWeatherDetailFragmentView.hideSwipeRefresh();
                     mWeatherDetailFragmentView.showToast(Constants.FORECAST_ERROR_MESSAGE);
@@ -190,24 +214,24 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
      * 请求生活建议并显示
      * @param cityInfo 指定城市
      */
-    private void queryLifestyle(CityInfo cityInfo){
+    private void queryLifestyleFromNetWork(CityInfo cityInfo){
+        // 先取消掉之前的请求，再做新的请求
+        RetrofitHelper.cancelCall(mWeatherLiftStyleCall);
         mWeatherDetailFragmentView.showSwipeRefresh();
         mWeatherLiftStyleCall = mHWeatherRetrofit.create(Api.class).queryWeatherLifestyle(Constants.WEATHER_KEY, cityInfo.getCityId());
         mWeatherLiftStyleCall.enqueue(new Callback<LifestyleJSON>() {
             @Override
             public void onResponse(@NotNull Call<LifestyleJSON> call, @NotNull Response<LifestyleJSON> response) {
+                logInfo("query lifestyle from network success, cityId -> " + cityInfo.getCityId());
                 mWeatherDetailFragmentView.hideSwipeRefresh();
-                LifestyleJSON body = response.body();
-                if(isWeatherLifestyleJSONOK(body)){
-                    List<Lifestyle> weatherLifestyleList = convertLifestyleJSON2LifestyleList(body);
-                    mWeatherDetailFragmentView.showLifestyle(weatherLifestyleList);
-                }else{
-                    mWeatherDetailFragmentView.showToast(Constants.LIFESTYLE_ERROR_MESSAGE);
-                }
+                final LifestyleJSON body = response.body();
+                handleLifestyleJSON(cityInfo, body, FROM_NETWORK);
             }
 
             @Override
             public void onFailure(@NotNull Call<LifestyleJSON> call, @NotNull Throwable t) {
+                logError("query lifestyle from network failed, cityId -> " + cityInfo.getCityId() + ", exception -> " + t.getMessage());
+                t.printStackTrace();
                 if(!call.isCanceled()){
                     mWeatherDetailFragmentView.hideSwipeRefresh();
                     mWeatherDetailFragmentView.showToast(Constants.LIFESTYLE_ERROR_MESSAGE);
@@ -217,34 +241,221 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
     }
 
     /**
-     * 和上一时刻的温度对比，拿到对比结果
-     * @param tempNow 当前温度
-     * @return 对比结果，如果大于上一时刻的温度，返回"高_°C"，如果小于上一时刻的温度，返回"低_°C"，
+     * 从数据库获取实时天气并显示
+     * @param cityInfo 指定城市
      */
-    private String compareTempWithLast(CityInfo cityInfo, String tempNow){
-        String tempYesterdayString = WeatherInfoCacheHelper.getInstance(mActivity.getApplicationContext()).getLastTemp(cityInfo);
-        int tempYesterday;
-        if(tempYesterdayString == null){
-            // 说明没有昨天的数据
-            tempYesterday = 0;
-        }else{
-            try{
-                tempYesterday = Integer.parseInt(tempYesterdayString);
-            }catch (Exception e){
-                tempYesterday = 0;
+    private void queryNowFromDb(final CityInfo cityInfo){
+        String nowDataJson = WeatherDetailCacheManager.getInstance().getNowData(cityInfo.getCityId());
+        if (nowDataJson != null) {
+            Gson gson = new Gson();
+            try {
+                NowJSON nowJSON = gson.fromJson(nowDataJson, NowJSON.class);
+                handleNowJSON(cityInfo, nowJSON, FROM_DB);
+            }catch (JsonSyntaxException e){
+                e.printStackTrace();
+                logError("query now from db, cityId -> " + cityInfo.getCityId() + ", met json syntax error -> " + e.getMessage() + ", so query from net!");
+                queryNowFromNetWork(cityInfo);
             }
-        }
-        int diff = 0;
-        try{
-            diff = Integer.parseInt(tempNow) - tempYesterday;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        if(diff >= 0){
-            return "高" + diff + TEMP_SUFFIX;
         }else{
-            diff = 0 - diff;
-            return "低" + diff + TEMP_SUFFIX;
+            logInfo("query now from db, json is null, cityId -> " + cityInfo.getCityId() + ", so query from net!");
+            queryNowFromNetWork(cityInfo);
+        }
+    }
+
+    /**
+     * 从数据库获取每小时天气并显示
+     * @param cityInfo 指定城市
+     */
+    private void queryHourlyFromDb(final CityInfo cityInfo){
+        String hourlyDataJson = WeatherDetailCacheManager.getInstance().getHourlyData(cityInfo.getCityId());
+        if (hourlyDataJson != null) {
+            Gson gson = new Gson();
+            try {
+                HourlyJSON hourlyJSON = gson.fromJson(hourlyDataJson, HourlyJSON.class);
+                handleHourlyJSON(cityInfo, hourlyJSON, FROM_DB);
+            }catch (JsonSyntaxException e){
+                e.printStackTrace();
+                logError("query hourly from db, cityId -> " + cityInfo.getCityId() + ", met json syntax error -> " + e.getMessage() + ", so query from net!");
+                queryHourlyFromNetWork(cityInfo);
+            }
+        }else{
+            logInfo("query hourly from db, json is null, cityId -> " + cityInfo.getCityId() + ", so query from net!");
+            queryHourlyFromNetWork(cityInfo);
+        }
+    }
+
+    /**
+     * 从数据库获取未来七天的天气并显示
+     * @param cityInfo 指定城市
+     */
+    private void queryForecastFromDb(final CityInfo cityInfo){
+        String forecastDataJson = WeatherDetailCacheManager.getInstance().getForecastData(cityInfo.getCityId());
+        if (forecastDataJson != null) {
+            Gson gson = new Gson();
+            try {
+                ForecastJSON forecastJSON = gson.fromJson(forecastDataJson, ForecastJSON.class);
+                handleForecastJSON(cityInfo, forecastJSON, FROM_DB);
+            }catch (JsonSyntaxException e){
+                e.printStackTrace();
+                logError("query forecast from db, cityId -> " + cityInfo.getCityId() + ", met json syntax error -> " + e.getMessage() + ", so query from net!");
+                queryForecastFromNetWork(cityInfo);
+            }
+        }else{
+            logInfo("query forecast from db, json is null, cityId -> " + cityInfo.getCityId() + ", so query from net!");
+            queryForecastFromNetWork(cityInfo);
+        }
+    }
+
+    /**
+     * 从数据库获取生活建议信息并显示
+     * @param cityInfo 指定城市
+     */
+    private void queryLifestyleFromDb(final CityInfo cityInfo){
+        String lifestyleDataJson = WeatherDetailCacheManager.getInstance().getLifestyleData(cityInfo.getCityId());
+        if (lifestyleDataJson != null) {
+            Gson gson = new Gson();
+            try {
+                LifestyleJSON lifestyleJSON = gson.fromJson(lifestyleDataJson, LifestyleJSON.class);
+                handleLifestyleJSON(cityInfo, lifestyleJSON, FROM_DB);
+            }catch (JsonSyntaxException e){
+                e.printStackTrace();
+                logError("query lifestyle from db, cityId -> " + cityInfo.getCityId() + ", met json syntax error -> " + e.getMessage() + ", so query from net!");
+                queryLifestyleFromNetWork(cityInfo);
+            }
+        }else{
+            logInfo("query lifestyle from db, json is null, cityId -> " + cityInfo.getCityId() + ", so query from net!");
+            queryLifestyleFromNetWork(cityInfo);
+        }
+    }
+
+    /**
+     * 处理查询到的实时天气的结果，可能来自db或者network
+     * @param cityInfo 城市
+     * @param nowJSON 待处理的json
+     * @param from 数据来源，取值为{@link #FROM_DB} or {@link #FROM_NETWORK}
+     */
+    private void handleNowJSON(final CityInfo cityInfo, final NowJSON nowJSON, final @DataFrom int from){
+        if (nowJSON != null) {
+            CheckHelper.checkResultFromHWeatherServer(nowJSON, new com.github.xiaogegechen.common.network.Callback() {
+                @Override
+                public void onSuccess() {
+                    logInfo("handle now json which from " + from + " success!");
+                    NowJSON.Result.Now now = nowJSON.getResult().get(0).getNow();
+                    String tempText = now.getTmp() + TEMP_SUFFIX;
+                    String weatherDescriptionText = now.getCondDescription();
+                    List<Air> weatherAirList = convertNowJSON2AirList(nowJSON);
+                    mWeatherDetailFragmentView.showNow(tempText, weatherDescriptionText, weatherAirList, now.getCondCode());
+                    if(from == FROM_NETWORK){
+                        // 缓存
+                        Gson gson = new Gson();
+                        WeatherDetailCacheManager.getInstance().saveNowData(cityInfo.getCityId(), gson.toJson(nowJSON));
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorCode, String errorMessage) {
+                    logError("handle now json which from " + from + " failed!" + ", error code -> " + errorCode + "error msg -> " + errorMessage);
+                    if(from == FROM_NETWORK){
+                        mWeatherDetailFragmentView.showToast(Constants.NOW_ERROR_MESSAGE);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * 处理查询到的逐小时天气的结果，可能来自db或者network
+     * @param cityInfo 城市
+     * @param hourlyJSON 待处理的json
+     * @param from 数据来源，取值为{@link #FROM_DB} or {@link #FROM_NETWORK}
+     */
+    private void handleHourlyJSON(final CityInfo cityInfo, final HourlyJSON hourlyJSON, final @DataFrom int from){
+        if (hourlyJSON != null) {
+            CheckHelper.checkResultFromHWeatherServer(hourlyJSON, new com.github.xiaogegechen.common.network.Callback() {
+                @Override
+                public void onSuccess() {
+                    logInfo("handle hourly json which from " + from + " success!");
+                    List<Hourly> weatherHourlyList = convertHourlyJSON2HourlyList(hourlyJSON);
+                    mWeatherDetailFragmentView.showHourly(weatherHourlyList);
+                    if(from == FROM_NETWORK){
+                        // 缓存
+                        Gson gson = new Gson();
+                        WeatherDetailCacheManager.getInstance().saveHourlyData(cityInfo.getCityId(), gson.toJson(hourlyJSON));
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorCode, String errorMessage) {
+                    logError("handle hourly json which from " + from + " failed!" + ", error code -> " + errorCode + "error msg -> " + errorMessage);
+                    if(from == FROM_NETWORK){
+                        mWeatherDetailFragmentView.showToast(Constants.HOURLY_ERROR_MESSAGE);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * 处理查询到的未来七天天气的结果，可能来自db或者network
+     * @param cityInfo 城市
+     * @param forecastJSON 待处理的json
+     * @param from 数据来源，取值为{@link #FROM_DB} or {@link #FROM_NETWORK}
+     */
+    private void handleForecastJSON(final CityInfo cityInfo, final ForecastJSON forecastJSON, final @DataFrom int from){
+        if (forecastJSON != null) {
+            CheckHelper.checkResultFromHWeatherServer(forecastJSON, new com.github.xiaogegechen.common.network.Callback() {
+                @Override
+                public void onSuccess() {
+                    logInfo("handle forecast json which from " + from + " success!");
+                    List<Forecast> weatherForecastList = convertForecastJSON2ForecastList(forecastJSON);
+                    mWeatherDetailFragmentView.showForecast(weatherForecastList);
+                    if(from == FROM_NETWORK){
+                        // 缓存
+                        Gson gson = new Gson();
+                        WeatherDetailCacheManager.getInstance().saveForecastData(cityInfo.getCityId(), gson.toJson(forecastJSON));
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorCode, String errorMessage) {
+                    logError("handle forecast json which from " + from + " failed!" + ", error code -> " + errorCode + "error msg -> " + errorMessage);
+                    if(from == FROM_NETWORK){
+                        mWeatherDetailFragmentView.showToast(Constants.FORECAST_ERROR_MESSAGE);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * 处理查询到的生活建议的结果，可能来自db或者network
+     * @param cityInfo 城市
+     * @param lifestyleJSON 待处理的json
+     * @param from 数据来源，取值为{@link #FROM_DB} or {@link #FROM_NETWORK}
+     */
+    private void handleLifestyleJSON(final CityInfo cityInfo, final LifestyleJSON lifestyleJSON, final @DataFrom int from){
+        if (lifestyleJSON != null) {
+            CheckHelper.checkResultFromHWeatherServer(lifestyleJSON, new com.github.xiaogegechen.common.network.Callback() {
+                @Override
+                public void onSuccess() {
+                    logInfo("handle lifestyle json which from " + from + " success!");
+                    List<Lifestyle> weatherLifestyleList = convertLifestyleJSON2LifestyleList(lifestyleJSON);
+                    mWeatherDetailFragmentView.showLifestyle(weatherLifestyleList);
+                    if(from == FROM_NETWORK){
+                        // 缓存
+                        Gson gson = new Gson();
+                        WeatherDetailCacheManager.getInstance().saveLifestyleData(cityInfo.getCityId(), gson.toJson(lifestyleJSON));
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorCode, String errorMessage) {
+                    logError("handle lifestyle json which from " + from + " failed!" + ", error code -> " + errorCode + "error msg -> " + errorMessage);
+                    if(from == FROM_NETWORK){
+                        mWeatherDetailFragmentView.showToast(Constants.LIFESTYLE_ERROR_MESSAGE);
+                    }
+                }
+            });
         }
     }
 
@@ -336,7 +547,7 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
         for (ForecastJSON.Result.DailyForecast dailyForecastInJSON : dailyForecastListInJSON) {
             Forecast weatherForecast = new Forecast();
             // 推演出来的时间，如今天、明天、星期三等
-            weatherForecast.setTimeDescription(getTimeDescriptionFromOriginTime(dailyForecastInJSON.getDate()));
+            weatherForecast.setTimeDescription(TimeUtils.getTimeDescriptionFromOriginTime(dailyForecastInJSON.getDate()));
             // 日期时间，如：2019/11/23
             weatherForecast.setTime(formatTime(dailyForecastInJSON.getDate()));
             // 天气状态描述，如：小雨。只使用白天的天气
@@ -426,83 +637,6 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
     }
 
     /**
-     * 根据原始时间推算其相对于今天的时间描述，比如今天是 2019.11.23（周六），那么 "2019-11-23" 将返回"今天"， "2019-11-24"
-     * 将返回"明天"，"2019-11-25" 将返回"周一"，以此类推。
-     *
-     * @param originTime 原始时间， 如：2019-11-25
-     * @return 时间相对于今天的描述，计算失败返回 "N/A"
-     */
-    private static String getTimeDescriptionFromOriginTime(String originTime){
-        String result = Constants.NULL_DATA;
-        try {
-            // 今天
-            Calendar today = new GregorianCalendar();
-            today.setTime(new Date());
-            int todayYear = today.get(Calendar.YEAR);
-            int todayMonth = today.get(Calendar.MONTH) + 1;
-            int todayDay = today.get(Calendar.DAY_OF_MONTH);
-            int todayMonthLength = lengthOfMonth(isLeap(todayYear), todayMonth);
-            // 计算明天的日期
-            int tomorrowDay = todayDay + 1;
-            int tomorrowMonth = todayMonth;
-            int tomorrowYear = todayYear;
-            if(tomorrowDay > todayMonthLength){
-                tomorrowDay = 1;
-                tomorrowMonth = todayMonth + 1;
-                if(tomorrowMonth > 12){
-                    tomorrowMonth = 1;
-                    tomorrowYear = todayYear + 1;
-                }
-            }
-            // 从originTime拆分出年月日
-            String[] originTimeString = originTime.split("-");
-            int originTimeYear = Integer.parseInt(originTimeString[0]);
-            int originTimeMonth = Integer.parseInt(originTimeString[1]);
-            int originTimeDay = Integer.parseInt(originTimeString[2]);
-            if(todayYear == originTimeYear && todayMonth == originTimeMonth && todayDay == originTimeDay){
-                return "今天";
-            }
-
-            if(tomorrowYear == originTimeYear && tomorrowMonth == originTimeMonth && tomorrowDay == originTimeDay){
-                return "明天";
-            }
-            // 如果超过两天那就计算是周几
-            Calendar originTimeCalendar = new GregorianCalendar();
-            originTimeCalendar.set(originTimeYear, originTimeMonth - 1, originTimeDay);
-            int weekValue = originTimeCalendar.get(Calendar.DAY_OF_WEEK);
-            switch (weekValue){
-                case Calendar.MONDAY:
-                    result = "周一";
-                    break;
-                case Calendar.TUESDAY:
-                    result = "周二";
-                    break;
-                case Calendar.WEDNESDAY:
-                    result = "周三";
-                    break;
-                case Calendar.THURSDAY:
-                    result = "周四";
-                    break;
-                case Calendar.FRIDAY:
-                    result = "周五";
-                    break;
-                case Calendar.SATURDAY:
-                    result = "周六";
-                    break;
-                case Calendar.SUNDAY:
-                    result = "周日";
-                    break;
-                default:
-                    break;
-
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
      * 格式化时间，比如原始时间是：2019-11-25，格式化后得到的是"2019/11/25"
      * @param originTime 原始时间， 如：2019-11-25
      * @return 格式化之后的时间，如果遇到异常，将返回 "N/A"
@@ -517,49 +651,11 @@ public class WeatherDetailFragmentPresenterImpl implements IWeatherDetailFragmen
         return result;
     }
 
-    /**
-     * 判断一年是不是闰年
-     * @param year 年份
-     * @return true如果是闰年
-     */
-    private static boolean isLeap(long year) {
-        return ((year & 3) == 0) && ((year % 100) != 0 || (year % 400) == 0);
+    private static void logError(String msg){
+        LogUtil.e(TAG, msg);
     }
 
-    /**
-     * 拿到指定月分的天数
-     * @param leapYear 是否是闰年
-     * @param month 月份
-     * @return 这个月的天数
-     */
-    private static int lengthOfMonth(boolean leapYear, int month) {
-        switch (month) {
-            case 2:
-                return (leapYear ? 29 : 28);
-            case 4:
-            case 6:
-            case 9:
-            case 11:
-                return 30;
-            default:
-                return 31;
-        }
-    }
-
-    // 响应成功
-    private static boolean isWeatherNowJSONOK(NowJSON weatherNowJSON){
-        return weatherNowJSON != null && "ok" .equals(weatherNowJSON.getResult().get(0).getStatus());
-    }
-
-    private static boolean isWeatherHourlyJSONOK(HourlyJSON weatherHourlyJSON){
-        return weatherHourlyJSON != null && "ok" .equals(weatherHourlyJSON.getResult().get(0).getStatus());
-    }
-
-    private static boolean isWeatherForecastJSONOK(ForecastJSON weatherForecastJSON){
-        return weatherForecastJSON != null && "ok" .equals(weatherForecastJSON.getResult().get(0).getStatus());
-    }
-
-    private static boolean isWeatherLifestyleJSONOK(LifestyleJSON weatherLifestyleJSON){
-        return weatherLifestyleJSON != null && "ok" .equals(weatherLifestyleJSON.getResult().get(0).getStatus());
+    private static void logInfo(String msg){
+        LogUtil.i(TAG, msg);
     }
 }

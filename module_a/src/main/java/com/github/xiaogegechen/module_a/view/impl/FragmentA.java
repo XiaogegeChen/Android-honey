@@ -46,13 +46,7 @@ public class FragmentA extends EventBusFragment implements IFragmentAView {
     @Override
     public void initView(@NotNull View view) {
         // 不需要支持沉浸式，因此添加一个与状态栏等高的view，占位
-        if(view instanceof LinearLayout){
-            StatusBarUtils.fillStatusBarByView(
-                    obtainContext(),
-                    (LinearLayout) view,
-                    obtainResources().getColor(R.color.module_a_photo_color_primary)
-            );
-        }
+        StatusBarUtils.fillStatusBarByView(obtainActivity(), view.findViewById(R.id.placeHolderView));
         mTabLayout = view.findViewById(R.id.tabLayoutA);
         mToolbar = view.findViewById(R.id.toolBarA);
         mViewPager = view.findViewById(R.id.viewPagerA);

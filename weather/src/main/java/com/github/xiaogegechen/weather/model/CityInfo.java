@@ -173,4 +173,12 @@ public class CityInfo implements Parcelable {
         dest.writeString(type);
         dest.writeByte((byte) (selected ? 1 : 0));
     }
+
+    @Override
+    public String toString() {
+        return "CityInfo{" +
+                "cityId='" + cityId + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

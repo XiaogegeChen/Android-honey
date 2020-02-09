@@ -83,8 +83,10 @@ public class StatusBarUtils {
      * @param activity activity
      * @param isDark 是否是黑色
      */
-    public static void setTextDark(@NonNull Activity activity, boolean isDark){
-        setTextDark(activity.getWindow(), isDark);
+    public static void setTextDark(Activity activity, boolean isDark){
+        if (activity != null) {
+            setTextDark(activity.getWindow(), isDark);
+        }
     }
 
     /**
@@ -103,7 +105,7 @@ public class StatusBarUtils {
      * 设置为沉浸式，前提是主题为NoActionBar，这样view才能顶到状态栏
      * @param activity activity
      */
-    public static void setImmersive(@NonNull Activity activity){
+    public static void setImmersive(Activity activity){
         setImmersive(activity.getWindow());
     }
 
@@ -114,11 +116,13 @@ public class StatusBarUtils {
      * @param bgColor view的背景颜色
      */
     public static void fillStatusBarByView(Context context, LinearLayout root, @ColorInt int bgColor){
-        View placeholderView = new View(context);
-        placeholderView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StatusBarUtils.getHeight(context.getApplicationContext())));
-        placeholderView.setBackgroundColor(bgColor);
-        root.addView(placeholderView, 0);
-        LogUtil.d(TAG, "view height is : " + placeholderView.getMeasuredHeight());
+        if (context != null) {
+            View placeholderView = new View(context);
+            placeholderView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, StatusBarUtils.getHeight(context.getApplicationContext())));
+            placeholderView.setBackgroundColor(bgColor);
+            root.addView(placeholderView, 0);
+            LogUtil.d(TAG, "view height is : " + placeholderView.getMeasuredHeight());
+        }
     }
 
     /**
@@ -127,9 +131,11 @@ public class StatusBarUtils {
      * @param placeholderView 占位的view,宽度要match_parent
      */
     public static void fillStatusBarByView(final Context context,final View placeholderView){
-        ViewGroup.LayoutParams layoutParams = placeholderView.getLayoutParams();
-        layoutParams.height = getHeight(context.getApplicationContext());
-        placeholderView.setLayoutParams(layoutParams);
+        if (context != null) {
+            ViewGroup.LayoutParams layoutParams = placeholderView.getLayoutParams();
+            layoutParams.height = getHeight(context.getApplicationContext());
+            placeholderView.setLayoutParams(layoutParams);
+        }
     }
 
 }

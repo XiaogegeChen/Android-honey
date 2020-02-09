@@ -6,7 +6,7 @@ import com.github.xiaogegechen.common.util.LogUtil;
 import com.github.xiaogegechen.common.util.XmlIOUtil;
 import com.github.xiaogegechen.weather.Constants;
 import com.github.xiaogegechen.weather.model.CityInfo;
-import com.github.xiaogegechen.weather.model.SelectedCity;
+import com.github.xiaogegechen.weather.model.SelectedCityForRvInMCAct;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +15,9 @@ import java.util.Set;
 
 /**
  * 管理选择城市的操作，单例
+ *
+ * @deprecated sp效率低，推荐使用数据库操作管理
+ * @see SelectedCitiesManager
  */
 public class SelectedCitySetHelper {
 
@@ -63,10 +66,10 @@ public class SelectedCitySetHelper {
 
     /**
      * 查询已经添加的城市列表
-     * @return 已经添加的城市列表，单条记录是 SelectedCity 实例
+     * @return 已经添加的城市列表，单条记录是 SelectedCityForRvInMCAct 实例
      */
-    public List<SelectedCity> getSelectedCity(){
-        List<SelectedCity> result = new ArrayList<>();
+    public List<SelectedCityForRvInMCAct> getSelectedCity(){
+        List<SelectedCityForRvInMCAct> result = new ArrayList<>();
         if(mSelectedCitySet.isEmpty()){
             return result;
         }
@@ -140,10 +143,10 @@ public class SelectedCitySetHelper {
 
     /**
      * 移除城市
-     * @param selectedCity 已经添加的城市
+     * @param selectedCityForRvInMCAct 已经添加的城市
      */
-    public void removeCity(SelectedCity selectedCity){
-        removeCity(selectedCity.getId(), selectedCity.getLocation());
+    public void removeCity(SelectedCityForRvInMCAct selectedCityForRvInMCAct){
+        removeCity(selectedCityForRvInMCAct.getId(), selectedCityForRvInMCAct.getLocation());
     }
 
     /**
@@ -182,17 +185,17 @@ public class SelectedCitySetHelper {
     }
 
     /**
-     * 将从sp中读取到的拼接的字符串转化成 SelectedCity 对象
+     * 将从sp中读取到的拼接的字符串转化成 SelectedCityForRvInMCAct 对象
      * @param selectedCityStringInSp 从sp中读取的拼接的字符串
-     * @return SelectedCity 实例
+     * @return SelectedCityForRvInMCAct 实例
      */
-    private static SelectedCity convertStringInSp2SelectedCity(String selectedCityStringInSp){
+    private static SelectedCityForRvInMCAct convertStringInSp2SelectedCity(String selectedCityStringInSp){
         String[] decodeSelectedCity = decodeSelectedCity(selectedCityStringInSp);
         String cityId = decodeSelectedCity[0];
         String location = decodeSelectedCity[1];
-        SelectedCity selectedCity = new SelectedCity();
-        selectedCity.setId(cityId);
-        selectedCity.setLocation(location);
-        return selectedCity;
+        SelectedCityForRvInMCAct selectedCityForRvInMCAct = new SelectedCityForRvInMCAct();
+        selectedCityForRvInMCAct.setId(cityId);
+        selectedCityForRvInMCAct.setLocation(location);
+        return selectedCityForRvInMCAct;
     }
 }

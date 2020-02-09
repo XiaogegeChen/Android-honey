@@ -10,13 +10,13 @@
         android:id="@+id/weather_activity_manage_city_placeholder"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/weather_color_primary"
+        android:background="@drawable/weather_gradient_primary"
         app:layout_constraintTop_toTopOf="parent"/>
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/weather_activity_manage_city_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/weather_color_primary"
+        android:background="@drawable/weather_gradient_primary"
         app:navigationIcon="@drawable/design_ic_back_white"
         app:layout_constraintTop_toBottomOf="@id/weather_activity_manage_city_placeholder"
         app:title="@string/weather_activity_manage_city_title"
@@ -25,6 +25,8 @@
         android:id="@+id/weather_activity_manage_city_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/weather_activity_manage_city_toolbar"
         app:layout_constraintBottom_toBottomOf="@id/weather_activity_manage_city_add_button_bg_split"/>
     <ImageView
@@ -65,7 +67,7 @@
         android:layout_height="1dp"
         android:background="@color/design_color_line"
         app:layout_constraintBottom_toTopOf="@id/weather_activity_manage_city_add_button_bg"/>
-    <TextView
+    <com.github.xiaogegechen.design.view.ZoomableTextView
         android:id="@+id/weather_activity_manage_city_add_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/weather_activity_manage_city_add_button_height"

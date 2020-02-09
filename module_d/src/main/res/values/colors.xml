@@ -3,12 +3,16 @@
     <color name="module_d_activity_book_list_bg">#f2f2f2</color>
     <color name="module_d_activity_express_item_color_pass">#cccccc</color>
 
+    <color name="module_d_color_primary">#ff9569</color>
+    <color name="module_d_color_primary_dark">#e92758</color>
+    <color name="module_d_color_accent">@color/design_color_accent</color>
+
     <color name="module_d_book_color_primary">#88D6F7</color>
-    <color name="module_d_book_color_primary_dark">#68A2BB</color>
+    <color name="module_d_book_color_primary_dark">#6AA4BD</color>
     <color name="module_d_book_color_accent">@color/design_color_accent</color>
 
     <color name="module_d_express_color_primary">#6F0AEE</color>
-    <color name="module_d_express_color_primary_dark">#5108AF</color>
+    <color name="module_d_express_color_primary_dark">#450797</color>
     <color name="module_d_express_color_accent">@color/design_color_accent</color>
 
 </resources>

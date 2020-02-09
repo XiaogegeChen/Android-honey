@@ -1,7 +1,6 @@
 package com.github.xiaogegechen.weather.view.impl;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.xiaogegechen.common.base.BaseFragment;
-import com.github.xiaogegechen.common.util.ImageParam;
-import com.github.xiaogegechen.common.util.ImageUtil;
 import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.weather.Constants;
 import com.github.xiaogegechen.weather.R;
@@ -25,6 +24,7 @@ import com.github.xiaogegechen.weather.model.Air;
 import com.github.xiaogegechen.weather.model.Forecast;
 import com.github.xiaogegechen.weather.model.Hourly;
 import com.github.xiaogegechen.weather.model.Lifestyle;
+import com.github.xiaogegechen.weather.model.SelectedCityForRvInMCAct;
 import com.github.xiaogegechen.weather.presenter.IWeatherDetailFragmentPresenter;
 import com.github.xiaogegechen.weather.presenter.impl.WeatherDetailFragmentPresenterImpl;
 import com.github.xiaogegechen.weather.view.IWeatherDetailFragmentView;
@@ -35,11 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherDetailFragment extends BaseFragment implements IWeatherDetailFragmentView {
-
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ImageView mRefreshImageView;
     private TextView mNowTempTextView;
     private TextView mNowWeatherDescriptionTextView;
-    private TextView mNowCompareTextView;
     private RecyclerView mHourlyRecyclerView;
     private LinearLayout mForestLinearLayout;
     private RecyclerView mAirRecyclerView;
@@ -60,10 +59,14 @@ public class WeatherDetailFragment extends BaseFragment implements IWeatherDetai
 
     private Activity mActivity;
 
+    private String mNowTemp;
+    private String mNowWeatherDescription;
+    private String mCondCode;
+
     // 这个fragment对应的城市
     private CityInfo mCityInfo;
 
-    public WeatherDetailFragment(CityInfo cityInfo) {
+    WeatherDetailFragment(CityInfo cityInfo) {
         mCityInfo = cityInfo;
     }
 
@@ -71,12 +74,22 @@ public class WeatherDetailFragment extends BaseFragment implements IWeatherDetai
         return mCityInfo;
     }
 
+    public SelectedCityForRvInMCAct getCurrWeatherInfoAboutThis(){
+        SelectedCityForRvInMCAct selectedCityForRvInMCAct = new SelectedCityForRvInMCAct();
+        selectedCityForRvInMCAct.setLocation(mCityInfo.getLocation());
+        selectedCityForRvInMCAct.setId(mCityInfo.getCityId());
+        selectedCityForRvInMCAct.setTemp(mNowTemp);
+        selectedCityForRvInMCAct.setWeatherDescription(mNowWeatherDescription);
+        selectedCityForRvInMCAct.setWeatherCode(mCondCode);
+        return selectedCityForRvInMCAct;
+    }
+
     @Override
     public void initView(@NotNull View view) {
         mSwipeRefreshLayout = view.findViewById(R.id.module_left_fragment_weather_detail_refresh);
+        mRefreshImageView = view.findViewById(R.id.refreshButton);
         mNowTempTextView = view.findViewById(R.id.weather_fragment_weather_detail_now_temp);
         mNowWeatherDescriptionTextView = view.findViewById(R.id.weather_fragment_weather_detail_now_des);
-        mNowCompareTextView = view.findViewById(R.id.weather_fragment_weather_detail_now_compare);
         mHourlyRecyclerView = view.findViewById(R.id.weather_fragment_weather_detail_hour);
         mForestLinearLayout = view.findViewById(R.id.weather_fragment_weather_detail_forest);
         mAirRecyclerView = view.findViewById(R.id.weather_fragment_weather_detail_air);
@@ -90,7 +103,12 @@ public class WeatherDetailFragment extends BaseFragment implements IWeatherDetai
         mActivity = obtainActivity();
         // mSwipeRefreshLayout
         mSwipeRefreshLayout.setColorSchemeResources(R.color.weather_color_primary, R.color.weather_color_primary_dark);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> mWeatherDetailFragmentPresenter.queryWeather(mCityInfo));
+        mSwipeRefreshLayout.setOnRefreshListener(() -> mWeatherDetailFragmentPresenter.queryWeatherFromNetwork(mCityInfo));
+        // mRefreshImageView
+        mRefreshImageView.setOnClickListener(v -> {
+            // 刷新天气信息
+            mWeatherDetailFragmentPresenter.queryWeatherFromNetwork(mCityInfo);
+        });
         // mAirRecyclerView
         mAirRecyclerViewDataSource = new ArrayList<>();
         mAirRecyclerViewAdapter = new AirAdapter(mAirRecyclerViewDataSource, obtainActivity());
@@ -128,18 +146,17 @@ public class WeatherDetailFragment extends BaseFragment implements IWeatherDetai
 
     @Override
     public void showToast(String message) {
-        ToastUtil.show(mActivity, message);
+        ToastUtil.show(message);
     }
 
     @Override
-    public void showNow(String tempText, String weatherDescriptionText, String compareText, List<Air> weatherAirList) {
+    public void showNow(String tempText, String weatherDescriptionText, List<Air> weatherAirList, String condCode) {
+        mNowTemp = tempText;
+        mNowWeatherDescription = weatherDescriptionText;
+        mCondCode = condCode;
         // 头部
         mNowTempTextView.setText(tempText);
         mNowWeatherDescriptionTextView.setText(weatherDescriptionText);
-        Context context = obtainActivity();
-        if(context != null){
-            mNowCompareTextView.setText(context.getString(R.string.weather_detail_compare, compareText));
-        }
         // 底部空气状态部分
         mAirRecyclerViewDataSource.clear();
         mAirRecyclerViewDataSource.addAll(weatherAirList);
@@ -168,14 +185,13 @@ public class WeatherDetailFragment extends BaseFragment implements IWeatherDetai
                 ((TextView)(view.findViewById(R.id.weather_fragment_weather_detail_forecast_item_condition_desc))).setText(weatherForecast.getConditionDescription());
                 ((TextView)(view.findViewById(R.id.weather_fragment_weather_detail_forecast_item_tem_min))).setText(weatherForecast.getTempMin());
                 ((TextView)(view.findViewById(R.id.weather_fragment_weather_detail_forecast_item_temp_max))).setText(weatherForecast.getTempMax());
-                ImageParam param = new ImageParam.Builder()
-                        .context(mActivity)
-                        .url(Constants.WEATHER_ICON_URL + weatherForecast.getCode() + ".png")
-                        .error(mActivity.getResources().getDrawable(R.drawable.weather_ic_na))
-                        .placeholder(mActivity.getResources().getDrawable(R.drawable.weather_ic_na))
-                        .imageView(view.findViewById(R.id.weather_fragment_weather_detail_forecast_item_icon))
-                        .build();
-                ImageUtil.INSTANCE.displayImage(param);
+                Glide.with(mActivity)
+                        .asBitmap()
+                        .load(Constants.WEATHER_ICON_URL + weatherForecast.getCode() + ".png")
+                        .apply(new RequestOptions()
+                                .error(mActivity.getResources().getDrawable(R.drawable.weather_ic_na))
+                                .placeholder(mActivity.getResources().getDrawable(R.drawable.weather_ic_na)))
+                        .into((ImageView) view.findViewById(R.id.weather_fragment_weather_detail_forecast_item_icon));
                 mForestLinearLayout.addView(view);
             }
         }

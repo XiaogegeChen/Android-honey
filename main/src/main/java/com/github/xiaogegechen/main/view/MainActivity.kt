@@ -13,6 +13,8 @@ import com.github.xiaogegechen.common.base.BaseFragment
 import com.github.xiaogegechen.common.base.EventBusActivity
 import com.github.xiaogegechen.common.event.MainActivityOnNewIntentEvent
 import com.github.xiaogegechen.common.event.NotifyDrawerOpenEvent
+import com.github.xiaogegechen.common.util.LogUtil
+import com.github.xiaogegechen.common.util.MyTextUtils
 import com.github.xiaogegechen.common.util.StatusBarUtils
 import com.github.xiaogegechen.common.util.ToastUtil
 import com.github.xiaogegechen.main.R
@@ -63,7 +65,14 @@ class MainActivity : EventBusActivity(), IMainActivityView{
         // 来自selectedCityActivity的参数，需要转发给 WeatherFragment
         val dataFromSelectCityActivity = intent?.getParcelableArrayExtra(Constants.INTENT_PARAM_FROM_SELECT_CITY_ACTIVITY)
         if(dataFromSelectCityActivity != null){
+            LogUtil.d(TAG, "data from selected city activity -> ${MyTextUtils.printParcelableArray(dataFromSelectCityActivity)}")
             EventBus.getDefault().post(MainActivityOnNewIntentEvent(Constants.INTENT_PARAM_FROM_SELECT_CITY_ACTIVITY, dataFromSelectCityActivity))
+        }
+        // 来自manageCityActivity的参数，需要转发给 WeatherFragment
+        val dataFromManageCityActivity = intent?.getParcelableArrayExtra(Constants.INTENT_PARAM_FROM_MANAGE_CITY_ACTIVITY)
+        if(dataFromManageCityActivity != null){
+            LogUtil.d(TAG, "data from manage city activity -> ${MyTextUtils.printParcelableArray(dataFromManageCityActivity)}")
+            EventBus.getDefault().post(MainActivityOnNewIntentEvent(Constants.INTENT_PARAM_FROM_MANAGE_CITY_ACTIVITY, dataFromManageCityActivity))
         }
     }
 
@@ -89,5 +98,9 @@ class MainActivity : EventBusActivity(), IMainActivityView{
     @Subscribe
     fun onHandleNotifyDrawerOpenEvent(event: NotifyDrawerOpenEvent){
         viewPager.currentItem = 0
+    }
+
+    companion object{
+        const val TAG = "MainActivity"
     }
 }

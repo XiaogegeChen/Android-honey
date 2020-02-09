@@ -10,14 +10,14 @@
         android:id="@+id/bing_activity_bing_topic_detail_placeholder"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bing_color_primary"
+        android:background="@drawable/bing_gradient_primary"
         app:layout_constraintTop_toTopOf="parent"/>
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/bing_activity_bing_topic_detail_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toBottomOf="@id/bing_activity_bing_topic_detail_placeholder"
-        android:background="@color/bing_color_primary"
+        android:background="@drawable/bing_gradient_primary"
         app:navigationIcon="@drawable/design_ic_back_white"
         app:titleTextColor="@color/design_color_text_white" />
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

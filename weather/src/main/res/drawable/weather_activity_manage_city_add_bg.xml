@@ -4,4 +4,8 @@
     android:shape="rectangle">
     <corners android:radius="@dimen/weather_activity_manage_city_add_button_height_half"/>
     <solid android:color="@color/weather_color_primary"/>
+    <gradient
+        android:startColor="@color/weather_color_primary"
+        android:endColor="@color/weather_color_primary_dark"
+        android:type="linear"/>
 </shape>

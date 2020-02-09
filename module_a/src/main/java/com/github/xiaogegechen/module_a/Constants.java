@@ -20,4 +20,7 @@ public class Constants {
 
     // 小图下载保存路径
     public static final String PIC_DIR_COMPRESS_NAME = "photo_wall_images_compress";
+
+    // 文字颜色改变时间间隔
+    public static final int TEXT_COLOR_CHANGE_PERIOD = 2500;
 }

@@ -81,6 +81,12 @@ public class BingFragment extends BaseFragment implements IBingFragmentView {
     }
 
     @Override
+    public boolean isStatusBarTextDark() {
+        // 白色状态栏
+        return false;
+    }
+
+    @Override
     public void onDestroy() {
         mBingFragmentPresenter.detach();
         super.onDestroy();

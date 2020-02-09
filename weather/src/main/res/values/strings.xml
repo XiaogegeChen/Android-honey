@@ -1,6 +1,8 @@
 <resources>
 
     <string name="weather_setting">设置</string>
+    <string name="weather_manage">管理</string>
+    <string name="weather_click_to_search">点我搜索城市</string>
     <string name="weather_setting_allow_bg_change">允许背景图切换</string>
 
     <string name="weather_detail_compare">比上次更新 %1$s</string>
@@ -11,5 +13,12 @@
 
     <string name="weather_activity_select_city_input_hint">搜索城市</string>
     <string name="weather_activity_select_city_top_city">热门城市</string>
+
+
+    <string name="weather_precipitation">降水量</string>
+    <string name="weather_temperature">温度</string>
+    <string name="weather_visibility">能见度</string>
+    <string name="weather_wind">风向</string>
+    <string name="weather_satellite">卫星云图</string>
 
 </resources>

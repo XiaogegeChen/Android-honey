@@ -12,6 +12,9 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import com.github.xiaogegechen.design.R;
 
+/**
+ * 标签textView，背景是圆角，半径固定为高度的一般
+ */
 public class TagTextView extends AppCompatTextView {
 
     private static final String TAG = "TagTextView";
@@ -47,7 +50,6 @@ public class TagTextView extends AppCompatTextView {
 
     public void setBgColor(final int backgroundColor) {
         int height = getHeight();
-        int radius = height / 2;
         // 要通过监听来设置
         if(height == 0){
             final ViewTreeObserver viewTreeObserver = getViewTreeObserver();

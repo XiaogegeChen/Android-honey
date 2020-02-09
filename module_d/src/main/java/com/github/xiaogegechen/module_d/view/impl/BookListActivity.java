@@ -11,6 +11,7 @@ import com.github.xiaogegechen.common.dialog.LoadFailedDialog;
 import com.github.xiaogegechen.common.dialog.ProgressDialog;
 import com.github.xiaogegechen.common.test.FiveClickHelper;
 import com.github.xiaogegechen.common.util.LogUtil;
+import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.common.util.ToastUtil;
 import com.github.xiaogegechen.design.viewgroup.TitleBar;
 import com.github.xiaogegechen.module_d.Constants;
@@ -143,6 +144,9 @@ public class BookListActivity extends EventBusActivity implements IBookListActiv
         mLeftRecyclerView = findViewById(R.id.module_d_activity_book_list_recycler_view_left);
         mRightRecyclerView = findViewById(R.id.module_d_activity_book_list_recycler_view_right);
         mTitleBar = findViewById(R.id.module_d_activity_book_list_title_bar);
+        // imm
+        StatusBarUtils.setImmersive(this);
+        StatusBarUtils.fillStatusBarByView(this, findViewById(R.id.holderView));
     }
 
     @Override

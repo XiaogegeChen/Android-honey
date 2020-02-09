@@ -1,11 +1,12 @@
 package com.github.xiaogegechen.weather.model.json;
 
+import com.github.xiaogegechen.common.network.HWeatherServerCheckable;
 import com.github.xiaogegechen.weather.model.CityInfo;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CityListJSON {
+public class CityListJSON implements HWeatherServerCheckable {
     @SerializedName("HeWeather6")
     private List<Basic> result;
 
@@ -15,6 +16,11 @@ public class CityListJSON {
 
     public void setResult(List<Basic> result) {
         this.result = result;
+    }
+
+    @Override
+    public String errorMessage() {
+        return result.get(0).status;
     }
 
     public static class Basic{

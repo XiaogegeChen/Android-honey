@@ -11,7 +11,7 @@
             android:id="@+id/module_d_activity_express_placeholder_view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/module_d_express_color_primary"
+            android:background="@drawable/module_d_gradient_primary_express"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
@@ -19,7 +19,7 @@
             android:id="@+id/module_d_activity_express_title_background"
             android:layout_width="match_parent"
             android:layout_height="@dimen/module_d_activity_express_title_height"
-            android:background="@color/module_d_express_color_primary"
+            android:background="@drawable/module_d_gradient_primary_express"
             app:layout_constraintTop_toBottomOf="@id/module_d_activity_express_placeholder_view"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
@@ -175,6 +175,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/design_margin_bottom"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             app:layout_constraintTop_toBottomOf="@id/module_d_activity_express_recycler_view_head"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/module_d_activity_express_recycler_view_head"

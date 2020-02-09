@@ -110,7 +110,6 @@ public class SelectCityActivity extends EventBusActivity implements ISelectCityA
 
     @Override
     protected void onDestroy() {
-        mSelectCityActivityPresenter.finish();
         mSelectCityActivityPresenter.detach();
         super.onDestroy();
     }
@@ -133,23 +132,24 @@ public class SelectCityActivity extends EventBusActivity implements ISelectCityA
 
     @Override
     public void showToast(String message) {
-        ToastUtil.show(this, message);
+        ToastUtil.show(message);
     }
 
     @Subscribe
     public void onHandleCityRemovedEvent(NotifyCityRemovedEvent event){
-        CityInfo cityInfo = event.getCityInfo();
-        mSelectCityActivityPresenter.removeCity(cityInfo);
+        if(event.getFlag() == NotifyCityRemovedEvent.FLAG_FROM_SELECT_CITY_ACTIVITY){
+            CityInfo cityInfo = event.getCityInfo();
+            mSelectCityActivityPresenter.removeCity(cityInfo);
+        }
     }
 
     @Subscribe
     public void onHandleCitySelectedEvent(NotifyCitySelectedEvent event){
-        int flag = event.getFlag();
         CityInfo cityInfo = event.getCityInfo();
         // 添加到已选择城市的列表中
         mSelectCityActivityPresenter.addCity(cityInfo);
         // 如果是模糊搜索的结果，直接跳转到 weatherActivity
-        if (flag == NotifyCitySelectedEvent.FLAG_FROM_FIND) {
+        if (event.getFlag() == NotifyCitySelectedEvent.FLAG_FROM_FIND) {
             // 重新回到主界面，携带所选择的城市信息，这个消息会经过MainActivity转发之后通过eventBus通知
             // WeatherFragment
             ARouter.getInstance()

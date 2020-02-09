@@ -20,7 +20,7 @@ public abstract class BaseRecyclerViewAdapter<VH extends RecyclerView.ViewHolder
     private OnScrollingListener mListener;
 
     // RecyclerView实例
-    private RecyclerView mRecyclerView;
+    protected RecyclerView mRecyclerView;
 
     public BaseRecyclerViewAdapter(List<T> list){
         mList = list;
@@ -37,10 +37,10 @@ public abstract class BaseRecyclerViewAdapter<VH extends RecyclerView.ViewHolder
     }
 
     /**
-     * 从recyclerView的尾部开始增加一些数据
+     * 从recyclerView的尾部开始增加一些数据，并定位到新数据第一个
      * @param list 要添加的数据
      */
-    public void addToEnd(List<T> list){
+    public void addToEndAndScroll(List<T> list){
         if(list != null && list.size () > 0){
             mList.addAll (list);
             notifyItemRangeInserted (mList.size () - list.size (), list.size ());
@@ -48,6 +48,17 @@ public abstract class BaseRecyclerViewAdapter<VH extends RecyclerView.ViewHolder
             if(mRecyclerView != null){
                 mRecyclerView.scrollToPosition (mList.size () - list.size ());
             }
+        }
+    }
+
+    /**
+     * 从recyclerView的尾部开始增加一些数据，不滑动
+     * @param list 要添加的数据
+     */
+    public void addToEnd(List<T> list){
+        if(list != null && list.size () > 0){
+            mList.addAll (list);
+            notifyItemRangeInserted (mList.size () - list.size (), list.size ());
         }
     }
 

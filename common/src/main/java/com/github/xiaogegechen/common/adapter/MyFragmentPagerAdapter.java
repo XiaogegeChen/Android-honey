@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public abstract class MyFragmentPagerAdapter extends FragmentPagerAdapter {
-
     private List<BaseFragment> mFragmentList;
     private FragmentManager mFragmentManager;
 

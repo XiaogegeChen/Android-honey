@@ -11,11 +11,6 @@ public interface ISelectCityActivityPresenter extends IBasePresenter<ISelectCity
     void queryTopCityList();
 
     /**
-     * 结束activity，统一进行io并通知其它activity
-     */
-    void finish();
-
-    /**
      * 将指定城市移除，类似与事务，presenter内部维护城市列表，在activity结束时统一进行io操作
      * @param cityInfo 城市信息
      */

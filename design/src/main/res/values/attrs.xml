@@ -4,7 +4,7 @@
         <attr name="left_visibility" format="boolean"/>
         <attr name="right_visibility" format="boolean"/>
         <attr name="title_bar_title" format="string"/>
-        <attr name="title_bar_bg_color" format="color"/>
+        <attr name="title_bar_bg_color" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="MessageDialogLayout" tools:ignore="ResourceName">
@@ -50,6 +50,84 @@
         <attr name="pb_work_mode" format="boolean"/>
         <!--当前进度-->
         <attr name="pb_work_progress" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="BannerView" tools:ignore="ResourceName">
+        <attr name="bv_arc_height" format="dimension"/>
+        <attr name="bv_indicator_size" format="dimension"/>
+        <attr name="bv_indicator_gap" format="dimension"/>
+        <attr name="bv_indicator_color" format="color"/>
+        <attr name="bv_indicator_selected_color" format="color"/>
+        <attr name="bv_indicator_gravity">
+            <flag name="top" value="0x30" />
+            <flag name="bottom" value="0x50" />
+            <flag name="left" value="0x03" />
+            <flag name="right" value="0x05" />
+            <flag name="center_vertical" value="0x10" />
+            <flag name="center_horizontal" value="0x01" />
+            <flag name="center" value="0x11" />
+            <flag name="start" value="0x00800003" />
+            <flag name="end" value="0x00800005" />
+        </attr>
+        <attr name="bv_indicator_margin_top" format="dimension"/>
+        <attr name="bv_indicator_margin_bottom" format="dimension"/>
+        <attr name="bv_indicator_margin_left" format="dimension"/>
+        <attr name="bv_indicator_margin_right" format="dimension"/>
+        <attr name="bv_interval" format="integer"/>
+        <attr name="bv_bottom_color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ZoomableTextView" tools:ignore="ResourceName">
+        <attr name="zt_duration" format="integer"/>
+        <attr name="zt_max" format="float"/>
+        <attr name="zt_min" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="ClickableTextView" tools:ignore="ResourceName">
+        <attr name="ct_text_color_after" format="color"/>
+        <attr name="ct_bg_color_after" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="BannerTextView" tools:ignore="ResourceName">
+        <attr name="btv_textSize" format="dimension"/>
+        <attr name="btv_textColor" format="color"/>
+        <attr name="btv_padding" format="dimension"/>
+        <attr name="btv_paddingLeft" format="dimension"/>
+        <attr name="btv_paddingRight" format="dimension"/>
+        <attr name="btv_paddingTop" format="dimension"/>
+        <attr name="btv_paddingBottom" format="dimension"/>
+        <attr name="btv_gravity">
+            <flag name="top" value="0x30" />
+            <flag name="bottom" value="0x50" />
+            <flag name="left" value="0x03" />
+            <flag name="right" value="0x05" />
+            <flag name="center_vertical" value="0x10" />
+            <flag name="center_horizontal" value="0x01" />
+            <flag name="center" value="0x11" />
+        </attr>
+        <attr name="btv_textStyle">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+        <attr name="btv_maxLines" format="integer"/>
+        <attr name="btv_minLines" format="integer"/>
+        <attr name="btv_ellipsize">
+            <enum name="none" value="0" />
+            <enum name="start" value="1" />
+            <enum name="middle" value="2" />
+            <enum name="end" value="3" />
+            <enum name="marquee" value="4" />
+        </attr>
+        <attr name="btv_ani_duration" format="integer"/>
+        <attr name="btv_interval" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="ColorfulTextView" tools:ignore="ResourceName">
+        <attr name="cftv_from_color" format="color"/>
+        <attr name="cftv_to_color" format="color"/>
+        <attr name="cftv_period" format="integer"/>
+        <attr name="cftv_interval" format="integer"/>
     </declare-styleable>
 
 </resources>

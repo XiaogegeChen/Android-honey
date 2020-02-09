@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:gravity="center_vertical"
+        tools:textSize="30sp"
+        tools:textColor="#000000"
+        tools:text="医疗健康：关注健康生活" />
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:gravity="center_vertical"
+        tools:textSize="30sp"
+        tools:textColor="#000000"
+        tools:maxLines="1"
+        tools:ellipsize="end"
+        tools:text="生活缴费：便捷省心生活缴费：便捷省心生活缴费：便捷省心" />
+</FrameLayout>

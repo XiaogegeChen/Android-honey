@@ -8,13 +8,13 @@ def defaultLibrarySetting(){
 
 def setLibraryApply(){
     // TODO 写法优化
+    project.apply plugin: 'org.greenrobot.greendao'
     project.apply plugin: 'com.android.library'
     project.apply plugin: 'kotlin-android'
     project.apply plugin: 'kotlin-android-extensions'
     project.apply plugin: 'kotlin-kapt'
     project.description "lib"
 
-    // TODO why?
     kapt {
         arguments {
             arg("AROUTER_MODULE_NAME", project.name)
@@ -72,6 +72,7 @@ def defaultAppSetting(){
 
 def setAppApply(){
     // TODO 写法优化
+    project.apply plugin: 'org.greenrobot.greendao'
     project.apply plugin: 'com.android.application'
     project.apply plugin: 'kotlin-android'
     project.apply plugin: 'kotlin-android-extensions'
@@ -138,6 +139,10 @@ def commonSetting() {
             release {
                 minifyEnabled false
                 proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
+
+            greendao {
+                schemaVersion DB_VERSION as int
             }
         }
 

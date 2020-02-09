@@ -3,4 +3,15 @@
     <dimen name="weather_activity_manage_city_add_button_bg_height">56dp</dimen>
     <dimen name="weather_activity_manage_city_add_button_height">48dp</dimen>
     <dimen name="weather_activity_manage_city_add_button_height_half">24dp</dimen>
+
+    <dimen name="weather_banner_arc_height">48dp</dimen>
+    <dimen name="weather_banner_indicator_margin_bottom">56dp</dimen>
+    <dimen name="weather_banner_indicator_size">8dp</dimen>
+    <dimen name="weather_banner_indicator_gap">8dp</dimen>
+    <dimen name="weather_tab_bg_corner">8dp</dimen>
+    <dimen name="weather_title_Z">8dp</dimen>
+    <dimen name="weather_title_height">48dp</dimen>
+    <dimen name="weather_banner_indicator_rv_size">32dp</dimen>
+    <dimen name="weather_selected_cities_rv_indicator_height">12dp</dimen>
+    <dimen name="weather_selected_cities_rv_indicator_gap">3dp</dimen>
 </resources>

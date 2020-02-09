@@ -9,7 +9,6 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,6 +16,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.github.xiaogegechen.common.base.BaseFragment;
 import com.github.xiaogegechen.common.base.EventBusFragment;
 import com.github.xiaogegechen.common.util.LogUtil;
+import com.github.xiaogegechen.common.util.StatusBarUtils;
 import com.github.xiaogegechen.library.MenuView;
 import com.github.xiaogegechen.main.Consts;
 import com.github.xiaogegechen.main.R;
@@ -185,7 +185,10 @@ public class FragmentRight extends EventBusFragment {
         LogUtil.d(TAG, "currentSelectedPosition : " + currentSelectedPosition + ", lastSelectedPosition: " + lastSelectedPosition);
         boolean isCloseItem = (currentSelectedPosition == mMyMenuViewAdapter.getCount() - 1);
         if(!isCloseItem){
-            showFragment(currentSelectedPosition, lastSelectedPosition);
+            BaseFragment[] baseFragments = showFragment(currentSelectedPosition, lastSelectedPosition);
+            // fragment 重新出现要执行的操作，比如改变状态栏颜色等
+            BaseFragment currentFragment = baseFragments[0];
+            StatusBarUtils.setTextDark(obtainActivity(), currentFragment.isStatusBarTextDark());
         }else{
             // 点击关闭需要close
             closeMenuView();
@@ -196,24 +199,29 @@ public class FragmentRight extends EventBusFragment {
      * 显示fragment，会隐藏上一个fragment，并显示需要显示的fragment
      * @param currentSelectedPosition 上一个fragment的位置
      * @param lastSelectedPosition 需要显示的fragment的位置
+     *
+     * @return fragment数组，第一个是当前显示的fragment，第二个是上一个fragment，可能是null，因为上一个可能是关闭
+     * 或者当前是第一次点击
      */
-    private void showFragment(int currentSelectedPosition, int lastSelectedPosition){
+    private BaseFragment[] showFragment(int currentSelectedPosition, int lastSelectedPosition){
 
         LogUtil.d(TAG, "mFragmentSparseArray -> " + mFragmentSparseArray.toString());
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        BaseFragment lastFragment = null;
         // 先隐藏上一个fragment,lastSelectedPosition 可能是-1,无效，要排除
         if(lastSelectedPosition >= 0){
-            Fragment lastFragment = addFragmentIfNeeded(lastSelectedPosition);
+            lastFragment = addFragmentIfNeeded(lastSelectedPosition);
             LogUtil.d(TAG, "lastFragment -> " + lastFragment.toString());
             transaction.hide(lastFragment);
         }
         // 显示需要的fragment
-        Fragment currentFragment = addFragmentIfNeeded(currentSelectedPosition);
+        BaseFragment currentFragment = addFragmentIfNeeded(currentSelectedPosition);
         LogUtil.d(TAG, "currentFragment -> " + currentFragment.toString());
         transaction.show(currentFragment);
         // 提交事务
         transaction.commit();
+        return new BaseFragment[]{currentFragment, lastFragment};
     }
 
     /**

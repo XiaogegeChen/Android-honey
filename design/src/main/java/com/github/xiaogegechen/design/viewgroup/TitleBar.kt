@@ -28,9 +28,11 @@ class TitleBar(context: Context, attr: AttributeSet?, defStyle: Int): Constraint
         val leftVisibility = typeArray.getBoolean(R.styleable.TitleBar_left_visibility, false)
         val rightVisibility = typeArray.getBoolean(R.styleable.TitleBar_right_visibility, false)
         val titleText = typeArray.getString(R.styleable.TitleBar_title_bar_title)
-        val bgColor = typeArray.getColor(R.styleable.TitleBar_title_bar_bg_color, resources.getColor(R.color.design_color_accent))
+        val bgDrawable = typeArray.getDrawable(R.styleable.TitleBar_title_bar_bg_color)
 
-        rootLayout?.setBackgroundColor(bgColor)
+        if (bgDrawable != null) {
+            rootLayout?.background = bgDrawable
+        }
 
         if(leftVisibility){
             leftImage?.visibility = View.VISIBLE
@@ -49,6 +51,8 @@ class TitleBar(context: Context, attr: AttributeSet?, defStyle: Int): Constraint
         }else{
             rightImage?.visibility = View.INVISIBLE
         }
+
+        elevation = 120f
 
         mTitle?.text = titleText
         typeArray.recycle()

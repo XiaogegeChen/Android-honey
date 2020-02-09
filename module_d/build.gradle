@@ -1,4 +1,4 @@
-apply plugin: 'org.greenrobot.greendao'
+//apply plugin: 'org.greenrobot.greendao'
 if (isModuleDDebug.toBoolean()) {
     apply from: "${rootProject.rootDir}/set.gradle"
     project.defaultAppSetting()

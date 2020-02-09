@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners
+        android:bottomLeftRadius="@dimen/weather_tab_bg_corner"
+        android:bottomRightRadius="@dimen/weather_tab_bg_corner"
+        android:topLeftRadius="@dimen/weather_tab_bg_corner"
+        android:topRightRadius="@dimen/weather_tab_bg_corner"/>
+    <solid android:color="@color/design_color_white"/>
+</shape>
